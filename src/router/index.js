@@ -1,0 +1,175 @@
+import Vue from 'vue'
+import Router from 'vue-router'
+import Layout from '@/layout'
+
+Vue.use(Router)
+
+export const constantRoutes = [
+  {
+    path: '/redirect',
+    component: Layout,
+    hidden: true,
+    children: [
+      {
+        path: '/redirect/:path*',
+        component: () => import('@/views/redirect/index')
+      }
+    ]
+  },
+  {
+    path: '/login',
+    component: () => import('@/views/login/index'),
+    hidden: true
+  },
+  {
+    path: '/auth-redirect',
+    component: () => import('@/views/login/auth-redirect'),
+    hidden: true
+  },
+  {
+    path: '/404',
+    component: () => import('@/views/error-page/404'),
+    hidden: true
+  },
+  {
+    path: '/401',
+    component: () => import('@/views/error-page/401'),
+    hidden: true
+  },
+  {
+    path: '/',
+    component: Layout,
+    redirect: '/dashboard',
+    children: [
+      {
+        path: 'dashboard',
+        component: () => import('@/views/dashboard/index'),
+        name: 'Dashboard',
+        meta: { title: '首页', icon: 'dashboard', affix: true }
+      }
+    ]
+  }
+]
+
+
+export const asyncRoutes = [
+  {
+    path: '/equipment',
+    component: Layout,
+    redirect: '/equipment/ship/list',
+    name: 'equipment',
+    meta: {
+      title: '设备管理',
+      icon: 'documentation'
+    },
+    children: [
+
+      {
+        path: 'ship/list',
+        component: () => import('@/views/ship/list'),
+        name: 'ShipList',
+        meta: { title: '无人船列表', icon: 'list', noCache: true },
+
+      },
+      {
+        path: 'selectMap/:deviceId',
+        component: () => import('@/views/ship/selectMap'),
+        name: 'selectMap',
+        meta: { title: '选择地图', icon: 'list', noCache: true },
+        hidden: true
+      },
+      {
+        path: 'showData/:deviceId/:MapId',
+        component: () => import('@/views/ship/showData'),
+        name: 'showData',
+        meta: { title: '历史监测数据', icon: 'list', noCache: true },
+        hidden: true
+      },
+    ]
+  },
+  {
+    path: '/power',
+    component: Layout,
+    redirect: '/power/list',
+    name: 'power',
+    meta: {
+      title: '权限管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/power/list'),
+        name: 'powerList',
+        meta: { title: '权限管理列表', icon: 'list', noCache: true }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/power/detail'),
+        name: 'powerDetail',
+        meta: { title: '权限详情', icon: 'guide', noCache: true },
+        hidden: true
+      }
+
+
+    ]
+  },
+  {
+    path: '/map',
+    component: Layout,
+    redirect: '/map/list',
+    name: 'map',
+    meta: {
+      title: '地图管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/map/list'),
+        name: 'mapList',
+        meta: { title: '地图管理列表', icon: 'list', noCache: true }
+      },
+      {
+        path: 'detail',
+        component: () => import('@/views/map/detail'),
+        name: 'mapDetail',
+        meta: { title: '地图详情', icon: 'guide', noCache: true },
+        hidden: true
+      }
+
+
+    ]
+  },
+  {
+    path: '/ship/detail/:deviceId',
+    component: () => import('@/views/ship/detail'),
+    name: 'ShipDetail',
+    meta: { title: '无人船详情', icon: 'guide', noCache: true },
+    hidden: true
+  },
+  {
+    path: '/ship/operation/:deviceId',
+    component: () => import('@/views/ship/operation'),
+    name: 'operation',
+    meta: { title: '无人船控制', icon: 'guide', noCache: true },
+    hidden: true
+  },
+  { path: '*', redirect: '/404', hidden: true }
+]
+
+const createRouter = () => new Router({
+  //mode: 'history', // require service support
+  scrollBehavior: () => ({ y: 0 }),
+  routes: constantRoutes
+})
+
+const router = createRouter()
+
+
+export function resetRouter() {
+  const newRouter = createRouter()
+  router.matcher = newRouter.matcher // reset router
+}
+
+export default router
