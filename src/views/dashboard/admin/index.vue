@@ -2,15 +2,18 @@
 	<div class="dashboard-editor-container">
 
 		<panel-group @handleSetLineChartData="handleSetLineChartData" />
-
+		<pie-chart></pie-chart>
+		<raddar-chart></raddar-chart>
 		<el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
 			<line-chart :chart-data="lineChartData" />
 		</el-row>
 	</div>
 </template>
 <script>
+import RaddarChart from "@/views/dashboard/admin/components/RaddarChart";
 import PanelGroup from "./components/PanelGroup";
 import LineChart from "./components/LineChart";
+import PieChart from "@/views/dashboard/admin/components/PieChart";
 const lineChartData = {
 	newVisitis: {
 		expectedData: [100, 120, 161, 134, 105, 160, 165],
@@ -34,7 +37,9 @@ export default {
 	name: "DashboardAdmin",
 	components: {
 		PanelGroup,
-		LineChart
+		LineChart,
+		PieChart,
+		RaddarChart
 	},
 	data() {
 		return {

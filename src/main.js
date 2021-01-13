@@ -18,7 +18,9 @@ import './permission' // permission control
 import './utils/error-log' // error log
 
 import * as filters from './filters' // global filters
+import dataV from '@jiaminghi/data-view'
 
+Vue.use(dataV)
 Vue.use(Element, {
   size: Cookies.get('size') || 'medium' // set element-ui default size
 })
