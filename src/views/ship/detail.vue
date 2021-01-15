@@ -47,7 +47,7 @@
 			<div class="content-middle">
 				<div class="content-left">
 					<div class="left1">
-						<dv-border-box-1>
+						<dv-border-box-10>
 
 							<div class="title">气象数据</div>
 							<div class="time">2002年1月7日 &nbsp&nbsp 星期四 &nbsp&nbsp 10:22:34</div>
@@ -77,10 +77,10 @@
 									<div class="item-num">2级</div>
 								</div>
 							</div>
-						</dv-border-box-1>
+						</dv-border-box-10>
 					</div>
 					<div class="left2">
-						<dv-border-box-1>
+						<dv-border-box-10>
 							<div class="title">状态数据</div>
 							<div class="icon-list">
 								<div class="icon-item">
@@ -181,7 +181,7 @@
 								</div>
 
 							</div>
-						</dv-border-box-1>
+						</dv-border-box-10>
 					</div>
 				</div>
 				<div class="middle">
@@ -201,10 +201,11 @@
 
 				<div class="content-right">
 					<div class="right1">
-						<dv-border-box-1></dv-border-box-1>
+						<dv-border-box-10>
+						</dv-border-box-10>
 					</div>
 					<div class="right2">
-						<dv-border-box-1>
+						<dv-border-box-10>
 							<div class="title">其它数据</div>
 							<div class="data-list">
 
@@ -264,13 +265,13 @@
 								</div>
 
 							</div>
-						</dv-border-box-1>
+						</dv-border-box-10>
 					</div>
 				</div>
 
 			</div>
 			<div class="bottom">
-				<dv-border-box-1>
+				<dv-border-box-10>
 					<div class="title">水质数据</div>
 					<div class="chart-list">
 						<line-chart :chart-data="lineChartData" />
@@ -280,7 +281,7 @@
 
 					</div>
 
-				</dv-border-box-1>
+				</dv-border-box-10>
 			</div>
 		</div>
 	</div>
@@ -326,9 +327,9 @@ export default {
 	methods: {
 		initMap() {
 			var map = new AMap.Map("container", {
-				zoom: 15, //设置地图显示的缩放级别
+				zoom: 10, //设置地图显示的缩放级别
 				center: [116.397428, 39.90923], //设置地图中心点坐标
-				mapStyle: "amap://styles/8606e612dae1dafeb0d7589bb9497bb1" //设置地图的显示样式
+				mapStyle: "amap://styles/001a637581603985681831e1471630a5" //设置地图的显示样式
 			});
 		},
 		goOperation() {
@@ -363,9 +364,9 @@ export default {
 			background: linear-gradient(0deg, #ffa128 0%, #b57700 50%, #ffa128 100%);
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
+
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -384,9 +385,9 @@ export default {
 			border: 1px solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
+
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -405,9 +406,9 @@ export default {
 			border: 1px solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
+
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;

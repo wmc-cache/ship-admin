@@ -56,6 +56,45 @@
 					<div class="left1">
 						<dv-border-box-10>
 							<div class="title">2002年1月7日 星期四 10:22:34</div>
+							<div class="tip">
+								<div class="left">
+									<dv-border-box-12>
+										<div style="display:flex;">
+											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+												<div class="item-title">里程</div>
+												<div class="item-num">798</div>
+
+											</div>
+											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+												<div class="item-title">总里程</div>
+												<div class="item-num">798</div>
+
+											</div>
+
+										</div>
+
+									</dv-border-box-12>
+								</div>
+								<div class="right">
+									<dv-border-box-12>
+										<div style="display:flex;justify-content:center;align-items: center;">
+											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+												<div class="item-title">时间</div>
+												<div class="item-num">798</div>
+
+											</div>
+											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+												<div class="item-title">总时间</div>
+												<div class="item-num">798</div>
+
+											</div>
+
+										</div>
+
+									</dv-border-box-12>
+								</div>
+							</div>
+
 						</dv-border-box-10>
 					</div>
 					<div class="left2">
@@ -68,26 +107,185 @@
 					</div>
 					<div class="left3">
 						<div class="left3-left">
-							<dv-border-box-10></dv-border-box-10>
+							<dv-border-box-10>
+								<div style="display:flex;align-items:center;width: 56vw;height: 17vh;">
+									<div class="handle">
+										手动
+									</div>
+									<div class="box">
+										<div
+											ref="direction"
+											class="bottom"
+										>
+											<div
+												class="top"
+												@touchstart="direction('top')"
+												@mousedown="direction('top')"
+											>
+												<div class="top-content" />
+											</div>
+
+											<div class="middle">
+												<div
+													class="left"
+													@touchstart="direction('left')"
+													@mousedown="direction('left')"
+												>
+													<div class="left-content" />
+												</div>
+												<div
+													class="right"
+													@touchstart="direction('right')"
+													@mousedown="direction('right')"
+												>
+													<div class="right-content" />
+												</div>
+											</div>
+
+											<div
+												class="bottom"
+												@touchstart="direction('bottom')"
+												@mousedown="direction('bottom')"
+											>
+												<div class="bottom-content" />
+											</div>
+										</div>
+									</div>
+									<div class="auto">
+										自动
+									</div>
+
+									<div class="item">
+										单点
+									</div>
+									<div class="item">
+										寻点
+									</div>
+									<div class="item">
+										多点
+									</div>
+									<div class="item">
+										环湖
+									</div>
+									<div class="item">
+										定点
+									</div>
+									<div class="item">
+										返航
+									</div>
+
+								</div>
+							</dv-border-box-10>
 						</div>
 						<div class="left3-right">
-							<dv-border-box-10></dv-border-box-10>
+							<dv-border-box-10>
+								<div style="width: 8vw;height: 17vh; display:flex;flex-direction:column;justify-content:center;align-items:center;">
+									<img
+										style="width:6.5vh;height:6.5vh"
+										src="../../assets/启动.png"
+										alt=""
+									>
+									<div class="title">启动</div>
+								</div>
+
+							</dv-border-box-10>
 						</div>
 
 					</div>
 				</div>
 				<div class="right">
 					<div class="right1">
-						<dv-border-box-10></dv-border-box-10>
+						<dv-border-box-10>
+							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
+								<video
+									style="width:22vw;height: 18vh;"
+									id="myPlayer"
+									controls
+									playsInline
+								>
+									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8" />
+								</video>
+							</div>
+
+						</dv-border-box-10>
 					</div>
 					<div class="right2">
-						<dv-border-box-10></dv-border-box-10>
+						<dv-border-box-10>
+							<div class="title">状态</div>
+						</dv-border-box-10>
 					</div>
 					<div class="right3">
-						<dv-border-box-10></dv-border-box-10>
+						<dv-border-box-10>
+							<div class="title">控制</div>
+							<div class="order-list">
+								<div class="item">
+									<img
+										src="../../assets/水泵.png"
+										alt=""
+									>
+									<div class="tip">水泵</div>
+								</div>
+								<div class="item">
+									<img
+										src="../../assets/水泵.png"
+										alt=""
+									>
+									<div class="tip">水泵</div>
+								</div>
+								<div class="item">
+									<img
+										src="../../assets/水泵.png"
+										alt=""
+									>
+									<div class="tip">水泵</div>
+								</div>
+								<div class="item">
+									<img
+										src="../../assets/水泵.png"
+										alt=""
+									>
+									<div class="tip">水泵</div>
+								</div>
+
+							</div>
+
+						</dv-border-box-10>
 					</div>
 					<div class="right4">
-						<dv-border-box-10></dv-border-box-10>
+						<dv-border-box-10>
+							<div class="title">设置
+
+							</div>
+
+							<div style="position: absolute;left:1vh;top:3.5vh;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;">
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">船号</div>
+									<div class="item-num">798</div>
+								</div>
+
+							</div>
+
+						</dv-border-box-10>
 					</div>
 				</div>
 
@@ -105,6 +303,9 @@ export default {
 	mounted() {
 		this.initMap();
 		this.deviceId = this.$route.params.deviceId;
+		this.$nextTick(() => {
+			let player = new EZUIPlayer("myPlayer");
+		});
 	},
 	components: {},
 	data() {
@@ -115,9 +316,9 @@ export default {
 	methods: {
 		initMap() {
 			var map = new AMap.Map("container", {
-				zoom: 15, //设置地图显示的缩放级别
+				zoom: 10, //设置地图显示的缩放级别
 				center: [116.397428, 39.90923], //设置地图中心点坐标
-				mapStyle: "amap://styles/8606e612dae1dafeb0d7589bb9497bb1" //设置地图的显示样式
+				mapStyle: "amap://styles/001a637581603985681831e1471630a5" //设置地图的显示样式
 			});
 		},
 		goHome() {
@@ -157,9 +358,8 @@ export default {
 			border: 1px solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -178,9 +378,8 @@ export default {
 			border: 1px solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -196,12 +395,10 @@ export default {
 			right: 6vw;
 			top: 2vh;
 			background: linear-gradient(0deg, #ffa128 0%, #b57700 50%, #ffa128 100%);
-
 			color: #fff;
 			font-size: 1.5vh;
-			width: 4vw;
+			width: 7vh;
 			height: 3vh;
-			width: 72px;
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -275,8 +472,53 @@ export default {
 						font-weight: bold;
 						color: #ffffff;
 						position: absolute;
-						top: 1vh;
+						top: 2vh;
 						left: 1vw;
+					}
+					.tip {
+						display: flex;
+						position: absolute;
+						top: 5vh;
+						left: 0.5vw;
+
+						.left {
+							width: 12vw;
+							height: 8vh;
+							.item-title {
+								font-size: 1vw;
+								font-family: Source Han Sans CN;
+								font-weight: 500;
+								color: #a9ddee;
+							}
+							.item-num {
+								font-size: 1vw;
+								font-family: DIN;
+								font-weight: bold;
+								color: #ffffff;
+								background: linear-gradient(0deg, #00a8ff 0%, #8fdffe 100%);
+								-webkit-background-clip: text;
+								-webkit-text-fill-color: transparent;
+							}
+						}
+						.right {
+							width: 12vw;
+							height: 8vh;
+							.item-title {
+								font-size: 1vw;
+								font-family: Source Han Sans CN;
+								font-weight: 500;
+								color: #a9ddee;
+							}
+							.item-num {
+								font-size: 1vw;
+								font-family: DIN;
+								font-weight: bold;
+								color: #ffffff;
+								background: linear-gradient(0deg, #00a8ff 0%, #8fdffe 100%);
+								-webkit-background-clip: text;
+								-webkit-text-fill-color: transparent;
+							}
+						}
 					}
 				}
 				.left2 {
@@ -292,16 +534,107 @@ export default {
 					margin-left: 2vw;
 					margin-top: 2vh;
 					display: flex;
+					position: relative;
 
 					.left3-left {
 						width: 56vw;
 						height: 17vh;
+
+						.handle {
+							margin: 1vh;
+							font-family: Source Han Sans CN;
+							font-weight: 500;
+							color: #02f1ee;
+						}
+						.box {
+							width: 14vh;
+							height: 14vh;
+							background: rgba(12, 51, 103, 0.51);
+							box-shadow: 0px 0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6),
+								0px -0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6);
+							border-radius: 50%;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							.bottom {
+								width: 14vh;
+								.top,
+								.bottom,
+								.left,
+								.right {
+									margin: auto;
+									width: 4vh;
+									height: 4vh;
+									border-radius: 50%;
+									display: flex;
+									justify-content: center;
+									align-items: center;
+									cursor: pointer;
+								}
+								.middle {
+									display: flex;
+									.left-content {
+										width: 0;
+										height: 0;
+										border: 1vh solid;
+										border-color: transparent #02f5f2 transparent transparent;
+										margin-left: -1.1vh;
+									}
+									.right-content {
+										width: 0;
+										height: 0;
+										border: 1vh solid;
+										border-color: transparent transparent transparent #02f5f2;
+										margin-right: -1.1vh;
+									}
+								}
+
+								.top-content {
+									width: 0;
+									height: 0;
+									border: 1vh solid;
+									border-color: transparent transparent #02f5f2;
+									margin-top: -1.1vh;
+								}
+								.bottom-content {
+									width: 0;
+									height: 0;
+									border: 1vh solid;
+									border-color: #02f5f2 transparent transparent transparent;
+									margin-bottom: -1.1vh;
+								}
+							}
+						}
+						.auto {
+							margin: 1vh;
+							font-family: Source Han Sans CN;
+							font-weight: 500;
+							color: #02f1ee;
+						}
+						.item {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							width: 10vh;
+							height: 7vh;
+							background: rgba(10, 61, 123, 0.25);
+							box-shadow: 0px 0.1vh 3vh 0px #1391da,
+								0px 0.05vh 0.2vh 0px #095e7c;
+							border-radius: 2vh;
+							color: #fff;
+							margin-left: 1.2vh;
+							cursor: pointer;
+						}
 					}
 					.left3-right {
 						width: 8vw;
 						height: 17vh;
 						margin-left: 2vw;
-						//background-color: seagreen;
+						cursor: pointer;
+						.title {
+							color: #fff;
+							margin-top: 2vh;
+						}
 					}
 				}
 			}
@@ -320,6 +653,15 @@ export default {
 					margin-left: 3vw;
 					margin-top: 7vh;
 					//background-color: #0096ff;
+					.title {
+						position: absolute;
+						left: 2vw;
+						top: 2vh;
+						font-size: 1vw;
+						font-family: Source Han Sans CN;
+						font-weight: 400;
+						color: #0096ff;
+					}
 				}
 				.right3 {
 					width: 25vw;
@@ -327,6 +669,43 @@ export default {
 					margin-left: 3vw;
 					margin-top: 4vh;
 					//background-color: #0096ff;
+					.title {
+						position: absolute;
+						left: 2vw;
+						top: 2vh;
+						font-size: 1vw;
+						font-family: Source Han Sans CN;
+						font-weight: 400;
+						color: #0096ff;
+					}
+					.order-list {
+						display: flex;
+						position: absolute;
+						left: 3vh;
+						top: 4vh;
+
+						.item {
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							align-items: center;
+							width: 5vw;
+							height: 7vw;
+
+							//	background-color: #ffa128;
+							img {
+								width: 1.5vw;
+								height: 1.5vw;
+							}
+							.tip {
+								font-size: 1vh;
+								font-family: Source Han Sans CN;
+								font-weight: 400;
+								color: #a9ddee;
+								margin-top: 1vh;
+							}
+						}
+					}
 				}
 				.right4 {
 					width: 25vw;
@@ -334,40 +713,36 @@ export default {
 					margin-left: 3vw;
 					margin-top: 4vh;
 					//background-color: #0096ff;
+					.title {
+						position: absolute;
+						left: 2vw;
+						top: 2vh;
+						font-size: 1vw;
+						font-family: Source Han Sans CN;
+						font-weight: 400;
+						color: #0096ff;
+					}
+					.item-title {
+						font-size: 1vw;
+						font-family: Source Han Sans CN;
+						font-weight: 500;
+						color: #a9ddee;
+					}
+					.item-num {
+						font-size: 1vw;
+						font-family: DIN;
+						font-weight: bold;
+						color: #ffffff;
+						background: linear-gradient(0deg, #00a8ff 0%, #8fdffe 100%);
+						-webkit-background-clip: text;
+						-webkit-text-fill-color: transparent;
+					}
 				}
 			}
 		}
 	}
 }
 
-@media (min-device-width: 1024px) {
-}
-@media (min-device-width: 1100px) {
-}
-@media (min-device-width: 1280px) {
-}
-@media (min-device-width: 1366px) {
-}
-@media (min-device-width: 1440px) {
-}
-@media (min-device-width: 1440px) {
-}
-@media (min-device-width: 1920px) {
-	.body {
-		width: 100vw;
-		height: 100vh;
-		background: #223957;
-		.content {
-			width: 99vw;
-			height: 99vh;
-			border: 1px solid #4081c4;
-		}
-	}
-}
-@media (min-device-width: 2560px) {
-}
-@media (min-device-width: 4096px) {
-}
 // 1024*500
 // 1024*768(第一阶段)
 // 1280*800(第一阶段)
