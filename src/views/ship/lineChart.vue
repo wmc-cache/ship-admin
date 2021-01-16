@@ -30,7 +30,11 @@ export default {
 			default: true
 		},
 		chartData: {
-			type: Object,
+			type: Array,
+			required: true
+		},
+		title: {
+			type: String,
 			required: true
 		}
 	},
@@ -44,7 +48,7 @@ export default {
 		chartData: {
 			deep: true,
 			handler(val) {
-				this.setOptions(val);
+				this.setOptions(val, this.title);
 			}
 		}
 	},
@@ -64,19 +68,16 @@ export default {
 		initChart() {
 			//	console.log(this.$el);
 			this.chart = echarts.init(this.$el, "macarons");
-			this.setOptions();
+			this.setOptions(this.chartData);
 		},
-		setOptions() {
+		setOptions(chartData, title) {
 			this.chart.setOption({
 				title: {
-					text: "PH",
-					left: "30%",
+					text: title,
+					left: "40%",
 					top: "10%",
 					textStyle: {
 						fontSize: 12
-						// textBorderWidth: 10,
-						// textBorderColor: "#ddd",
-						// lineHeight: 40
 					}
 				},
 				xAxis: {
@@ -87,7 +88,7 @@ export default {
 				series: [
 					{
 						type: "line",
-						data: [820, 932, 901, 934, 1290, 1330, 1320]
+						data: chartData
 					}
 				]
 			});

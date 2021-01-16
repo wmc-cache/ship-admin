@@ -202,6 +202,16 @@
 				<div class="content-right">
 					<div class="right1">
 						<dv-border-box-10>
+							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
+								<video
+									style="width:22vw;height: 18vh;"
+									id="myPlayer"
+									controls
+									playsInline
+								>
+									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8" />
+								</video>
+							</div>
 						</dv-border-box-10>
 					</div>
 					<div class="right2">
@@ -274,10 +284,22 @@
 				<dv-border-box-10>
 					<div class="title">水质数据</div>
 					<div class="chart-list">
-						<line-chart :chart-data="lineChartData" />
-						<line-chart :chart-data="lineChartData" />
-						<line-chart :chart-data="lineChartData" />
-						<line-chart :chart-data="lineChartData" />
+						<line-chart
+							title="PH"
+							:chart-data="lineChartData"
+						/>
+						<line-chart
+							title="CO2"
+							:chart-data="lineChartData"
+						/>
+						<line-chart
+							title="PH"
+							:chart-data="lineChartData"
+						/>
+						<line-chart
+							title="PH"
+							:chart-data="lineChartData"
+						/>
 
 					</div>
 
@@ -292,28 +314,14 @@
 
 <script>
 import LineChart from "@/views/ship/lineChart";
-const lineChartData = {
-	newVisitis: {
-		expectedData: [100, 120, 161, 134, 105, 160, 165],
-		actualData: [120, 82, 91, 154, 162, 140, 145]
-	},
-	messages: {
-		expectedData: [200, 192, 120, 144, 160, 130, 140],
-		actualData: [180, 160, 151, 106, 145, 150, 130]
-	},
-	purchases: {
-		expectedData: [80, 100, 121, 104, 105, 90, 100],
-		actualData: [120, 90, 100, 138, 142, 130, 130]
-	},
-	shoppings: {
-		expectedData: [130, 140, 141, 142, 145, 150, 160],
-		actualData: [120, 82, 91, 154, 162, 140, 130]
-	}
-};
+const lineChartData = [820, 932, 901, 934, 1290, 1330, 1320, 111, 22];
 export default {
 	mounted() {
 		this.initMap();
 		this.deviceId = this.$route.params.deviceId;
+		setInterval(() => {
+			lineChartData.push(Math.random() * 1000);
+		}, 1000);
 	},
 	components: {
 		LineChart
@@ -366,7 +374,6 @@ export default {
 			font-size: 1.5vh;
 			width: 7vh;
 			height: 3vh;
-
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -691,18 +698,4 @@ export default {
 }
 @media (min-device-width: 4096px) {
 }
-// 1024*500
-// 1024*768(第一阶段)
-// 1280*800(第一阶段)
-// 1280*1024
-// 1280*854
-// 1366*768
-// 1440*900(第一阶段)
-// 1440*1050
-// 1600*1024
-// 1600*1200
-// 1680*1050
-// 1920*1200(第一阶段)
-// 2560*1440
-// 4096×2160
 </style>

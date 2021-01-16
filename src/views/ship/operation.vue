@@ -155,22 +155,46 @@
 										自动
 									</div>
 
-									<div class="item">
+									<div
+										@click="setOptions('single')"
+										class="item"
+										:class="{active:options.single}"
+									>
 										单点
 									</div>
-									<div class="item">
+									<div
+										@click="setOptions('search')"
+										class="item"
+										:class="{active:options.search}"
+									>
 										寻点
 									</div>
-									<div class="item">
+									<div
+										@click="setOptions('double')"
+										class="item"
+										:class="{active:options.double}"
+									>
 										多点
 									</div>
-									<div class="item">
+									<div
+										@click="setOptions('ring')"
+										class="item"
+										:class="{active:options.ring}"
+									>
 										环湖
 									</div>
-									<div class="item">
+									<div
+										@click="setOptions('fixed')"
+										class="item"
+										:class="{active:options.fixed}"
+									>
 										定点
 									</div>
-									<div class="item">
+									<div
+										@click="setOptions('cruise')"
+										class="item"
+										:class="{active:options.cruise}"
+									>
 										返航
 									</div>
 
@@ -259,11 +283,11 @@
 
 							<div style="position: absolute;left:1vh;top:3.5vh;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;">
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
+									<div class="item-title">间隔</div>
 									<div class="item-num">798</div>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
+									<div class="item-title">安全距离</div>
 									<div class="item-num">798</div>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -310,7 +334,15 @@ export default {
 	components: {},
 	data() {
 		return {
-			deviceId: null
+			deviceId: null, //设备ID
+			options: {
+				single: true,
+				search: false,
+				double: false,
+				ring: false,
+				fixed: false,
+				cruise: false
+			} //航行设置
 		};
 	},
 	methods: {
@@ -325,6 +357,35 @@ export default {
 			this.$router.push({
 				path: `/ship/detail/${this.deviceId}`
 			});
+		},
+		setOptions(value) {
+			if (value == "single") {
+				if (this.options[value] == true) {
+					this.options[value] = false;
+					this.options.double = true;
+					return;
+				} else {
+					this.options[value] = true;
+					this.options.double = false;
+					return;
+				}
+			}
+			if (value == "double") {
+				if (this.options[value] == true) {
+					this.options[value] = false;
+					this.options.single = true;
+					return;
+				} else {
+					this.options[value] = true;
+					this.options.single = false;
+					return;
+				}
+			}
+			if (this.options[value] == true) {
+				this.options[value] = false;
+			} else {
+				this.options[value] = true;
+			}
 		}
 	}
 };
@@ -541,14 +602,15 @@ export default {
 						height: 17vh;
 
 						.handle {
-							margin: 1vh;
+							margin-left: 2vh;
 							font-family: Source Han Sans CN;
 							font-weight: 500;
 							color: #02f1ee;
 						}
 						.box {
-							width: 14vh;
-							height: 14vh;
+							margin-left: 2vh;
+							width: 13vh;
+							height: 13vh;
 							background: rgba(12, 51, 103, 0.51);
 							box-shadow: 0px 0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6),
 								0px -0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6);
@@ -606,7 +668,8 @@ export default {
 							}
 						}
 						.auto {
-							margin: 1vh;
+							margin-left: 2vh;
+
 							font-family: Source Han Sans CN;
 							font-weight: 500;
 							color: #02f1ee;
@@ -624,6 +687,24 @@ export default {
 							color: #fff;
 							margin-left: 1.2vh;
 							cursor: pointer;
+							.active {
+								background-color: #0096ff;
+							}
+							//background-color: #0096ff;
+						}
+						.item.active {
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							width: 10vh;
+							height: 7vh;
+							box-shadow: 0px 0.1vh 3vh 0px #1391da,
+								0px 0.05vh 0.2vh 0px #095e7c;
+							border-radius: 2vh;
+							color: #fff;
+							margin-left: 1.2vh;
+							cursor: pointer;
+							background-color: #0096ff;
 						}
 					}
 					.left3-right {
