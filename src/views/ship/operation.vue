@@ -328,11 +328,11 @@
 </template>
 
 <script>
-import mqtt from "mqtt";
+import MQTT from "paho-mqtt";
 import { getMapList } from "../../api/ship";
 export default {
 	mounted() {
-		this.connection.clientId = this.$store.state.user.name;
+		//this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
 		this.initTest();
 		this.initMqtt();
@@ -346,11 +346,7 @@ export default {
 	components: {},
 	data() {
 		return {
-			sureMap: true, //湖泊是否确定
-			// startTip: {
-			// 	singleStart: false,
-			// 	doubleStart: false
-			// },
+			sureMap: false, //湖泊是否确定
 			x: null, //当前船的实时位置
 			y: null, //当前船的实时位置
 			map: null, //地图实例
@@ -371,116 +367,78 @@ export default {
 				ring: false,
 				fixed: false,
 				cruise: false
-			},
-			//MQTT配置
-			connection: {
-				host: "47.97.183.24",
-				port: 8083,
-				endpoint: "/mqtt",
-				clean: false, // 保留会话
-				connectTimeout: 4000, // 超时时间
-				reconnectPeriod: 4000, // 重连时间间隔
-				clientId: "", // 认证信息
-				username: "wu", // 认证信息
-				password: "123" // 认证信息
 			}
 		};
 	},
 	methods: {
-		//MQTT初始化
+		//MQTT连接初始化
 		initMqtt() {
-			const { host, port, endpoint, ...options } = this.connection;
-			const connectUrl = `ws://${host}:${port}${endpoint}`;
-			try {
-				this.client = mqtt.connect(connectUrl, options);
-				console.log("client", this.client);
-			} catch (error) {
-				console.log("mqtt.connect error", error);
-			}
-			this.client.on("connect", () => {
-				//console.log("Connection succeeded!");
-			});
-			this.client.on("error", error => {
-				console.log("Connection failed", error);
-			});
-			this.client.on("message", (topic, message) => {
-				if (topic == `status_data_${this.deviceId}`) {
-					this.status_data = JSON.parse(message);
-					//console.log(topic, JSON.parse(message));
-					if (this.status_data && this.status_data.current_lng_lat) {
-						this.x = this.status_data.current_lng_lat[0];
-						this.y = this.status_data.current_lng_lat[1];
-					}
-					if (!this.map) {
-						this.initMap();
-					}
-					this.initPoint();
-				}
-				if (topic == `detect_data_${this.deviceId}`) {
-					this.detect_data = JSON.parse(message);
-				}
-				//返回湖泊信息
-				if (topic == `pool_info_${this.deviceId}`) {
-					this.pool_info = JSON.parse(message);
-					//console.log(topic, JSON.parse(message));
-					console.log("mapId", this.pool_info.mapId);
-
-					if (this.pool_info.mapId) {
-						getMapList(this.pool_info.mapId).then(res => {
-							//console.log(res.data.mapList.mapData);
-							this.draw(res.data.mapList.mapData);
-						});
-					}
-				}
-				if (topic == `path_planning_${this.deviceId}`) {
-					console.log(topic, JSON.parse(message));
-					// JSON.parse(message).sampling_points.forEach(ele => {
-					// 	this.icon(ele[0], ele[1]);
-					// });
-				}
-			});
-
-			this.client.subscribe(`status_data_${this.deviceId}`, 0, (error, res) => {
-				if (error) {
-					console.log("Subscribe to topics error", error);
-					return;
-				}
-
-				console.log(`status_data_${this.deviceId}`, res);
-			});
-			this.client.subscribe(
-				`pool_info_${this.deviceId}`,
-				{ qos: 2 },
-				(error, res) => {
-					if (error) {
-						console.log("Subscribe to topics error", error);
-						return;
-					}
-
-					console.log(`pool_info_${this.deviceId}`, res);
-				}
-			);
-			this.client.subscribe(`detect_data_${this.deviceId}`, 0, (error, res) => {
-				if (error) {
-					console.log("Subscribe to topics error", error);
-					return;
-				}
-
-				console.log(`detect_data_${this.deviceId}`, res);
-			});
-			this.client.subscribe(
-				`path_planning_${this.deviceId}`,
-				0,
-				(error, res) => {
-					if (error) {
-						console.log("Subscribe to topics error", error);
-						return;
-					}
-
-					console.log(`path_planning_${this.deviceId}`, res);
-				}
-			);
+			const ID = Math.random().toFixed(3);
+			this.client = new MQTT.Client("47.97.183.24", Number(8083), ID);
+			console.log(this.client);
+			this.client.onMessageArrived = this.onMessageArrived;
+			this.client.onConnectionLost = this.onConnectionLost;
+			this.client.connect({ onSuccess: this.onConnect });
 		},
+		//MQTT连接成功
+		onConnect() {
+			console.log("onConnect");
+			//订阅状态数据
+			this.client.subscribe(`status_data_${this.deviceId}`);
+			//订阅探测数据
+			this.client.subscribe(`detect_data_${this.deviceId}`);
+			//订阅湖泊信息
+			this.client.subscribe(`pool_info_${this.deviceId}`);
+			//订阅路线规划
+			this.client.subscribe(`path_planning_${this.deviceId}`);
+		},
+		//MQTT接收到消息
+		onMessageArrived(message) {
+			console.log(`onMessageArrived:${message.payloadString}`);
+			console.log(`"topic" ${message.topic}`);
+			//接收状态数据
+			if (`${message.topic}` == `status_data_${this.deviceId}`) {
+				this.status_data = JSON.parse(message.payloadString);
+				if (this.status_data && this.status_data.current_lng_lat) {
+					this.x = this.status_data.current_lng_lat[0];
+					this.y = this.status_data.current_lng_lat[1];
+				}
+				if (!this.map) {
+					this.initMap();
+				}
+				this.initPoint();
+			}
+			//接收湖泊信息
+			if (`${message.topic}` == `pool_info_${this.deviceId}`) {
+				this.pool_info = JSON.parse(message.payloadString);
+				console.log("mapId", this.pool_info.mapId);
+				if (this.pool_info.mapId) {
+					getMapList(this.pool_info.mapId).then(res => {
+						//console.log(res.data.mapList.mapData);
+						this.draw(JSON.parse(res.data.mapList.mapData));
+						this.sureMap = true;
+					});
+				}
+			}
+			//接收路径规划
+			if (`${message.topic}` == `path_planning_${this.deviceId}`) {
+				console.log(JSON.parse(message.payloadString).sampling_points);
+				JSON.parse(message.payloadString).sampling_points.forEach(ele => {
+					this.icon(ele[0], ele[1]);
+				});
+				this.draw(JSON.parse(message.payloadString).path_points);
+
+				this.doubleList = [];
+			}
+		},
+		//MQTT断开连接
+		onConnectionLost(responseObject) {
+			console.log(responseObject);
+			if (responseObject.errorCode !== 0) {
+				console.log("onConnectionLost:" + responseObject.errorMessage);
+			}
+		},
+
 		initMap() {
 			if (!this.x && !this.y) {
 				this.x = 114.431408;
@@ -513,10 +471,11 @@ export default {
 			);
 		},
 		stop() {
-			this.sendMqtt_control_data({
-				deviceId: this.deviceId,
-				move_direction: -1
-			});
+			this.client.send(
+				`control_data_${this.deviceId}`,
+				JSON.stringify({ deviceId: this.deviceId, move_direction: -1 }),
+				2
+			);
 		},
 		goHome() {
 			this.$router.push({
@@ -555,11 +514,20 @@ export default {
 		//点击地图
 		clickMap(e) {
 			if (!this.sureMap) {
-				this.sendMqtt_pool_click({
+				console.log({
 					deviceId: this.deviceId,
 					lng_lat: [e.lnglat.lng, e.lnglat.lat],
 					zoom: e.target.getZoom()
 				});
+				this.client.send(
+					`pool_click_${this.deviceId}`,
+					JSON.stringify({
+						deviceId: this.deviceId,
+						lng_lat: [e.lnglat.lng, e.lnglat.lat],
+						zoom: e.target.getZoom()
+					}),
+					2
+				);
 				return;
 			}
 			if (this.options.single == true) {
@@ -614,7 +582,23 @@ export default {
 					});
 
 					this.map.add(overlayGroup);
-					this.sendMqtt_user_lng_lat({
+
+					this.client.send(
+						`user_lng_lat_${this.deviceId}`,
+						JSON.stringify({
+							deviceId: this.deviceId,
+							lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
+							zoom: e.target.getZoom(),
+							meter_pix: e.target.getResolution(),
+							config: {
+								back_home: 0,
+								fix_point: 0
+							}
+						}),
+						2
+					);
+
+					console.log("开始执行命令", {
 						deviceId: this.deviceId,
 						lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
 						zoom: e.target.getZoom(),
@@ -623,10 +607,7 @@ export default {
 							back_home: 0,
 							fix_point: 0
 						}
-
-						//pix_location: [e.pixel.x, e.pixel.y]
 					});
-					console.log("开始执行命令");
 				})
 				.catch(_ => {
 					console.log("取消");
@@ -663,7 +644,21 @@ export default {
 					if (this.doubleList.length != 0) {
 						this.$confirm("确认前往这些区域？")
 							.then(_ => {
-								this.sendMqtt_user_lng_lat({
+								this.client.send(
+									`user_lng_lat_${this.deviceId}`,
+									JSON.stringify({
+										deviceId: this.deviceId,
+										lng_lat: this.doubleList,
+										zoom: e.target.getZoom(),
+										meter_pix: e.target.getResolution(),
+										config: {
+											back_home: 0,
+											fix_point: 0
+										}
+									}),
+									2
+								);
+								console.log("开始", {
 									deviceId: this.deviceId,
 									lng_lat: this.doubleList,
 									zoom: e.target.getZoom(),
@@ -672,7 +667,6 @@ export default {
 										back_home: 0,
 										fix_point: 0
 									}
-									//pix_location: [e.pixel.x, e.pixel.y]
 								});
 							})
 							.catch(_ => {
@@ -681,7 +675,6 @@ export default {
 					}
 				});
 		},
-
 		//测试方法
 		initTest() {
 			this.x = 114.392999;
@@ -692,48 +685,9 @@ export default {
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
-		//点击湖泊确认湖泊轮廓
-		sendMqtt_pool_click(data) {
-			let payload = JSON.stringify(data);
-			let topic = `pool_click_${this.deviceId}`;
-
-			this.client.publish(topic, payload, 0, error => {
-				if (error) {
-					console.log("Publish error", error);
-				}
-				console.log(topic);
-				console.log(data);
-			});
-		},
-		//控制信息
-		sendMqtt_control_data(data) {
-			let payload = JSON.stringify(data);
-			let topic = `control_data_${this.deviceId}`;
-
-			this.client.publish(topic, payload, 0, error => {
-				if (error) {
-					console.log("Publish error", error);
-				}
-				console.log(topic);
-				console.log(data);
-			});
-		},
-		//用户手动点击船的轨迹
-		sendMqtt_user_lng_lat(data) {
-			let payload = JSON.stringify(data);
-			let topic = `user_lng_lat_${this.deviceId}`;
-
-			this.client.publish(topic, payload, 0, error => {
-				if (error) {
-					console.log("Publish error", error);
-				}
-				console.log(topic);
-				console.log(data);
-			});
-		},
-		//根据经纬坐标点画轨迹
+		//根据经纬坐标点画轨迹(HTTP)
 		draw(value) {
-			const list = JSON.parse(value);
+			const list = value;
 			list.forEach(ele => {
 				ele = new AMap.LngLat(ele[0], ele[1]);
 			});
@@ -750,6 +704,22 @@ export default {
 			});
 			this.map.add(overlayGroup);
 			//this.map.setFitView();
+		},
+		//根据单个经纬坐标点画图标
+		icon(x, y) {
+			const planIcon = new AMap.Icon({
+				size: new AMap.Size(40, 50), // 图标尺寸
+				image: "http://101.37.119.148:3000/money.png", // Icon的图像
+				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+			});
+			const planMarker = new AMap.Marker({
+				position: new AMap.LngLat(x, y),
+				offset: new AMap.Pixel(-30, -30),
+				icon: planIcon,
+				title: "北京",
+				zoom: 13
+			});
+			this.map.add(planMarker);
 		}
 	}
 };

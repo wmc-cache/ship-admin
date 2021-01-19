@@ -79,9 +79,9 @@ export const asyncRoutes = [
         hidden: true
       },
       {
-        path: 'showData/:deviceId/:MapId',
-        component: () => import('@/views/ship/showData'),
-        name: 'showData',
+        path: 'showWaterData/:deviceId/:MapId',
+        component: () => import('@/views/ship/showWaterData'),
+        name: 'showWaterData',
         meta: { title: '历史监测数据', icon: 'list', noCache: true },
         hidden: true
       },

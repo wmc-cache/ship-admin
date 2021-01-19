@@ -5,6 +5,10 @@
 <script>
 import { getDetectData } from "../../api/ship.js";
 export default {
+	name: "showWaterData",
+	data() {
+		return {};
+	},
 	async mounted() {
 		const deviceId = this.$route.params.deviceId;
 		const mapId = this.$route.params.deviceId.mapId;
