@@ -78,13 +78,7 @@ export const asyncRoutes = [
         meta: { title: '选择地图', icon: 'list', noCache: true },
         hidden: true
       },
-      {
-        path: 'showWaterData/:deviceId/:MapId',
-        component: () => import('@/views/ship/showWaterData'),
-        name: 'showWaterData',
-        meta: { title: '历史监测数据', icon: 'list', noCache: true },
-        hidden: true
-      },
+
     ]
   },
   {
@@ -153,6 +147,13 @@ export const asyncRoutes = [
     component: () => import('@/views/ship/operation'),
     name: 'operation',
     meta: { title: '无人船控制', icon: 'guide', noCache: true },
+    hidden: true
+  },
+  {
+    path: '/showWaterData/:deviceId/:MapId',
+    component: () => import('@/views/ship/showWaterData'),
+    name: 'showWaterData',
+    meta: { title: '历史监测数据', icon: 'list', noCache: true },
     hidden: true
   },
   { path: '*', redirect: '/404', hidden: true }

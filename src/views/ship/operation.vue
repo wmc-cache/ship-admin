@@ -8,7 +8,10 @@
 				class="menu1"
 				@click="goHome"
 			>首页总览</div>
-			<div class="menu2">数据展示</div>
+			<div
+				class="menu2"
+				@click="goData"
+			>数据展示</div>
 			<div class="menu3">设备操作</div>
 			<!-- header -->
 			<div class="header">
@@ -427,7 +430,6 @@ export default {
 					this.icon(ele[0], ele[1]);
 				});
 				this.draw(JSON.parse(message.payloadString).path_points);
-
 				this.doubleList = [];
 			}
 		},
@@ -480,6 +482,11 @@ export default {
 		goHome() {
 			this.$router.push({
 				path: `/ship/detail/${this.deviceId}`
+			});
+		},
+		goData() {
+			this.$router.push({
+				path: `/showWaterData/${this.deviceId}/1`
 			});
 		},
 		setOptions(value) {
@@ -582,7 +589,7 @@ export default {
 					});
 
 					this.map.add(overlayGroup);
-
+					const back_home = this.options;
 					this.client.send(
 						`user_lng_lat_${this.deviceId}`,
 						JSON.stringify({
@@ -685,7 +692,7 @@ export default {
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
-		//根据经纬坐标点画轨迹(HTTP)
+		//根据经纬坐标点画轨迹
 		draw(value) {
 			const list = value;
 			list.forEach(ele => {
@@ -716,7 +723,7 @@ export default {
 				position: new AMap.LngLat(x, y),
 				offset: new AMap.Pixel(-30, -30),
 				icon: planIcon,
-				title: "北京",
+				title: "采样点",
 				zoom: 13
 			});
 			this.map.add(planMarker);
@@ -731,6 +738,7 @@ export default {
 	height: 56vh;
 }
 .body {
+	overflow: hidden;
 	width: 100vw;
 	height: 100vh;
 	background-color: #223957;
@@ -740,7 +748,7 @@ export default {
 	.content {
 		width: 99vw;
 		height: 99vh;
-		border: 1px solid #4081c4;
+		border: 0.1vh solid #4081c4;
 		position: relative;
 		.menu1 {
 			display: flex;
@@ -750,7 +758,7 @@ export default {
 			right: 18vw;
 			top: 2vh;
 			background: #245098;
-			border: 1px solid #4081c4;
+			border: 0.1vh solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
 			width: 7vh;
@@ -758,7 +766,7 @@ export default {
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
-			text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.6);
+			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
 		}
 		.menu2 {
@@ -770,7 +778,7 @@ export default {
 			right: 12vw;
 			top: 2vh;
 			background: #245098;
-			border: 1px solid #4081c4;
+			border: 0.1vh solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
 			width: 7vh;
@@ -778,7 +786,7 @@ export default {
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
-			text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.6);
+			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
 		}
 		.menu3 {
@@ -797,7 +805,7 @@ export default {
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
-			text-shadow: 0px 1px 1px rgba(0, 0, 0, 0.6);
+			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
 		}
 		.header {
@@ -1023,7 +1031,6 @@ export default {
 							.active {
 								background-color: #0096ff;
 							}
-							//background-color: #0096ff;
 						}
 						.item.active {
 							display: flex;
