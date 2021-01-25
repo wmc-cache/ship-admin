@@ -27,25 +27,40 @@
 
 				<div class="tip-item">
 
-					<div class="item1">
+					<div
+						v-waves
+						class="item1"
+					>
 						<div class="text">设备电量</div>
-						<div class="num">98%</div>
+						<div class="num">{{status_data.dump_energy|valueFilter}}</div>
 					</div>
-					<div class="item2">
-						<div class="text">河道水深</div>
-						<div class="num">2m</div>
+					<div
+						v-waves
+						class="item2"
+					>
+						<div class="text">当前经纬度</div>
+						<div class="num">
+
+						</div>
+						<!-- {{status_data.current_lng_lat[0].toFixed(1)}},{{status_data.current_lng_lat[1].toFixed(1)}} -->
 					</div>
 
-					<div class="item3">
+					<div
+						v-waves
+						class="item3"
+					>
 
-						<div class="text">紧急预警</div>
-						<div class="num">正常</div>
+						<div class="text">船头方向</div>
+						<div class="num">{{status_data.direction|valueFilter}}</div>
 
 					</div>
-					<div class="item4">
+					<div
+						v-waves
+						class="item4"
+					>
 
-						<div class="text">紧急预警</div>
-						<div class="num">正常</div>
+						<div class="text">速度</div>
+						<div class="num">{{status_data.speed|valueFilter}}</div>
 
 					</div>
 
@@ -56,45 +71,46 @@
 
 			<div class="content-middle">
 				<div class="left">
-					<div class="left1">
+					<div
+						v-waves
+						class="left1"
+					>
 						<dv-border-box-10>
 							<div class="title">2002年1月7日 星期四 10:22:34</div>
 							<div class="tip">
 								<div class="left">
-									<dv-border-box-12>
-										<div style="display:flex;">
-											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-												<div class="item-title">里程</div>
-												<div class="item-num">798</div>
 
-											</div>
-											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-												<div class="item-title">总里程</div>
-												<div class="item-num">798</div>
+									<div style="display:flex;">
+										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+											<div class="item-title">里程</div>
+											<div class="item-num">798</div>
 
-											</div>
+										</div>
+										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+											<div class="item-title">总里程</div>
+											<div class="item-num">798</div>
 
 										</div>
 
-									</dv-border-box-12>
+									</div>
+
 								</div>
 								<div class="right">
-									<dv-border-box-12>
-										<div style="display:flex;justify-content:center;align-items: center;">
-											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-												<div class="item-title">时间</div>
-												<div class="item-num">798</div>
 
-											</div>
-											<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-												<div class="item-title">总时间</div>
-												<div class="item-num">798</div>
+									<div style="display:flex;justify-content:center;align-items: center;">
+										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+											<div class="item-title">时间</div>
+											<div class="item-num">798</div>
 
-											</div>
+										</div>
+										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+											<div class="item-title">总时间</div>
+											<div class="item-num">798</div>
 
 										</div>
 
-									</dv-border-box-12>
+									</div>
+
 								</div>
 							</div>
 
@@ -117,6 +133,7 @@
 									</div>
 									<div class="box">
 										<div
+											v-waves
 											ref="direction"
 											class="bottom"
 										>
@@ -165,13 +182,7 @@
 									>
 										单点
 									</div>
-									<div
-										@click="setOptions('search')"
-										class="item"
-										:class="{active:options.search}"
-									>
-										寻点
-									</div>
+
 									<div
 										@click="setOptions('double')"
 										class="item"
@@ -179,13 +190,7 @@
 									>
 										多点
 									</div>
-									<div
-										@click="setOptions('ring')"
-										class="item"
-										:class="{active:options.ring}"
-									>
-										环湖
-									</div>
+
 									<div
 										@click="setOptions('fixed')"
 										class="item"
@@ -200,19 +205,38 @@
 									>
 										返航
 									</div>
+									<div
+										@click="setOptions('ring')"
+										class="item"
+										:class="{active:options.ring}"
+									>
+										环湖
+									</div>
+
+									<div
+										@click="setOptions('search')"
+										class="item"
+										:class="{active:options.search}"
+									>
+										寻点
+									</div>
 
 								</div>
 							</dv-border-box-10>
 						</div>
 						<div class="left3-right">
 							<dv-border-box-10>
-								<div style="width: 8vw;height: 17vh; display:flex;flex-direction:column;justify-content:center;align-items:center;">
+								<div
+									v-waves
+									style="width: 8vw;height: 17vh; display:flex;flex-direction:column;justify-content:center;align-items:center;"
+								>
 									<img
 										@click="stop"
 										style="width:6.5vh;height:6.5vh"
 										src="../../assets/启动.png"
 										alt=""
 									>
+
 									<div class="title">暂停</div>
 								</div>
 
@@ -250,28 +274,40 @@
 						<dv-border-box-10>
 							<div class="title">控制</div>
 							<div class="order-list">
-								<div class="item">
+								<div
+									v-waves
+									class="item"
+								>
 									<img
 										src="../../assets/水泵.png"
 										alt=""
 									>
 									<div class="tip">水泵</div>
 								</div>
-								<div class="item">
+								<div
+									v-waves
+									class="item"
+								>
 									<img
 										src="../../assets/水泵.png"
 										alt=""
 									>
 									<div class="tip">水泵</div>
 								</div>
-								<div class="item">
+								<div
+									v-waves
+									class="item"
+								>
 									<img
 										src="../../assets/水泵.png"
 										alt=""
 									>
 									<div class="tip">水泵</div>
 								</div>
-								<div class="item">
+								<div
+									v-waves
+									class="item"
+								>
 									<img
 										src="../../assets/水泵.png"
 										alt=""
@@ -332,12 +368,13 @@
 
 <script>
 import MQTT from "paho-mqtt";
+import waves from "@/directive/waves";
 import { getMapList } from "../../api/ship";
 export default {
 	mounted() {
 		//this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
-		this.initTest();
+		//this.initTest();
 		this.initMqtt();
 		if (!this.map) {
 			this.initMap();
@@ -347,6 +384,7 @@ export default {
 		});
 	},
 	components: {},
+	directives: { waves },
 	data() {
 		return {
 			sureMap: false, //湖泊是否确定
@@ -362,6 +400,7 @@ export default {
 			doubleList: [], //多点列表
 			doublePreX: null, //前一刻多点实时位置
 			doublePreY: null, //前一刻多点实时位置
+			currentList: [],
 			//航行配置
 			options: {
 				single: true,
@@ -372,6 +411,32 @@ export default {
 				cruise: false
 			}
 		};
+	},
+	filters: {
+		valueFilter(value) {
+			if (value) {
+				return value;
+			} else {
+				return "暂无";
+			}
+		},
+		FixedFilter(value) {
+			return value.toFixed(1);
+		}
+	},
+	computed: {
+		Point() {
+			const { x, y } = this;
+			return [x, y];
+		}
+	},
+	watch: {
+		Point(value) {
+			if (value[0] != 114.431408) {
+				this.currentList.push(value);
+				this.draw(this.currentList);
+			}
+		}
 	},
 	methods: {
 		//MQTT连接初始化
@@ -397,11 +462,12 @@ export default {
 		},
 		//MQTT接收到消息
 		onMessageArrived(message) {
-			console.log(`onMessageArrived:${message.payloadString}`);
+			//	console.log(`onMessageArrived:${message.payloadString}`);
 			console.log(`"topic" ${message.topic}`);
 			//接收状态数据
 			if (`${message.topic}` == `status_data_${this.deviceId}`) {
 				this.status_data = JSON.parse(message.payloadString);
+				console.log(this.status_data);
 				if (this.status_data && this.status_data.current_lng_lat) {
 					this.x = this.status_data.current_lng_lat[0];
 					this.y = this.status_data.current_lng_lat[1];
@@ -473,11 +539,11 @@ export default {
 			);
 		},
 		stop() {
-			this.client.send(
-				`control_data_${this.deviceId}`,
-				JSON.stringify({ deviceId: this.deviceId, move_direction: -1 }),
-				2
-			);
+			// this.client.send(
+			// 	`control_data_${this.deviceId}`,
+			// 	JSON.stringify({ deviceId: this.deviceId, move_direction: -1 }),
+			// 	2
+			// );
 		},
 		goHome() {
 			this.$router.push({
@@ -490,6 +556,18 @@ export default {
 			});
 		},
 		setOptions(value) {
+			if (value == "search") {
+				this.client.send(
+					`auto_lng_lat_${this.deviceId}`,
+					JSON.stringify({
+						deviceId: this.deviceId,
+						config: {
+							row_gap: 10
+						}
+					}),
+					2
+				);
+			}
 			if (value == "single") {
 				if (this.options[value] == true) {
 					this.options[value] = false;
@@ -553,7 +631,7 @@ export default {
 				this.map.remove(this.prePoint);
 			}
 			var icon = new AMap.Icon({
-				size: new AMap.Size(40, 50), // 图标尺寸
+				size: new AMap.Size(10, 13), // 图标尺寸
 				image: "http://101.37.119.148:3000/ship.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
@@ -589,7 +667,25 @@ export default {
 					});
 
 					this.map.add(overlayGroup);
-					const back_home = this.options;
+					let back_home = this.options.cruise;
+					let fix_point = this.options.fixed;
+
+					if (back_home == false) {
+						console.log(back_home, fix_point);
+						back_home = 0;
+					} else {
+						back_home = 1;
+						console.log(back_home, fix_point);
+					}
+					console.log(back_home, fix_point);
+					if (fix_point == false) {
+						console.log(back_home, fix_point);
+						fix_point = 0;
+					} else {
+						fix_point = 1;
+						console.log(back_home, fix_point);
+					}
+					console.log(back_home, fix_point);
 					this.client.send(
 						`user_lng_lat_${this.deviceId}`,
 						JSON.stringify({
@@ -598,8 +694,8 @@ export default {
 							zoom: e.target.getZoom(),
 							meter_pix: e.target.getResolution(),
 							config: {
-								back_home: 0,
-								fix_point: 0
+								back_home: back_home,
+								fix_point: fix_point
 							}
 						}),
 						2
@@ -611,8 +707,8 @@ export default {
 						zoom: e.target.getZoom(),
 						meter_pix: e.target.getResolution(),
 						config: {
-							back_home: 0,
-							fix_point: 0
+							back_home: back_home,
+							fix_point: fix_point
 						}
 					});
 				})
@@ -651,6 +747,18 @@ export default {
 					if (this.doubleList.length != 0) {
 						this.$confirm("确认前往这些区域？")
 							.then(_ => {
+								let back_home = this.options.cruise;
+								let fix_point = this.options.fixed;
+								if (back_home == false) {
+								} else {
+									back_home = 1;
+								}
+								if (fix_point == false) {
+									fix_point = 0;
+								} else {
+									fix_point = 1;
+								}
+
 								this.client.send(
 									`user_lng_lat_${this.deviceId}`,
 									JSON.stringify({
@@ -659,8 +767,8 @@ export default {
 										zoom: e.target.getZoom(),
 										meter_pix: e.target.getResolution(),
 										config: {
-											back_home: 0,
-											fix_point: 0
+											back_home: back_home,
+											fix_point: fix_point
 										}
 									}),
 									2
@@ -671,8 +779,8 @@ export default {
 									zoom: e.target.getZoom(),
 									meter_pix: e.target.getResolution(),
 									config: {
-										back_home: 0,
-										fix_point: 0
+										back_home: back_home,
+										fix_point: fix_point
 									}
 								});
 							})
@@ -684,11 +792,11 @@ export default {
 		},
 		//测试方法
 		initTest() {
-			this.x = 114.392999;
-			this.y = 30.578571;
+			this.x = 114.431408;
+			this.y = 30.523486;
 			setInterval(() => {
-				this.x += 0.0001;
-				this.y += 0.0001;
+				this.x += 0.01;
+				this.y += 0.01;
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
@@ -707,7 +815,7 @@ export default {
 			// 对此覆盖物群组设置同一属性
 			overlayGroup.setOptions({
 				strokeColor: "red",
-				strokeWeight: 5
+				strokeWeight: 1
 			});
 			this.map.add(overlayGroup);
 			//this.map.setFitView();
@@ -716,17 +824,49 @@ export default {
 		icon(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: "http://101.37.119.148:3000/money.png", // Icon的图像
+				image: "http://101.37.119.148:3000/pointer.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
 			const planMarker = new AMap.Marker({
 				position: new AMap.LngLat(x, y),
-				offset: new AMap.Pixel(-30, -30),
+				offset: new AMap.Pixel(-20, -20),
 				icon: planIcon,
 				title: "采样点",
 				zoom: 13
 			});
 			this.map.add(planMarker);
+		},
+		//方向
+		direction(value) {
+			if (value == "top") {
+				this.client.send(
+					`control_data_${this.deviceId}`,
+					JSON.stringify({ deviceId: this.deviceId, move_direction: 0 }),
+					2
+				);
+				console.log({ deviceId: this.deviceId, move_direction: 0 });
+			}
+			if (value == "left") {
+				this.client.send(
+					`control_data_${this.deviceId}`,
+					JSON.stringify({ deviceId: this.deviceId, move_direction: 90 }),
+					2
+				);
+			}
+			if (value == "bottom") {
+				this.client.send(
+					`control_data_${this.deviceId}`,
+					JSON.stringify({ deviceId: this.deviceId, move_direction: 180 }),
+					2
+				);
+			}
+			if (value == "right") {
+				this.client.send(
+					`control_data_${this.deviceId}`,
+					JSON.stringify({ deviceId: this.deviceId, move_direction: 270 }),
+					2
+				);
+			}
 		}
 	}
 };
@@ -737,11 +877,13 @@ export default {
 	width: 64vw;
 	height: 56vh;
 }
+
 .body {
 	overflow: hidden;
 	width: 100vw;
 	height: 100vh;
-	background-color: #223957;
+	//background-color: #223957;
+	background: rgb(29, 29, 29);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1026,7 +1168,7 @@ export default {
 								0px 0.05vh 0.2vh 0px #095e7c;
 							border-radius: 2vh;
 							color: #fff;
-							margin-left: 1.2vh;
+							margin-left: 1vh;
 							cursor: pointer;
 							.active {
 								background-color: #0096ff;

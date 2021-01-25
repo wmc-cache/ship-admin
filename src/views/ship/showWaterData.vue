@@ -16,7 +16,10 @@
 
 					<dv-decoration-5 style="width:40vw;height:5vh;" />
 				</div>
-
+				<img
+					src="../../assets/logo.png"
+					class="logo"
+				>
 			</div>
 			<!-- header -->
 
@@ -25,17 +28,95 @@
 				style="display:flex"
 			>
 				<div class="left">
-					<div class="left1"></div>
-					<div class="left2"></div>
-					<div class="left3"></div>
+					<div class="left1">
+						<dv-border-box-10>
+							<div style="height: 18vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+								<el-date-picker
+									v-model="date"
+									type="daterange"
+									range-separator="-"
+									start-placeholder="开始日期"
+									end-placeholder="结束日期"
+								>
+								</el-date-picker>
+							</div>
+
+						</dv-border-box-10>
+					</div>
+					<div class="left2">
+						<dv-border-box-10>
+							<pie-chart
+								className="pie"
+								height="23vh"
+								width="23vw"
+							></pie-chart>
+						</dv-border-box-10>
+
+					</div>
+					<div class="left3">
+						<dv-border-box-10>
+							<div style="height:33vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+								<line-chart
+									title="PH"
+									:chart-data="lineChartData"
+								/>
+							</div>
+
+						</dv-border-box-10>
+					</div>
 
 				</div>
 				<div class="middle">
-					<div class="middle1"></div>
-					<div class="middle2"></div>
+					<div class="middle1">
+						<dv-border-box-10>
+						</dv-border-box-10>
+					</div>
+					<div class="middle2">
+						<dv-border-box-10>
+							<div style="width: 46.5vw;height: 61vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+								<line-chart
+									title="PH"
+									:chart-data="lineChartData"
+								/>
+								<line-chart
+									title="CO2"
+									:chart-data="lineChartData"
+								/>
+								<line-chart
+									title="PM10"
+									:chart-data="lineChartData"
+								/>
+								<line-chart
+									title="O2"
+									:chart-data="lineChartData"
+								/>
+
+							</div>
+
+						</dv-border-box-10>
+					</div>
 				</div>
 
-				<div class="right"></div>
+				<div class="right">
+
+					<dv-border-box-10>
+						<div style="	width: 22vw;height: 84vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+							<line-chart
+								title="PH"
+								:chart-data="lineChartData"
+							/>
+							<line-chart
+								title="CO2"
+								:chart-data="lineChartData"
+							/>
+							<line-chart
+								title="PM10"
+								:chart-data="lineChartData"
+							/>
+						</div>
+
+					</dv-border-box-10>
+				</div>
 			</div>
 
 		</div>
@@ -46,22 +127,51 @@
 </template>
 
 <script>
+const lineChartData = [8, 19, 29, 19, 12, 13, 13, 11, 22];
+import LineChart from "@/views/ship/lineChart";
+import PieChart from "@/views/ship/pieChart";
 import { getDetectData } from "../../api/ship.js";
 export default {
 	name: "showWaterData",
 	data() {
-		return {};
+		return {
+			lineChartData: lineChartData,
+			date: null
+		};
+	},
+	components: {
+		PieChart,
+		LineChart
+	},
+	watch: {
+		date(value) {
+			console.log(value);
+		}
 	},
 	async mounted() {
 		const deviceId = this.$route.params.deviceId;
 		const mapId = this.$route.params.deviceId.mapId;
 		const data = await getDetectData(deviceId, mapId);
+		setInterval(() => {
+			lineChartData.push(Math.random() * 100);
+		}, 1000);
 		console.log("历史监测数据", data.data);
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.logo {
+	width: 10vw;
+	height: 5vh;
+	position: absolute;
+	top: 4vh;
+	left: 2vh;
+}
+.pie {
+	position: absolute;
+	top: 6vh;
+}
 .body {
 	width: 100vw;
 	height: 100vh;
@@ -95,21 +205,22 @@ export default {
 			.left1 {
 				height: 18vh;
 				width: 26vw;
-				background-color: #56d5ff;
-				margin-top: -2vh;
+				//background-color: #56d5ff;
+				margin-top: -4vh;
 				margin-left: 2vh;
 			}
 			.left2 {
 				height: 29vh;
 				width: 26vw;
-				background-color: aqua;
+
 				margin-top: 2vh;
 				margin-left: 2vh;
+				position: relative;
 			}
 			.left3 {
 				height: 33vh;
 				width: 26vw;
-				background-color: darkblue;
+				//background-color: darkblue;
 				margin-top: 2vh;
 				margin-left: 2vh;
 			}
@@ -118,14 +229,14 @@ export default {
 			.middle1 {
 				width: 46.5vw;
 				height: 21vh;
-				background-color: yellowgreen;
-				margin-top: -2vh;
+				//	background-color: yellowgreen;
+				margin-top: -4vh;
 				margin-left: 2vh;
 			}
 			.middle2 {
 				width: 46.5vw;
 				height: 61vh;
-				background-color: #56d5ff;
+				//background-color: #56d5ff;
 				margin-top: 2vh;
 				margin-left: 2vh;
 			}
@@ -133,8 +244,8 @@ export default {
 		.right {
 			width: 22vw;
 			height: 84vh;
-			background-color: fuchsia;
-			margin-top: -2vh;
+			//background-color: fuchsia;
+			margin-top: -4vh;
 			margin-left: 2vh;
 		}
 	}

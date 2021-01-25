@@ -284,6 +284,7 @@
 				<dv-border-box-10>
 					<div class="title">水质数据</div>
 					<div class="chart-list">
+
 						<line-chart
 							title="PH"
 							:chart-data="lineChartData"
@@ -293,11 +294,11 @@
 							:chart-data="lineChartData"
 						/>
 						<line-chart
-							title="PH"
+							title="PM10"
 							:chart-data="lineChartData"
 						/>
 						<line-chart
-							title="PH"
+							title="O2"
 							:chart-data="lineChartData"
 						/>
 
@@ -314,13 +315,13 @@
 
 <script>
 import LineChart from "@/views/ship/lineChart";
-const lineChartData = [820, 932, 901, 934, 1290, 1330, 1320, 111, 22];
+const lineChartData = [8, 19, 29, 19, 12, 13, 13, 11, 22];
 export default {
 	mounted() {
 		this.initMap();
 		this.deviceId = this.$route.params.deviceId;
 		setInterval(() => {
-			lineChartData.push(Math.random() * 1000);
+			lineChartData.push(Math.random() * 100);
 		}, 1000);
 	},
 	components: {
@@ -353,7 +354,8 @@ export default {
 .body {
 	width: 100vw;
 	height: 100vh;
-	background-color: #223957;
+	//background-color: #223957;
+	background: rgb(29, 29, 29);
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -565,12 +567,14 @@ export default {
 						height: 4vh;
 					}
 					.text {
+						margin-top: 0.5vh;
 						font-size: 1vh;
 						font-family: Source Han Sans CN;
 						font-weight: bold;
 						color: #ffffff;
 					}
 					.num {
+						margin-top: 0.5vh;
 						font-size: 1vh;
 						font-family: Source Han Sans CN;
 						font-weight: bold;
