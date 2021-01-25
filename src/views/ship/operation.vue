@@ -38,9 +38,9 @@
 						v-waves
 						class="item2"
 					>
-						<div class="text">当前经纬度</div>
+						<div class="text">当前误差</div>
 						<div class="num">
-
+							{{status_data.lng_lat_error|valueFilter}}m
 						</div>
 						<!-- {{status_data.current_lng_lat[0].toFixed(1)}},{{status_data.current_lng_lat[1].toFixed(1)}} -->
 					</div>
@@ -76,19 +76,19 @@
 						class="left1"
 					>
 						<dv-border-box-10>
-							<div class="title">2002年1月7日 星期四 10:22:34</div>
+							<div class="title">{{ fmt( new Date() )}}</div>
 							<div class="tip">
 								<div class="left">
 
 									<div style="display:flex;">
 										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
 											<div class="item-title">里程</div>
-											<div class="item-num">798</div>
+											<div class="item-num">{{status_data.run_distance}}</div>
 
 										</div>
 										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
 											<div class="item-title">总里程</div>
-											<div class="item-num">798</div>
+											<div class="item-num">{{status_data.totle_distance}}</div>
 
 										</div>
 
@@ -100,12 +100,12 @@
 									<div style="display:flex;justify-content:center;align-items: center;">
 										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
 											<div class="item-title">时间</div>
-											<div class="item-num">798</div>
+											<div class="item-num"> {{status_data.runtime}}</div>
 
 										</div>
 										<div style="	width: 8vw;height: 8vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
 											<div class="item-title">总时间</div>
-											<div class="item-num">798</div>
+											<div class="item-num">{{status_data.totle_time}}</div>
 
 										</div>
 
@@ -205,13 +205,6 @@
 									>
 										返航
 									</div>
-									<div
-										@click="setOptions('ring')"
-										class="item"
-										:class="{active:options.ring}"
-									>
-										环湖
-									</div>
 
 									<div
 										@click="setOptions('search')"
@@ -219,6 +212,13 @@
 										:class="{active:options.search}"
 									>
 										寻点
+									</div>
+									<div
+										@click="setOptions('ring')"
+										class="item"
+										:class="{active:options.ring}"
+									>
+										环湖
 									</div>
 
 								</div>
@@ -419,9 +419,6 @@ export default {
 			} else {
 				return "暂无";
 			}
-		},
-		FixedFilter(value) {
-			return value.toFixed(1);
 		}
 	},
 	computed: {
@@ -433,6 +430,7 @@ export default {
 	watch: {
 		Point(value) {
 			if (value[0] != 114.431408) {
+				this.initPoint();
 				this.currentList.push(value);
 				this.draw(this.currentList);
 			}
@@ -475,7 +473,6 @@ export default {
 				if (!this.map) {
 					this.initMap();
 				}
-				this.initPoint();
 			}
 			//接收湖泊信息
 			if (`${message.topic}` == `pool_info_${this.deviceId}`) {
@@ -483,7 +480,6 @@ export default {
 				console.log("mapId", this.pool_info.mapId);
 				if (this.pool_info.mapId) {
 					getMapList(this.pool_info.mapId).then(res => {
-						//console.log(res.data.mapList.mapData);
 						this.draw(JSON.parse(res.data.mapList.mapData));
 						this.sureMap = true;
 					});
@@ -539,11 +535,11 @@ export default {
 			);
 		},
 		stop() {
-			// this.client.send(
-			// 	`control_data_${this.deviceId}`,
-			// 	JSON.stringify({ deviceId: this.deviceId, move_direction: -1 }),
-			// 	2
-			// );
+			this.client.send(
+				`control_data_${this.deviceId}`,
+				JSON.stringify({ deviceId: this.deviceId, move_direction: -1 }),
+				2
+			);
 		},
 		goHome() {
 			this.$router.push({
@@ -562,7 +558,7 @@ export default {
 					JSON.stringify({
 						deviceId: this.deviceId,
 						config: {
-							row_gap: 10
+							row_gap: 50
 						}
 					}),
 					2
@@ -631,7 +627,7 @@ export default {
 				this.map.remove(this.prePoint);
 			}
 			var icon = new AMap.Icon({
-				size: new AMap.Size(10, 13), // 图标尺寸
+				size: new AMap.Size(40, 50), // 图标尺寸
 				image: "http://101.37.119.148:3000/ship.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
@@ -867,6 +863,31 @@ export default {
 					2
 				);
 			}
+		},
+		fmt(date) {
+			let fmt = "yyyy-MM-dd hh:mm:ss";
+			const o = {
+				"M+": date.getMonth() + 1, // 月份
+				"d+": date.getDate(), // 日
+				"h+": date.getHours(), // 小时
+				"m+": date.getMinutes(), // 分钟
+				"s+": date.getSeconds() // 秒
+			};
+
+			if (/(y+)/.test(fmt)) {
+				fmt = fmt.replace(RegExp.$1, date.getFullYear());
+			}
+			for (let k in o) {
+				if (new RegExp("(" + k + ")").test(fmt)) {
+					fmt = fmt.replace(
+						RegExp.$1,
+						o[k].toString().length == 1 ? "0" + o[k] : o[k]
+					);
+				}
+			}
+
+			// console.log(fmt)
+			return fmt;
 		}
 	}
 };
