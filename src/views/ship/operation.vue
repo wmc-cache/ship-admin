@@ -1400,7 +1400,7 @@ export default {
 							align-items: center;
 							width: 5vw;
 							height: 7vw;
-
+							cursor: pointer;
 							//	background-color: #ffa128;
 							img {
 								width: 1.5vw;
@@ -1439,8 +1439,8 @@ export default {
 					}
 					.item-num {
 						margin-top: 0.5vh;
-						border: 0.1vh solid #8fdffe;
-						border-radius: 1vh;
+						// border: 0.1vh solid #8fdffe;
+						// border-radius: 1vh;
 						width: 4vw;
 						font-size: 1vw;
 						font-family: DIN;
