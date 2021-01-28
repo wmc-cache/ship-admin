@@ -3,16 +3,42 @@
 	<!-- <dv-full-screen-container> -->
 
 	<div class="body">
+		<!-- 对话框 -->
+		<el-dialog
+			title="设置"
+			:visible.sync="dialogVisible"
+			width="50%"
+			:before-close="handleClose"
+		>
+			<span>这是一段信息</span>
+			<span
+				slot="footer"
+				class="dialog-footer"
+			>
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button
+					type="primary"
+					@click="dialogVisible = false"
+				>确 定</el-button>
+			</span>
+		</el-dialog>
+
 		<div class="content">
 			<div
 				class="menu1"
 				@click="goHome"
-			>首页总览</div>
+			>数据总览</div>
 			<div class="menu2">设备操作</div>
 			<div
 				@click="goIndex"
 				class="menu3"
 			> 返回</div>
+			<img
+				@click="dialogVisible = true"
+				class="menu4"
+				src="../../assets/setting.png"
+				alt=""
+			>
 			<!-- header -->
 			<div class="header">
 
@@ -308,28 +334,59 @@
 
 							<div style="position: absolute;left:1vh;top:3.5vh;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;">
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">间隔</div>
-									<div class="item-num">798</div>
+									<div class="item-title">行间隔</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
+
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">安全距离</div>
-									<div class="item-num">798</div>
+									<div class="item-title">列间隔</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
-									<div class="item-num">798</div>
+									<div class="item-title">离岸安全距离</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
-									<div class="item-num">798</div>
+									<div class="item-title">手动速度档位</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
+								</div>
+								<div style="width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
+									<div class="item-title">到达范围</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
-									<div class="item-num">798</div>
-								</div>
-								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
-									<div class="item-title">船号</div>
-									<div class="item-num">798</div>
+									<div class="item-title">保存规划点</div>
+									<input
+										@change="setting"
+										class="item-num"
+										type="text"
+										value="798"
+									>
 								</div>
 
 							</div>
@@ -386,6 +443,7 @@ export default {
 			currentList: [],
 			message: null, //提示信息
 			isSwitch: null, //开关信息
+			dialogVisible: false,
 			//航行配置
 			options: {
 				single: true,
@@ -462,7 +520,7 @@ export default {
 			//接收状态数据
 			if (`${message.topic}` == `status_data_${this.deviceId}`) {
 				this.status_data = JSON.parse(message.payloadString);
-				//this.$store.commit("SET_status_data", this.status_data);
+				this.$store.commit("ship/SET_STATUS_DATA", this.status_data);
 				console.log(this.status_data);
 				if (this.status_data && this.status_data.current_lng_lat) {
 					this.x = this.status_data.current_lng_lat[0];
@@ -571,6 +629,15 @@ export default {
 				);
 				return;
 			}
+		},
+		setting() {
+			this.$confirm("是否修改该设置")
+				.then(() => {
+					console.log("sure");
+				})
+				.catch(() => {
+					console.log("no");
+				});
 		},
 		search() {
 			this.options.search = false;
@@ -835,6 +902,14 @@ export default {
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
+		//对话框
+		handleClose(done) {
+			this.$confirm("确认关闭？")
+				.then(_ => {
+					done();
+				})
+				.catch(_ => {});
+		},
 		//根据经纬坐标点画轨迹
 		draw(value) {
 			const list = value;
@@ -996,6 +1071,24 @@ export default {
 			color: #fff;
 			font-size: 1.5vh;
 			width: 7vh;
+			height: 3vh;
+			font-family: Source Han Sans CN;
+			font-weight: bold;
+			opacity: 0.8;
+			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
+			cursor: pointer;
+		}
+		.menu4 {
+			position: absolute;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			right: 2vw;
+			top: 2vh;
+			color: #fff;
+			font-size: 1.5vh;
+			width: 3vh;
 			height: 3vh;
 			font-family: Source Han Sans CN;
 			font-weight: bold;
@@ -1345,6 +1438,10 @@ export default {
 						color: #a9ddee;
 					}
 					.item-num {
+						margin-top: 0.5vh;
+						border: 0.1vh solid #8fdffe;
+						border-radius: 1vh;
+						width: 4vw;
 						font-size: 1vw;
 						font-family: DIN;
 						font-weight: bold;

@@ -5,9 +5,15 @@ const state = {
 
 
 const mutations = {
-  SET_status_data: (state, data) => {
-    state.status_data = data
+  SET_STATUS_DATA: (state, status_data) => {
+    state.status_data = status_data
   }
+
+}
+
+const actions = {
+
+
 
 }
 
@@ -15,6 +21,7 @@ export default {
   namespaced: true,
   state,
   mutations,
+  actions
 
 }
 

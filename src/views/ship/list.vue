@@ -163,8 +163,7 @@ export default {
 			}
 		},
 		goToDetail(row) {
-			this.$router.push({ path: `/ship/detail/${row.deviceId}` });
-			localStorage.setItem("deviceId", row.deviceId);
+			this.$router.push({ path: `/ship/operation/${row.deviceId}` });
 		},
 		selectMap(row) {
 			this.$router.push({

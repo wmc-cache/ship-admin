@@ -4,7 +4,7 @@
 
 	<div class="body">
 		<div class="content">
-			<div class="menu1">首页总览</div>
+			<div class="menu1">数据总览</div>
 			<div
 				class="menu2"
 				@click="goOperation"
@@ -29,7 +29,10 @@
 
 					<div class="item1">
 						<div class="text">设备电量</div>
-						<div class="num">98%</div>
+						<div
+							v-if="status_data"
+							class="num"
+						>{{status_data.speed}}</div>
 					</div>
 					<div class="item2">
 						<div class="text">河道水深</div>
@@ -333,14 +336,34 @@ export default {
 	data() {
 		return {
 			lineChartData: lineChartData,
-			deviceId: null
+			deviceId: null,
+			status_data: null
 		};
+	},
+	computed: {
+		status() {
+			return this.$store.state.ship.status_data;
+		}
+	},
+	watch: {
+		status(value) {
+			this.status_data = value;
+		}
 	},
 	methods: {
 		initMap() {
+			let x;
+			let y;
+			if (this.status_data) {
+				x = this.status_data.current_lng_lat[0];
+				y = this.status_data.current_lng_lat[1];
+			} else {
+				x = 116.397428;
+				y = 39.90923;
+			}
 			var map = new AMap.Map("container", {
-				zoom: 10, //设置地图显示的缩放级别
-				center: [116.397428, 39.90923], //设置地图中心点坐标
+				zoom: 15, //设置地图显示的缩放级别
+				center: [x, y], //设置地图中心点坐标
 				mapStyle: "amap://styles/001a637581603985681831e1471630a5" //设置地图的显示样式
 			});
 		},
@@ -680,34 +703,5 @@ export default {
 			}
 		}
 	}
-}
-
-@media (min-device-width: 1024px) {
-}
-@media (min-device-width: 1100px) {
-}
-@media (min-device-width: 1280px) {
-}
-@media (min-device-width: 1366px) {
-}
-@media (min-device-width: 1440px) {
-}
-@media (min-device-width: 1440px) {
-}
-@media (min-device-width: 1920px) {
-	.body {
-		width: 100vw;
-		height: 100vh;
-		background: #223957;
-		.content {
-			width: 99vw;
-			height: 99vh;
-			border: 1px solid #4081c4;
-		}
-	}
-}
-@media (min-device-width: 2560px) {
-}
-@media (min-device-width: 4096px) {
 }
 </style>
