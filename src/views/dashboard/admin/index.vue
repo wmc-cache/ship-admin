@@ -2,11 +2,11 @@
 	<div class="dashboard-editor-container">
 
 		<panel-group @handleSetLineChartData="handleSetLineChartData" />
-		<pie-chart></pie-chart>
+		<!-- <pie-chart></pie-chart>
 		<raddar-chart></raddar-chart>
 		<el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
 			<line-chart :chart-data="lineChartData" />
-		</el-row>
+		</el-row> -->
 	</div>
 </template>
 <script>

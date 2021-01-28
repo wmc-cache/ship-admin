@@ -16,13 +16,6 @@
 			/>
 
 			<el-table-column
-				label="longitudeLatitude"
-				prop="longitudeLatitude"
-				align="center"
-				width="200"
-			/>
-
-			<el-table-column
 				label="操作"
 				align="center"
 				width="200"
@@ -46,7 +39,7 @@
 </template>
 
 <script>
-import { getMapList } from "@/api/ship";
+import { getMapListShow } from "@/api/ship";
 
 export default {
 	data() {
@@ -56,15 +49,16 @@ export default {
 	},
 	async mounted() {
 		const deviceId = this.$route.params.deviceId;
-		getMapList(deviceId).then(res => {
-			console.log(res.data);
+		getMapListShow(deviceId).then(res => {
 			this.MapList = res.data.mapList;
 		});
 	},
 	methods: {
 		goToDetail(row) {
 			const deviceId = this.$route.params.deviceId;
-			this.$router.push({ path: `/equipment/showData/${deviceId}/${row.id}` });
+			this.$router.push({
+				path: `/showWaterData/${deviceId}/${row.id}`
+			});
 		}
 	}
 };

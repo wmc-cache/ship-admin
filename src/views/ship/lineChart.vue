@@ -40,8 +40,7 @@ export default {
 	},
 	data() {
 		return {
-			chart: null,
-			x: []
+			chart: null
 		};
 	},
 	watch: {
@@ -66,12 +65,12 @@ export default {
 	},
 	methods: {
 		initChart() {
-			//	console.log(this.$el);
 			this.chart = echarts.init(this.$el, "macarons");
 			this.setOptions(this.chartData);
 		},
 		setOptions(chartData, title) {
 			this.chart.setOption({
+				tooltip: { show: true },
 				title: {
 					text: title,
 					left: "40%",
@@ -81,8 +80,7 @@ export default {
 					}
 				},
 				xAxis: {
-					type: "category",
-					data: this.x
+					type: "category"
 				},
 				yAxis: { type: "value" },
 				series: [

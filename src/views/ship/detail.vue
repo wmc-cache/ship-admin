@@ -5,11 +5,14 @@
 	<div class="body">
 		<div class="content">
 			<div class="menu1">首页总览</div>
-			<div class="menu2">数据展示</div>
 			<div
-				class="menu3"
+				class="menu2"
 				@click="goOperation"
 			>设备操作</div>
+			<div
+				@click="goIndex"
+				class="menu3"
+			>返回</div>
 			<!-- header -->
 			<div class="header">
 
@@ -344,6 +347,11 @@ export default {
 		goOperation() {
 			this.$router.push({
 				path: `/ship/operation/${this.deviceId}`
+			});
+		},
+		goIndex() {
+			this.$router.push({
+				path: `/equipment/ship/list`
 			});
 		}
 	}

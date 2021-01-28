@@ -8,11 +8,11 @@
 				class="menu1"
 				@click="goHome"
 			>首页总览</div>
+			<div class="menu2">设备操作</div>
 			<div
-				class="menu2"
-				@click="goData"
-			>数据展示</div>
-			<div class="menu3">设备操作</div>
+				@click="goIndex"
+				class="menu3"
+			> 返回</div>
 			<!-- header -->
 			<div class="header">
 
@@ -213,13 +213,13 @@
 									>
 										寻点
 									</div>
-									<div
+									<!-- <div
 										@click="setOptions('ring')"
 										class="item"
 										:class="{active:options.ring}"
 									>
 										环湖
-									</div>
+									</div> -->
 
 								</div>
 							</dv-border-box-10>
@@ -263,10 +263,17 @@
 					</div>
 					<div class="right2">
 						<dv-border-box-10>
-							<div class="title">状态
+							<div class="title">
 								<div v-if="!sureMap">点击湖中心一点确定湖泊轮廓</div>
-								<!-- <div v-if="startTip.singleStart">单点模式已配置好,请点击启动</div>
-								<div v-if="startTip.doubleStart">多点模式已配置好,请点击启动</div> -->
+								<div
+									@click="search"
+									class="draw"
+									v-if="options.search"
+								>开始寻点</div>
+								<div v-if="message">距离下一个目标点距离:{{message.distance}}</div>
+								<div v-if="message"> 路径规划提示消息:{{message.path_info}}</div>
+								<div v-if="message">船执行手动控制提示消息:{{message.control_info}}</div>
+								<div v-if="message">水泵:{{message.draw_info}}</div>
 							</div>
 						</dv-border-box-10>
 					</div>
@@ -275,6 +282,7 @@
 							<div class="title">控制</div>
 							<div class="order-list">
 								<div
+									@click="shuiBeng"
 									v-waves
 									class="item"
 								>
@@ -282,37 +290,10 @@
 										src="../../assets/水泵.png"
 										alt=""
 									>
-									<div class="tip">水泵</div>
-								</div>
-								<div
-									v-waves
-									class="item"
-								>
-									<img
-										src="../../assets/水泵.png"
-										alt=""
-									>
-									<div class="tip">水泵</div>
-								</div>
-								<div
-									v-waves
-									class="item"
-								>
-									<img
-										src="../../assets/水泵.png"
-										alt=""
-									>
-									<div class="tip">水泵</div>
-								</div>
-								<div
-									v-waves
-									class="item"
-								>
-									<img
-										src="../../assets/水泵.png"
-										alt=""
-									>
-									<div class="tip">水泵</div>
+									<div
+										v-if="message"
+										class="tip"
+									>水泵:{{message.draw_info}}</div>
 								</div>
 
 							</div>
@@ -370,6 +351,7 @@
 import MQTT from "paho-mqtt";
 import waves from "@/directive/waves";
 import { getMapList } from "../../api/ship";
+import { fmt } from "../../utils/date";
 export default {
 	mounted() {
 		//this.connection.clientId = this.$store.state.user.name;
@@ -387,6 +369,7 @@ export default {
 	directives: { waves },
 	data() {
 		return {
+			fmt: fmt, //时间格式化
 			sureMap: false, //湖泊是否确定
 			x: null, //当前船的实时位置
 			y: null, //当前船的实时位置
@@ -401,6 +384,8 @@ export default {
 			doublePreX: null, //前一刻多点实时位置
 			doublePreY: null, //前一刻多点实时位置
 			currentList: [],
+			message: null, //提示信息
+			isSwitch: null, //开关信息
 			//航行配置
 			options: {
 				single: true,
@@ -418,6 +403,14 @@ export default {
 				return value;
 			} else {
 				return "暂无";
+			}
+		},
+		switchFilter(value) {
+			if (value == 1) {
+				return "开启中";
+			}
+			if (value == 2) {
+				return "已关闭";
 			}
 		}
 	},
@@ -457,6 +450,10 @@ export default {
 			this.client.subscribe(`pool_info_${this.deviceId}`);
 			//订阅路线规划
 			this.client.subscribe(`path_planning_${this.deviceId}`);
+			//订阅提示信息
+			this.client.subscribe(`notice_info_${this.deviceId}`);
+			//订阅开关信息
+			this.client.subscribe(`switch_${this.deviceId}`);
 		},
 		//MQTT接收到消息
 		onMessageArrived(message) {
@@ -465,6 +462,7 @@ export default {
 			//接收状态数据
 			if (`${message.topic}` == `status_data_${this.deviceId}`) {
 				this.status_data = JSON.parse(message.payloadString);
+				//this.$store.commit("SET_status_data", this.status_data);
 				console.log(this.status_data);
 				if (this.status_data && this.status_data.current_lng_lat) {
 					this.x = this.status_data.current_lng_lat[0];
@@ -473,6 +471,12 @@ export default {
 				if (!this.map) {
 					this.initMap();
 				}
+				if (this.status_data.home_lng_lat) {
+					this.home(
+						this.status_data.home_lng_lat[0],
+						this.status_data.home_lng_lat[1]
+					);
+				}
 			}
 			//接收湖泊信息
 			if (`${message.topic}` == `pool_info_${this.deviceId}`) {
@@ -480,7 +484,7 @@ export default {
 				console.log("mapId", this.pool_info.mapId);
 				if (this.pool_info.mapId) {
 					getMapList(this.pool_info.mapId).then(res => {
-						this.draw(JSON.parse(res.data.mapList.mapData));
+						this.draw(JSON.parse(res.data.mapList[0].mapData));
 						this.sureMap = true;
 					});
 				}
@@ -493,6 +497,14 @@ export default {
 				});
 				this.draw(JSON.parse(message.payloadString).path_points);
 				this.doubleList = [];
+			}
+			//接收提示信息
+			if (`${message.topic}` == `notice_info_${this.deviceId}`) {
+				this.message = JSON.parse(message.payloadString);
+			}
+			//接收开关信息
+			if (`${message.topic}` == `switch_${this.deviceId}`) {
+				this.isSwitch = JSON.parse(message.payloadString);
 			}
 		},
 		//MQTT断开连接
@@ -541,14 +553,41 @@ export default {
 				2
 			);
 		},
+		//水泵操作
+		shuiBeng() {
+			if (this.message.draw_info == 0) {
+				this.client.send(
+					`switch_${this.deviceId}`,
+					JSON.stringify({ b_draw: 1 }),
+					2
+				);
+				return;
+			}
+			if (this.message.draw_info == 1) {
+				this.client.send(
+					`switch_${this.deviceId}`,
+					JSON.stringify({ b_draw: 0 }),
+					2
+				);
+				return;
+			}
+		},
+		search() {
+			this.options.search = false;
+			this.client.send(
+				`start_${this.deviceId}`,
+				JSON.stringify({ search_pattern: "start" }),
+				2
+			);
+		},
 		goHome() {
 			this.$router.push({
 				path: `/ship/detail/${this.deviceId}`
 			});
 		},
-		goData() {
+		goIndex() {
 			this.$router.push({
-				path: `/showWaterData/${this.deviceId}/1`
+				path: `/equipment/ship/list`
 			});
 		},
 		setOptions(value) {
@@ -832,6 +871,21 @@ export default {
 			});
 			this.map.add(planMarker);
 		},
+		home(x, y) {
+			const planIcon = new AMap.Icon({
+				size: new AMap.Size(40, 50), // 图标尺寸
+				image: "http://101.37.119.148:3000/backhome.png", // Icon的图像
+				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+			});
+			const planMarker = new AMap.Marker({
+				position: new AMap.LngLat(x, y),
+				offset: new AMap.Pixel(-20, -20),
+				icon: planIcon,
+				title: "home",
+				zoom: 13
+			});
+			this.map.add(planMarker);
+		},
 		//方向
 		direction(value) {
 			if (value == "top") {
@@ -863,31 +917,6 @@ export default {
 					2
 				);
 			}
-		},
-		fmt(date) {
-			let fmt = "yyyy-MM-dd hh:mm:ss";
-			const o = {
-				"M+": date.getMonth() + 1, // 月份
-				"d+": date.getDate(), // 日
-				"h+": date.getHours(), // 小时
-				"m+": date.getMinutes(), // 分钟
-				"s+": date.getSeconds() // 秒
-			};
-
-			if (/(y+)/.test(fmt)) {
-				fmt = fmt.replace(RegExp.$1, date.getFullYear());
-			}
-			for (let k in o) {
-				if (new RegExp("(" + k + ")").test(fmt)) {
-					fmt = fmt.replace(
-						RegExp.$1,
-						o[k].toString().length == 1 ? "0" + o[k] : o[k]
-					);
-				}
-			}
-
-			// console.log(fmt)
-			return fmt;
 		}
 	}
 };
@@ -897,6 +926,9 @@ export default {
 #container {
 	width: 64vw;
 	height: 56vh;
+}
+.draw {
+	cursor: pointer;
 }
 
 .body {
@@ -940,8 +972,8 @@ export default {
 			position: absolute;
 			right: 12vw;
 			top: 2vh;
-			background: #245098;
-			border: 0.1vh solid #4081c4;
+			background: linear-gradient(0deg, #ffa128 0%, #b57700 50%, #ffa128 100%);
+			//border: 0.1vh solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
 			width: 7vh;
@@ -960,7 +992,7 @@ export default {
 			position: absolute;
 			right: 6vw;
 			top: 2vh;
-			background: linear-gradient(0deg, #ffa128 0%, #b57700 50%, #ffa128 100%);
+			background: #245098;
 			color: #fff;
 			font-size: 1.5vh;
 			width: 7vh;
