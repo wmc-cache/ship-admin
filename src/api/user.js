@@ -30,3 +30,19 @@ export function logout() {
     method: 'post'
   })
 }
+
+//获取管理用户分页列表
+export function getUserList() {
+  return request({
+    url: "/admin/xxl/user/1/10",
+    method: "get"
+  })
+}
+//新增用户
+export function addUser() {
+  return request({
+    url: "/admin/xxl/user/save",
+    method: "post"
+  })
+}
+

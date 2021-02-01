@@ -109,28 +109,22 @@ export const asyncRoutes = [
     ]
   },
   {
-    path: '/map',
+    path: '/user',
     component: Layout,
-    redirect: '/map/list',
-    name: 'map',
+    redirect: '/user/list',
+    name: 'user',
     meta: {
-      title: '地图管理',
+      title: '用户管理',
       icon: 'documentation'
     },
     children: [
       {
         path: 'list',
-        component: () => import('@/views/map/list'),
-        name: 'mapList',
-        meta: { title: '地图管理列表', icon: 'list', noCache: true }
-      },
-      {
-        path: 'detail',
-        component: () => import('@/views/map/detail'),
-        name: 'mapDetail',
-        meta: { title: '地图详情', icon: 'guide', noCache: true },
-        hidden: true
+        component: () => import('@/views/users/list'),
+        name: 'userList',
+        meta: { title: '用户管理列表', icon: 'list', noCache: true }
       }
+
 
 
     ]
