@@ -10,7 +10,51 @@
 			width="50%"
 			:before-close="handleClose"
 		>
-			<span>这是一段信息</span>
+			<button @click="reset">重置</button>
+			<div>
+				电机停转:<input v-model="height_setting.stop_pwm" />
+				检查船状态间隔:<input v-model="height_setting.check_status_interval" />
+			</div>
+			<div>
+				检查网络连接状态间隔:<input v-model="height_setting.check_network_interval" />
+				查找数量:<input v-model="height_setting.find_points_num" />
+			</div>
+			<div>
+				前进最大速度:<input v-model="height_setting.max_pwm" />
+				后退最大速度:<input v-model="height_setting.min_pwm" />
+			</div>
+			<div>
+				pid间隔:<input v-model="height_setting.pid_interval" />
+				电机前进分量:<input v-model="height_setting.motor_forward" />
+			</div>
+
+			<div>
+				断网返航:<input v-model="height_setting.network_backhome" />
+				剩余电量返航:<input v-model="height_setting.energy_backhome" />
+			</div>
+
+			<div>
+				左电机正反桨页设置:<input v-model="height_setting.left_motor_cw" />
+				右电机正反桨页设置:<input v-model="height_setting.right_motor_cw" />
+			</div>
+
+			<div>
+				大于多少米全速前进:<input v-model="height_setting.full_speed_meter" />
+				kp:<input v-model="height_setting.kp" />
+			</div>
+			<div>
+				ki:<input v-model="height_setting.ki" />
+				kd:<input v-model="height_setting.kd" />
+			</div>
+			<div>
+				抽水时间:<input v-model="height_setting.draw_time" />
+				开机前等待时间:<input v-model="height_setting.start_sleep_time" />
+			</div>
+			<div>
+				电机初始化时间:<input v-model="height_setting.motor_init_time" />
+				电机转弯分量:<input v-model="height_setting.motor_steer" />
+			</div>
+
 			<span
 				slot="footer"
 				class="dialog-footer"
@@ -18,23 +62,23 @@
 				<el-button @click="dialogVisible = false">取 消</el-button>
 				<el-button
 					type="primary"
-					@click="dialogVisible = false"
+					@click="settingSure"
 				>确 定</el-button>
 			</span>
 		</el-dialog>
 
 		<div class="content">
-			<div
+			<!-- <div
 				class="menu1"
 				@click="goHome"
-			>数据总览</div>
+			>数据总览</div> -->
 			<div class="menu2">设备操作</div>
 			<div
 				@click="goIndex"
 				class="menu3"
 			> 返回</div>
 			<img
-				@click="dialogVisible = true"
+				@click="dialog"
 				class="menu4"
 				src="../../assets/setting.png"
 				alt=""
@@ -299,7 +343,7 @@
 								<div v-if="message">距离下一个目标点距离:{{message.distance}}</div>
 								<div v-if="message"> 路径规划提示消息:{{message.path_info}}</div>
 								<div v-if="message">船执行手动控制提示消息:{{message.control_info}}</div>
-								<div v-if="message">水泵:{{message.draw_info}}</div>
+								<!-- <div v-if="message">水泵:{{message.draw_info}}</div> -->
 							</div>
 						</dv-border-box-10>
 					</div>
@@ -328,7 +372,7 @@
 					</div>
 					<div class="right4">
 						<dv-border-box-10>
-							<div class="title">设置
+							<div class="title">
 
 							</div>
 
@@ -339,7 +383,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.row"
 									>
 
 								</div>
@@ -349,7 +393,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.col"
 									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -358,7 +402,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.secure_distance"
 									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -367,7 +411,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.speed_grade"
 									>
 								</div>
 								<div style="width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -376,7 +420,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.arrive_range"
 									>
 								</div>
 								<div style="	width: 8vw;height: 6vh;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -385,7 +429,7 @@
 										@change="setting"
 										class="item-num"
 										type="text"
-										value="798"
+										v-model="base_setting.keep_point"
 									>
 								</div>
 
@@ -415,6 +459,7 @@ export default {
 		this.deviceId = this.$route.params.deviceId;
 		//this.initTest();
 		this.initMqtt();
+
 		if (!this.map) {
 			this.initMap();
 		}
@@ -426,6 +471,7 @@ export default {
 	directives: { waves },
 	data() {
 		return {
+			isFirst: true,
 			fmt: fmt, //时间格式化
 			sureMap: false, //湖泊是否确定
 			x: null, //当前船的实时位置
@@ -444,6 +490,36 @@ export default {
 			message: null, //提示信息
 			isSwitch: null, //开关信息
 			dialogVisible: false,
+			base_setting: {
+				row: "1", //行间隔
+				col: "2", //列间隔
+				speed_grade: "3", //手动速度档位
+				secure_distance: "4", //离岸安全距离
+				arrive_range: "5", //到达范围
+				keep_point: "6" //保存规划点
+			},
+			height_setting: {
+				stop_pwm: 1, //电机停转
+				check_status_interval: 2, //检查船状态间隔 单位秒
+				check_network_interval: 3, //检查网络连接状态间隔
+				find_points_num: 4, //查找数量
+				max_pwm: 5, // 前进最大速度
+				min_pwm: 6, //后退最大速度
+				pid_interval: 7, // pid间隔
+				network_backhome: 8, //断网返航
+				energy_backhome: 9, //剩余电量返航
+				left_motor_cw: 10, //左电机正反桨页设置
+				right_motor_cw: 11, //右电机正反桨页设置
+				motor_forward: 12, // 电机前进分量
+				motor_steer: 13, //电机转弯分量
+				full_speed_meter: 14, //大于多少米全速前进
+				kp: 15, //
+				ki: 16, //
+				kd: 17, //
+				draw_time: 18, //抽水时间
+				start_sleep_time: 19, //开机前等待时间
+				motor_init_time: 20 //电机初始化时间
+			},
 			//航行配置
 			options: {
 				single: true,
@@ -512,6 +588,18 @@ export default {
 			this.client.subscribe(`notice_info_${this.deviceId}`);
 			//订阅开关信息
 			this.client.subscribe(`switch_${this.deviceId}`);
+			//订阅基础信息
+			this.client.subscribe(`base_setting_${this.deviceId}`);
+			//订阅高级信息
+			this.client.subscribe(`height_setting_${this.deviceId}`);
+			//获取基础信息
+			this.client.send(
+				`base_setting_${this.deviceId}`,
+				JSON.stringify({
+					info_type: 1
+				}),
+				2
+			);
 		},
 		//MQTT接收到消息
 		onMessageArrived(message) {
@@ -563,6 +651,20 @@ export default {
 			//接收开关信息
 			if (`${message.topic}` == `switch_${this.deviceId}`) {
 				this.isSwitch = JSON.parse(message.payloadString);
+			}
+			//订阅高级信息
+			if (`${message.topic}` == `height_setting_${this.deviceId}`) {
+				if (JSON.parse(message.payloadString).info_type == 3) {
+					this.height_setting = JSON.parse(message.payloadString);
+					console.log(this.height_setting);
+				}
+			}
+			//订阅初级信息
+			if (`${message.topic}` == `base_setting_${this.deviceId}`) {
+				if (JSON.parse(message.payloadString).info_type == 3) {
+					this.base_setting = JSON.parse(message.payloadString);
+					console.log(this.base_setting);
+				}
 			}
 		},
 		//MQTT断开连接
@@ -634,16 +736,56 @@ export default {
 			this.$confirm("是否修改该设置")
 				.then(() => {
 					console.log("sure");
+					this.client.send(
+						`base_setting_${this.deviceId}`,
+						JSON.stringify({
+							info_type: 2,
+							row: this.base_setting.row,
+							col: this.base_setting.col,
+							speed_grade: this.base_setting.speed_grade,
+							secure_distance: this.base_setting.secure_distance,
+							arrive_range: this.base_setting.arrive_range,
+							keep_point: this.base_setting.keep_point
+						}),
+						2
+					);
+					console.log({
+						row: this.base_setting.row,
+						col: this.base_setting.col,
+						speed_grade: this.base_setting.speed_grade,
+						secure_distance: this.base_setting.secure_distance,
+						arrive_range: this.base_setting.arrive_range,
+						keep_point: this.base_setting.keep_point
+					});
 				})
 				.catch(() => {
 					console.log("no");
 				});
 		},
+		reset() {
+			this.client.send(
+				`height_setting_${this.deviceId}`,
+				JSON.stringify({ info_type: 4 }),
+				2
+			);
+			console.log({ info_type: 4 });
+			this.dialogVisible = false;
+		},
+		settingSure() {
+			this.client.send(
+				`height_setting_${this.deviceId}`,
+				JSON.stringify({ ...this.height_setting, info_type: 2 }),
+				2
+			);
+			console.log({ ...this.height_setting, info_type: 2 });
+			this.dialogVisible = false;
+		},
+		//寻点模式开始
 		search() {
 			this.options.search = false;
 			this.client.send(
 				`start_${this.deviceId}`,
-				JSON.stringify({ search_pattern: "start" }),
+				JSON.stringify({ search_pattern: 1 }),
 				2
 			);
 		},
@@ -727,6 +869,17 @@ export default {
 			}
 			//console.log(e.lnglat.lng, e.lnglat.lat, e.pixel);
 		},
+		dialog() {
+			this.dialogVisible = true;
+			//获取高级信息
+			this.client.send(
+				`height_setting_${this.deviceId}`,
+				JSON.stringify({
+					info_type: 1
+				}),
+				2
+			);
+		},
 		//实时更新船的位置
 		initPoint() {
 			if (this.prePoint) {
@@ -748,8 +901,10 @@ export default {
 			});
 			this.prePoint = marker;
 			this.map.add(marker);
-
-			//this.map.setFitView();
+			if (this.isFirst) {
+				this.isFirst = false;
+				this.map.setFitView();
+			}
 		},
 		//单点模式
 		single(e) {
@@ -894,7 +1049,7 @@ export default {
 		},
 		//测试方法
 		initTest() {
-			this.x = 114.431408;
+			this.x = 115.431408;
 			this.y = 30.523486;
 			setInterval(() => {
 				this.x += 0.01;
@@ -944,6 +1099,7 @@ export default {
 				title: "采样点",
 				zoom: 13
 			});
+
 			this.map.add(planMarker);
 		},
 		home(x, y) {
