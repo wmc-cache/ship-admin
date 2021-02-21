@@ -68,10 +68,10 @@
 		</el-dialog>
 
 		<div class="content">
-			<!-- <div
+			<div
 				class="menu1"
 				@click="goHome"
-			>数据总览</div> -->
+			>数据总览</div>
 			<div class="menu2">设备操作</div>
 			<div
 				@click="goIndex"

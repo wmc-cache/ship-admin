@@ -39,10 +39,11 @@ export function getUserList() {
   })
 }
 //新增用户
-export function addUser() {
+export function addUser(data) {
   return request({
     url: "/admin/xxl/user/save",
-    method: "post"
+    method: "post",
+    data
   })
 }
 
