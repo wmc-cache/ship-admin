@@ -28,21 +28,21 @@
 				<div class="tip-item">
 
 					<div class="item1">
-						<div class="text">设备电量</div>
+						<div class="text">速度</div>
 						<div
 							v-if="status_data"
 							class="num"
 						>{{status_data.speed}}</div>
 					</div>
 					<div class="item2">
-						<div class="text">河道水深</div>
-						<div class="num">2m</div>
+						<div class="text">设备电量</div>
+						<div class="num">{{status_data.dump_energy}}</div>
 					</div>
 
 					<div class="item3">
 
-						<div class="text">紧急预警</div>
-						<div class="num">正常</div>
+						<div class="text">船头方向</div>
+						<div class="num">{{status_data.direction}}</div>
 
 					</div>
 
@@ -56,7 +56,7 @@
 						<dv-border-box-10>
 
 							<div class="title">气象数据</div>
-							<div class="time">2002年1月7日 &nbsp&nbsp 星期四 &nbsp&nbsp 10:22:34</div>
+							<!-- <div class="time">2002年1月7日 &nbsp&nbsp 星期四 &nbsp&nbsp 10:22:34</div>
 							<div class="data-list">
 								<div class="data-item">
 									<div class="item-state">风速</div>
@@ -82,7 +82,7 @@
 									<div class="item-state">风速</div>
 									<div class="item-num">2级</div>
 								</div>
-							</div>
+							</div> -->
 						</dv-border-box-10>
 					</div>
 					<div class="left2">
@@ -99,6 +99,30 @@
 								</div>
 								<div class="icon-item">
 									<img
+										src="../../assets/2.png"
+										alt=""
+									>
+									<div class="text">船头方向</div>
+									<div class="num">{{status_data.direction}}</div>
+								</div>
+								<div class="icon-item">
+									<img
+										src="../../assets/3.png"
+										alt=""
+									>
+									<div class="text">设备电量</div>
+									<div class="num">{{status_data.dump_energy}}</div>
+								</div>
+								<div class="icon-item">
+									<img
+										src="../../assets/1.png"
+										alt=""
+									>
+									<div class="text">液位</div>
+									<div class="num">暂无</div>
+								</div>
+								<!-- <div class="icon-item">
+									<img
 										src="../../assets/1.png"
 										alt=""
 									>
@@ -106,6 +130,23 @@
 									<div class="num">暂无</div>
 								</div>
 								<div class="icon-item">
+									<img
+										src="../../assets/1.png"
+										alt=""
+									>
+									<div class="text">液位</div>
+									<div class="num">暂无</div>
+								</div>
+								<div class="icon-item">
+									<img
+										src="../../assets/1.png"
+										alt=""
+									>
+									<div class="text">液位</div>
+									<div class="num">暂无</div>
+								</div> -->
+								<!-- 分割 -->
+								<!-- <div class="icon-item">
 									<img
 										src="../../assets/1.png"
 										alt=""
@@ -144,47 +185,7 @@
 									>
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
-								</div>
-								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
-									<div class="text">液位</div>
-									<div class="num">暂无</div>
-								</div>
-								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
-									<div class="text">液位</div>
-									<div class="num">暂无</div>
-								</div>
-								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
-									<div class="text">液位</div>
-									<div class="num">暂无</div>
-								</div>
-								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
-									<div class="text">液位</div>
-									<div class="num">暂无</div>
-								</div>
-								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
-									<div class="text">液位</div>
-									<div class="num">暂无</div>
-								</div>
+								</div> -->
 
 							</div>
 						</dv-border-box-10>
@@ -224,7 +225,7 @@
 						<dv-border-box-10>
 							<div class="title">其它数据</div>
 							<div class="data-list">
-
+								<!--
 								<div class="data-item">
 									<dv-border-box-12>
 										<div style="	width: 8vw;height: 4vw;display: flex;flex-direction:column;justify-content:center;align-items: center;">
@@ -278,7 +279,7 @@
 										</div>
 
 									</dv-border-box-12>
-								</div>
+								</div> -->
 
 							</div>
 						</dv-border-box-10>
@@ -293,19 +294,24 @@
 
 						<line-chart
 							title="PH"
-							:chart-data="lineChartData"
+							:chart-data="PH"
 						/>
 						<line-chart
-							title="CO2"
-							:chart-data="lineChartData"
+							title="电导"
+							:chart-data="ec"
 						/>
 						<line-chart
-							title="PM10"
-							:chart-data="lineChartData"
+							title="浊度"
+							:chart-data="td"
 						/>
 						<line-chart
-							title="O2"
-							:chart-data="lineChartData"
+							title="水温"
+							:chart-data="wt"
+						/>
+
+						<line-chart
+							title="溶解氧"
+							:chart-data="DO"
 						/>
 
 					</div>
@@ -320,52 +326,177 @@
 </template>
 
 <script>
+import MQTT from "paho-mqtt";
 import LineChart from "@/views/ship/lineChart";
 const lineChartData = [8, 19, 29, 19, 12, 13, 13, 11, 22];
 export default {
 	mounted() {
+		//this.initTest();
+		this.initMqtt();
 		this.initMap();
 		this.deviceId = this.$route.params.deviceId;
-		setInterval(() => {
-			lineChartData.push(Math.random() * 100);
-		}, 1000);
+		this.$nextTick(() => {
+			let player = new EZUIPlayer("myPlayer");
+		});
+		// setInterval(() => {
+		// 	if (this.DO) {
+		// 		this.DO.push(Math.random() * 100);
+		// 	}
+		// }, 1000);
 	},
 	components: {
 		LineChart
 	},
 	data() {
 		return {
-			lineChartData: lineChartData,
+			isFirst: true,
+			client: null, //MQTT实例
+			prePoint: null, //前一刻船图标的位置
+			x: null,
+			y: null,
+			map: null,
+			// lineChartData: lineChartData,
 			deviceId: null,
-			status_data: null
+			status_data: null,
+			status_data: {}, //状态数据
+			detect_data: {}, //探测数据
+			PH: [],
+			ec: [], //电导
+			td: [], //浊度
+			wt: [], //水温
+			DO: [] //溶解氧
 		};
 	},
 	computed: {
-		status() {
-			return this.$store.state.ship.status_data;
+		Point() {
+			const { x, y } = this;
+			return [x, y];
 		}
 	},
 	watch: {
-		status(value) {
-			this.status_data = value;
+		Point(value) {
+			if (value[0] != 114.431408) {
+				this.initPoint();
+			}
 		}
 	},
+	// computed: {
+	// 	status() {
+	// 		return this.$store.state.ship.status_data;
+	// 	}
+	// },
+	// watch: {
+	// 	status(value) {
+	// 		this.status_data = value;
+	// 	}
+	// },
 	methods: {
+		//MQTT连接初始化
+		initMqtt() {
+			const ID = Math.random().toFixed(3);
+			this.client = new MQTT.Client("47.97.183.24", Number(8083), ID);
+			console.log(this.client);
+			this.client.onMessageArrived = this.onMessageArrived;
+			this.client.onConnectionLost = this.onConnectionLost;
+			this.client.connect({ onSuccess: this.onConnect });
+		},
+		//MQTT连接成功
+		onConnect() {
+			console.log("onConnect");
+			//订阅状态数据
+			this.client.subscribe(`status_data_${this.deviceId}`);
+			//订阅探测数据
+			this.client.subscribe(`detect_data_${this.deviceId}`);
+		},
+		//MQTT接收到消息
+		onMessageArrived(message) {
+			//	console.log(`onMessageArrived:${message.payloadString}`);
+			console.log(`"topic" ${message.topic}`);
+			//接收状态数据
+			if (`${message.topic}` == `status_data_${this.deviceId}`) {
+				this.status_data = JSON.parse(message.payloadString);
+
+				console.log(this.status_data);
+				if (this.status_data && this.status_data.current_lng_lat) {
+					this.x = this.status_data.current_lng_lat[0];
+					this.y = this.status_data.current_lng_lat[1];
+				}
+				if (!this.map) {
+					this.initMap();
+				}
+				// if (this.status_data.home_lng_lat) {
+				// 	this.home(
+				// 		this.status_data.home_lng_lat[0],
+				// 		this.status_data.home_lng_lat[1]
+				// 	);
+				// }
+			}
+			//接收探测数据
+			if (`${message.topic}` == `detect_data_${this.deviceId}`) {
+				this.detect_data = JSON.parse(message.payloadString);
+				this.PH.push(this.detect_data.water.ph);
+				this.ec.push(this.detect_data.water.ec);
+				this.td.push(this.detect_data.water.td);
+				this.wt.push(this.detect_data.water.wt);
+				this.DO.push(this.detect_data.water.doDO);
+
+				console.log(this.detect_data);
+			}
+		},
+		//MQTT断开连接
+		onConnectionLost(responseObject) {
+			console.log(responseObject);
+			if (responseObject.errorCode !== 0) {
+				console.log("onConnectionLost:" + responseObject.errorMessage);
+			}
+		},
 		initMap() {
-			let x;
-			let y;
-			if (this.status_data) {
-				x = this.status_data.current_lng_lat[0];
-				y = this.status_data.current_lng_lat[1];
-			} else {
-				x = 116.397428;
-				y = 39.90923;
+			if (!this.x && !this.y) {
+				this.x = 114.431408;
+				this.y = 30.523486;
 			}
 			var map = new AMap.Map("container", {
-				zoom: 15, //设置地图显示的缩放级别
-				center: [x, y], //设置地图中心点坐标
+				zoom: 13,
+				center: [this.x, this.y],
 				mapStyle: "amap://styles/001a637581603985681831e1471630a5" //设置地图的显示样式
 			});
+			this.map = map;
+		},
+		//实时更新船的位置
+		initPoint() {
+			if (this.prePoint) {
+				this.map.remove(this.prePoint);
+			}
+			var icon = new AMap.Icon({
+				size: new AMap.Size(40, 50), // 图标尺寸
+				image: "http://101.37.119.148:3000/ship.png", // Icon的图像
+				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+			});
+
+			// 将 Icon 实例添加到 marker 上:
+			var marker = new AMap.Marker({
+				position: new AMap.LngLat(this.x, this.y),
+				offset: new AMap.Pixel(-25, -25),
+				icon: icon,
+				title: "行星轮",
+				zoom: 13
+			});
+			this.prePoint = marker;
+			this.map.add(marker);
+			if (this.isFirst) {
+				this.isFirst = false;
+				this.map.setFitView();
+			}
+		},
+		//测试方法
+		initTest() {
+			this.x = 115.431408;
+			this.y = 30.523486;
+			setInterval(() => {
+				this.x += 0.01;
+				this.y += 0.01;
+				this.initPoint(this.x, this.y);
+			}, 2000);
 		},
 		goOperation() {
 			this.$router.push({

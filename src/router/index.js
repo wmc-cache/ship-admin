@@ -108,27 +108,27 @@ export const asyncRoutes = [
 
     ]
   },
-  {
-    path: '/user',
-    component: Layout,
-    redirect: '/user/list',
-    name: 'user',
-    meta: {
-      title: '用户管理',
-      icon: 'documentation'
-    },
-    children: [
-      {
-        path: 'list',
-        component: () => import('@/views/users/list'),
-        name: 'userList',
-        meta: { title: '用户管理列表', icon: 'list', noCache: true }
-      }
+  // {
+  //   path: '/user',
+  //   component: Layout,
+  //   redirect: '/user/list',
+  //   name: 'user',
+  //   meta: {
+  //     title: '用户管理',
+  //     icon: 'documentation'
+  //   },
+  //   children: [
+  //     {
+  //       path: 'list',
+  //       component: () => import('@/views/users/list'),
+  //       name: 'userList',
+  //       meta: { title: '用户管理列表', icon: 'list', noCache: true }
+  //     }
 
 
 
-    ]
-  },
+  //   ]
+  // },
   {
     path: '/ship/detail/:deviceId',
     component: () => import('@/views/ship/detail'),

@@ -813,6 +813,7 @@ export default {
 				);
 			}
 			if (value == "single") {
+				this.options.search = false;
 				if (this.options[value] == true) {
 					this.options[value] = false;
 					this.options.double = true;
@@ -824,6 +825,7 @@ export default {
 				}
 			}
 			if (value == "double") {
+				this.options.search = false;
 				if (this.options[value] == true) {
 					this.options[value] = false;
 					this.options.single = true;
