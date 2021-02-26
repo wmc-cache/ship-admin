@@ -8,9 +8,11 @@
 			<div
 				class="menu2"
 				@click="goOperation"
+				@touchstart="goOperation"
 			>设备操作</div>
 			<div
 				@click="goIndex"
+				@touchstart="goIndex"
 				class="menu3"
 			>返回</div>
 			<!-- header -->
@@ -438,7 +440,7 @@ export default {
 				this.ec.push(this.detect_data.water.ec);
 				this.td.push(this.detect_data.water.td);
 				this.wt.push(this.detect_data.water.wt);
-				this.DO.push(this.detect_data.water.doDO);
+				this.DO.push(this.detect_data.water.doDo);
 
 				console.log(this.detect_data);
 			}

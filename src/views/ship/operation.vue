@@ -70,11 +70,13 @@
 		<div class="content">
 			<div
 				class="menu1"
+				@touchstart="goHome"
 				@click="goHome"
 			>数据总览</div>
 			<div class="menu2">设备操作</div>
 			<div
 				@click="goIndex"
+				@touchstart="goIndex"
 				class="menu3"
 			> 返回</div>
 			<img
@@ -134,6 +136,17 @@
 
 					</div>
 
+				</div>
+
+				<div
+					v-if="message&&message.mapId"
+					class="name"
+				>
+					当前选择位置:{{base_setting.pool_name|valueFilter}}
+					<div
+						class="reset"
+						@click="rename"
+					>重置选择位置</div>
 				</div>
 
 			</div>
@@ -343,7 +356,11 @@
 								<div v-if="message">距离下一个目标点距离:{{message.distance}}</div>
 								<div v-if="message"> 路径规划提示消息:{{message.path_info}}</div>
 								<div v-if="message">船执行手动控制提示消息:{{message.control_info}}</div>
-								<!-- <div v-if="message">水泵:{{message.draw_info}}</div> -->
+								<div v-if="message">低电量状态:{{message.low_dump_energy_warnning}}</div>
+								<div v-if="message">当前偏差角度:{{message.theta_error}}</div>
+								<div v-if="message">超声波距离 左侧 右侧:{{message.ultrasonic_distance}}</div>
+								<div v-if="message">遥控器是否启用:{{message.b_start_remote}}</div>
+								<div v-if="message"> 罗盘提示消息:{{message.compass_notice_info}}</div>
 							</div>
 						</dv-border-box-10>
 					</div>
@@ -496,7 +513,8 @@ export default {
 				speed_grade: "3", //手动速度档位
 				secure_distance: "4", //离岸安全距离
 				arrive_range: "5", //到达范围
-				keep_point: "6" //保存规划点
+				keep_point: "6", //保存规划点
+				pool_name: "" //湖泊名称
 			},
 			height_setting: {
 				stop_pwm: 1, //电机停转
@@ -592,6 +610,16 @@ export default {
 			this.client.subscribe(`base_setting_${this.deviceId}`);
 			//订阅高级信息
 			this.client.subscribe(`height_setting_${this.deviceId}`);
+			//订阅刷新后请求数据消息
+			this.client.subscribe(`refresh_${this.deviceId}`);
+			//
+			this.client.send(
+				`refresh_${this.deviceId}`,
+				JSON.stringify({
+					info_type: 1
+				}),
+				2
+			);
 			//获取基础信息
 			this.client.send(
 				`base_setting_${this.deviceId}`,
@@ -647,6 +675,7 @@ export default {
 			//接收提示信息
 			if (`${message.topic}` == `notice_info_${this.deviceId}`) {
 				this.message = JSON.parse(message.payloadString);
+				console.log(">>>>>>>", this.message);
 			}
 			//接收开关信息
 			if (`${message.topic}` == `switch_${this.deviceId}`) {
@@ -664,6 +693,27 @@ export default {
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.base_setting = JSON.parse(message.payloadString);
 					console.log(this.base_setting);
+				}
+			}
+			//订阅刷新后请求数据消息
+			if (`${message.topic}` == `refresh_${this.deviceId}`) {
+				if (JSON.parse(message.payloadString).info_type == 2) {
+					//console.log("!!!!", JSON.parse(message.payloadString));
+					if (JSON.parse(message.payloadString).mapId) {
+						getMapList(JSON.parse(message.payloadString).mapId).then(res => {
+							this.draw(JSON.parse(res.data.mapList[0].mapData));
+							this.sureMap = true;
+						});
+					}
+					if (JSON.parse(message.payloadString).sampling_points) {
+						JSON.parse(message.payloadString).sampling_points.forEach(ele => {
+							this.icon(ele[0], ele[1]);
+						});
+					}
+					if (JSON.parse(message.payloadString).path_points) {
+						this.draw(JSON.parse(message.payloadString).path_points);
+						this.doubleList = [];
+					}
 				}
 			}
 		},
@@ -731,6 +781,19 @@ export default {
 				);
 				return;
 			}
+		},
+		//重置湖泊
+		rename() {
+			this.client.send(
+				`reset_pool_${this.deviceId}`,
+				JSON.stringify({ reset_pool: 1 }),
+				2
+			);
+			this.sureMap = false;
+
+			setTimeout(() => {
+				location.reload();
+			}, 1000);
 		},
 		setting() {
 			this.$confirm("是否修改该设置")
@@ -1164,6 +1227,29 @@ export default {
 	cursor: pointer;
 }
 
+.name {
+	position: absolute;
+	top: 14vh;
+	left: 33vw;
+	color: #0096ff;
+	.reset {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: #245098;
+		margin-top: 0.5vh;
+		color: #fff;
+		font-size: 1.5vh;
+		width: 10vh;
+		height: 3vh;
+		font-family: Source Han Sans CN;
+		font-weight: bold;
+		opacity: 0.8;
+		text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
+		cursor: pointer;
+	}
+}
+
 .body {
 	overflow: hidden;
 	width: 100vw;
@@ -1516,9 +1602,9 @@ export default {
 				}
 				.right2 {
 					width: 25vw;
-					height: 18vh;
+					height: 21vh;
 					margin-left: 3vw;
-					margin-top: 7vh;
+					margin-top: 4vh;
 					//background-color: #0096ff;
 					.title {
 						position: absolute;

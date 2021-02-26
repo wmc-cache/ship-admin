@@ -32,3 +32,12 @@ export function getMapListShow(deviceId) {
 
   })
 }
+
+export function postMapName(mapId, name) {
+  return request({
+    url: '/admin/xxl/map/updata',
+    method: 'post',
+    params: { mapId, name }
+
+  })
+}
