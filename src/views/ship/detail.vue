@@ -91,14 +91,14 @@
 						<dv-border-box-10>
 							<div class="title">状态数据</div>
 							<div class="icon-list">
-								<div class="icon-item">
+								<!-- <div class="icon-item">
 									<img
 										src="../../assets/1.png"
 										alt=""
 									>
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
-								</div>
+								</div> -->
 								<div class="icon-item">
 									<img
 										src="../../assets/2.png"
@@ -115,14 +115,14 @@
 									<div class="text">设备电量</div>
 									<div class="num">{{status_data.dump_energy}}</div>
 								</div>
-								<div class="icon-item">
+								<!-- <div class="icon-item">
 									<img
 										src="../../assets/1.png"
 										alt=""
 									>
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
-								</div>
+								</div> -->
 								<!-- <div class="icon-item">
 									<img
 										src="../../assets/1.png"

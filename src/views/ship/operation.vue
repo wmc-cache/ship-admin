@@ -10,50 +10,122 @@
 			width="50%"
 			:before-close="handleClose"
 		>
-			<button @click="reset">重置</button>
-			<div>
-				电机停转:<input v-model="height_setting.stop_pwm" />
-				检查船状态间隔:<input v-model="height_setting.check_status_interval" />
-			</div>
-			<div>
-				检查网络连接状态间隔:<input v-model="height_setting.check_network_interval" />
-				查找数量:<input v-model="height_setting.find_points_num" />
-			</div>
-			<div>
-				前进最大速度:<input v-model="height_setting.max_pwm" />
-				后退最大速度:<input v-model="height_setting.min_pwm" />
-			</div>
-			<div>
-				pid间隔:<input v-model="height_setting.pid_interval" />
-				电机前进分量:<input v-model="height_setting.motor_forward" />
-			</div>
+			<el-button
+				@click="reset"
+				type="primary"
+			>重置</el-button>
 
-			<div>
-				断网返航:<input v-model="height_setting.network_backhome" />
-				剩余电量返航:<input v-model="height_setting.energy_backhome" />
-			</div>
+			<el-alert
+				title="时间设置类别"
+				type="success"
+				:closable="false"
+			>
+			</el-alert>
 
-			<div>
-				左电机正反桨页设置:<input v-model="height_setting.left_motor_cw" />
-				右电机正反桨页设置:<input v-model="height_setting.right_motor_cw" />
-			</div>
+			pid间隔:
 
-			<div>
-				大于多少米全速前进:<input v-model="height_setting.full_speed_meter" />
-				kp:<input v-model="height_setting.kp" />
-			</div>
-			<div>
-				ki:<input v-model="height_setting.ki" />
-				kd:<input v-model="height_setting.kd" />
-			</div>
-			<div>
-				抽水时间:<input v-model="height_setting.draw_time" />
-				开机前等待时间:<input v-model="height_setting.start_sleep_time" />
-			</div>
-			<div>
-				电机初始化时间:<input v-model="height_setting.motor_init_time" />
-				电机转弯分量:<input v-model="height_setting.motor_steer" />
-			</div>
+			<el-input
+				v-model="height_setting.pid_interval"
+				placeholder=""
+			/>
+			检查船状态间隔:
+
+			<el-input
+				v-model="height_setting.check_status_interval"
+				placeholder=""
+			/>
+			检查网络连接状态间隔:
+
+			<el-input
+				v-model="height_setting.check_network_interval"
+				placeholder=""
+			/>
+			抽水时间:
+			<el-input
+				v-model="height_setting.draw_time"
+				placeholder=""
+			/>
+			开机前等待时间:
+
+			<el-input
+				v-model="height_setting.start_sleep_time"
+				placeholder=""
+			/>
+			电机初始化时间:
+			<el-input
+				v-model="height_setting.motor_init_time"
+				placeholder=""
+			/>
+			检测间隔:
+
+			<el-input
+				v-model="height_setting.pix_interval"
+				placeholder=""
+			/>
+
+			<el-alert
+				title="电机设置类别"
+				type="info"
+				:closable="false"
+			>
+			</el-alert>
+			电机停转:
+			<el-input v-model="height_setting.stop_pwm" />
+			电机前进分量:
+			<el-input v-model="height_setting.motor_forward" />
+			左电机正反桨页设置:
+			<el-input v-model="height_setting.left_motor_cw" />
+			右电机正反桨页设置:
+			<el-input v-model="height_setting.right_motor_cw" />
+			kp:
+			<el-input v-model="height_setting.kp" />
+			ki:
+			<el-input v-model="height_setting.ki" />
+			kd:
+			<el-input v-model="height_setting.kd" />
+			电机转弯分量:
+			<el-input v-model="height_setting.motor_steer" />
+			大于多少米全速前进:
+			<el-input v-model="height_setting.full_speed_meter" />
+			前进最大速度:
+			<el-input v-model="height_setting.max_pwm" />
+			后退最大速度:
+			<el-input v-model="height_setting.min_pwm" />
+			<el-alert
+				title="路径设置类别"
+				type="warning"
+				:closable="false"
+			>
+			</el-alert>
+			路径跟踪方式:
+			<el-input v-model="height_setting.path_track_type" />
+			路径规划方式:
+			<el-input v-model="height_setting.path_plan_type" />
+			调试标志:
+			<el-input v-model="height_setting.home_debug" />
+			播放声音:
+			<el-input v-model="height_setting.b_play_audio" />
+			添加避障方式设置:
+			<el-input v-model="height_setting.obstacle_avoid_type" />
+			TSP优化路径:
+			<el-input v-model="height_setting.b_tsp" />
+			查找数量:
+			<el-input v-model="height_setting.find_points_num" />
+
+			<el-alert
+				title="重要状态设置类别"
+				type="error"
+				:closable="false"
+			>
+			</el-alert>
+			断网返航:
+			<el-input v-model="height_setting.network_backhome" />
+			剩余电量返航:
+			<el-input v-model="height_setting.energy_backhome" />
+			断网检查:
+			<el-input v-model="height_setting.b_check_network" />
+			校准罗盘:
+			<el-input v-model="height_setting.calibration_compass" />
 
 			<span
 				slot="footer"
@@ -536,7 +608,16 @@ export default {
 				kd: 17, //
 				draw_time: 18, //抽水时间
 				start_sleep_time: 19, //开机前等待时间
-				motor_init_time: 20 //电机初始化时间
+				motor_init_time: 20, //电机初始化时间
+
+				b_check_network: 21, //断网检查
+				b_tsp: 22, //
+				home_debug: 23, //调试标志
+				b_play_audio: 24, //添加避障方式设置
+				obstacle_avoid_type: 25, //路径规划方式
+				path_plan_type: 26, //路径规划方式
+				path_track_type: 27, //路径跟踪方式
+				calibration_compass: 28 //校准罗盘
 			},
 			//航行配置
 			options: {
@@ -612,7 +693,7 @@ export default {
 			this.client.subscribe(`height_setting_${this.deviceId}`);
 			//订阅刷新后请求数据消息
 			this.client.subscribe(`refresh_${this.deviceId}`);
-			//
+			//刷新后请求数据消息
 			this.client.send(
 				`refresh_${this.deviceId}`,
 				JSON.stringify({
@@ -628,6 +709,7 @@ export default {
 				}),
 				2
 			);
+			//
 		},
 		//MQTT接收到消息
 		onMessageArrived(message) {
@@ -637,7 +719,7 @@ export default {
 			if (`${message.topic}` == `status_data_${this.deviceId}`) {
 				this.status_data = JSON.parse(message.payloadString);
 				this.$store.commit("ship/SET_STATUS_DATA", this.status_data);
-				console.log(this.status_data);
+				//console.log(this.status_data);
 				if (this.status_data && this.status_data.current_lng_lat) {
 					this.x = this.status_data.current_lng_lat[0];
 					this.y = this.status_data.current_lng_lat[1];
@@ -655,7 +737,7 @@ export default {
 			//接收湖泊信息
 			if (`${message.topic}` == `pool_info_${this.deviceId}`) {
 				this.pool_info = JSON.parse(message.payloadString);
-				console.log("mapId", this.pool_info.mapId);
+				//console.log("mapId", this.pool_info.mapId);
 				if (this.pool_info.mapId) {
 					getMapList(this.pool_info.mapId).then(res => {
 						this.draw(JSON.parse(res.data.mapList[0].mapData));
@@ -665,7 +747,7 @@ export default {
 			}
 			//接收路径规划
 			if (`${message.topic}` == `path_planning_${this.deviceId}`) {
-				console.log(JSON.parse(message.payloadString).sampling_points);
+				//console.log(JSON.parse(message.payloadString).sampling_points);
 				JSON.parse(message.payloadString).sampling_points.forEach(ele => {
 					this.icon(ele[0], ele[1]);
 				});
@@ -675,7 +757,7 @@ export default {
 			//接收提示信息
 			if (`${message.topic}` == `notice_info_${this.deviceId}`) {
 				this.message = JSON.parse(message.payloadString);
-				console.log(">>>>>>>", this.message);
+				//console.log(">>>>>>>", this.message);
 			}
 			//接收开关信息
 			if (`${message.topic}` == `switch_${this.deviceId}`) {
@@ -685,14 +767,14 @@ export default {
 			if (`${message.topic}` == `height_setting_${this.deviceId}`) {
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.height_setting = JSON.parse(message.payloadString);
-					console.log(this.height_setting);
+					//console.log(".........", this.height_setting);
 				}
 			}
 			//订阅初级信息
 			if (`${message.topic}` == `base_setting_${this.deviceId}`) {
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.base_setting = JSON.parse(message.payloadString);
-					console.log(this.base_setting);
+					//console.log(this.base_setting);
 				}
 			}
 			//订阅刷新后请求数据消息
@@ -952,7 +1034,7 @@ export default {
 			}
 			var icon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: "http://101.37.119.148:3000/ship.png", // Icon的图像
+				image: "https://www.xxlun.com/website/file/ship.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
 
@@ -1154,7 +1236,7 @@ export default {
 		icon(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: "http://101.37.119.148:3000/pointer.png", // Icon的图像
+				image: "https://www.xxlun.com/website/file/pointer.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
 			const planMarker = new AMap.Marker({
@@ -1170,7 +1252,7 @@ export default {
 		home(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: "http://101.37.119.148:3000/backhome.png", // Icon的图像
+				image: "https://www.xxlun.com/website/file/home.png", // Icon的图像
 				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
 			});
 			const planMarker = new AMap.Marker({
