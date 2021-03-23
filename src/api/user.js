@@ -15,10 +15,10 @@ export function getInfo() {
 
   })
 }
-
-export function getDeviceList() {
+//获取设备列表
+export function getDeviceList(page, pageSize) {
   return request({
-    url: '/admin/xxl/device/1/10',
+    url: `/admin/xxl/device/${page}/${pageSize}`,
     method: 'get'
 
   })

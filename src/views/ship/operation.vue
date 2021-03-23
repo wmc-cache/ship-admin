@@ -182,9 +182,10 @@
 						v-waves
 						class="item2"
 					>
-						<div class="text">当前误差</div>
+						<div class="text">网络延时</div>
 						<div class="num">
-							{{status_data.lng_lat_error|valueFilter}}m
+
+							{{status_data.ping|valueFilter}}ms
 						</div>
 						<!-- {{status_data.current_lng_lat[0].toFixed(1)}},{{status_data.current_lng_lat[1].toFixed(1)}} -->
 					</div>
@@ -219,7 +220,13 @@
 						class="reset"
 						@click="rename"
 					>重置选择位置</div>
+
 				</div>
+				<div
+					:class="{backActive:selectBackMode==true}"
+					class="selectBack"
+					@click="selectBack"
+				>选择返航点</div>
 
 			</div>
 			<!-- header -->
@@ -433,6 +440,8 @@
 								<div v-if="message">超声波距离 左侧 右侧:{{message.ultrasonic_distance}}</div>
 								<div v-if="message">遥控器是否启用:{{message.b_start_remote}}</div>
 								<div v-if="message"> 罗盘提示消息:{{message.compass_notice_info}}</div>
+								<div v-if="status_data.lng_lat_error">{{status_data.lng_lat_error}}m
+								</div>
 							</div>
 						</dv-border-box-10>
 					</div>
@@ -560,6 +569,7 @@ export default {
 	directives: { waves },
 	data() {
 		return {
+			selectBackMode: false,
 			isFirst: true,
 			fmt: fmt, //时间格式化
 			sureMap: false, //湖泊是否确定
@@ -609,7 +619,6 @@ export default {
 				draw_time: 18, //抽水时间
 				start_sleep_time: 19, //开机前等待时间
 				motor_init_time: 20, //电机初始化时间
-
 				b_check_network: 21, //断网检查
 				b_tsp: 22, //
 				home_debug: 23, //调试标志
@@ -864,6 +873,10 @@ export default {
 				return;
 			}
 		},
+		//selectBack
+		selectBack() {
+			this.selectBackMode = !this.selectBackMode;
+		},
 		//重置湖泊
 		rename() {
 			this.client.send(
@@ -1006,6 +1019,11 @@ export default {
 				);
 				return;
 			}
+			console.log(this.selectBackMode);
+			if (this.selectBackMode == true) {
+				this.backPoint(e);
+				return;
+			}
 			if (this.options.single == true) {
 				this.single(e);
 				return;
@@ -1052,6 +1070,21 @@ export default {
 				this.isFirst = false;
 				this.map.setFitView();
 			}
+		},
+		//点击返回点
+		backPoint(e) {
+			this.$confirm("确认选择该点为返航点？")
+				.then(_ => {
+					this.client.send(
+						`set_home_${this.deviceId}`,
+						JSON.stringify({
+							lng_lat: [[e.lnglat.lng, e.lnglat.lat]]
+						}),
+						2
+					);
+					this.selectBackMode = false;
+				})
+				.catch(_ => {});
 		},
 		//单点模式
 		single(e) {
@@ -1306,6 +1339,31 @@ export default {
 	height: 56vh;
 }
 .draw {
+	cursor: pointer;
+}
+
+.backActive {
+	background-color: #0096ff !important;
+	color: #fff;
+}
+
+.selectBack {
+	position: absolute;
+	top: 16.2vh;
+	left: 70vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: #245098;
+	margin-top: 0.5vh;
+	color: #fff;
+	font-size: 1.5vh;
+	width: 10vh;
+	height: 3vh;
+	font-family: Source Han Sans CN;
+	font-weight: bold;
+	opacity: 0.8;
+	text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 	cursor: pointer;
 }
 

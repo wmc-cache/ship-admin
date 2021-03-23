@@ -24,7 +24,7 @@ module.exports = {
     },
     // proxy: {
     //   '/admin': {
-    //     target: 'http://192.168.8.13:8009/union',
+    //     target: 'http://192.168.199.249:8009/union',
     //     changOrigin: true
     //   }
 

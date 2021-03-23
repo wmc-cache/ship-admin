@@ -127,15 +127,26 @@
 			</el-table-column>
 
 		</el-table>
-
+		<!-- <pagination
+			v-show="total > 0"
+			:total="total"
+			:page.sync="listQuery.page"
+			:limit.sync="listQuery.pageSize"
+			@pagination="refresh"
+		/> -->
 	</div>
 </template>
 
 <script>
+import Pagination from "@/components/Pagination";
 import { getDeviceList } from "../../api/user";
 export default {
+	components: {
+		Pagination
+	},
 	data() {
 		return {
+			total: 90,
 			tableKey: 0,
 			DeviceList: null,
 			listLoading: true,
@@ -143,18 +154,24 @@ export default {
 			listQuery: {
 				title: "",
 				author: "",
-				category: ""
+				category: "",
+				page: 1, //当前页数
+				pageSize: 10 //每页数量
 			}
 		};
 	},
 	mounted() {
-		getDeviceList().then(res => {
+		getDeviceList(1, 10).then(res => {
 			console.log("DeviceList", res);
 			this.DeviceList = res.data.items;
 			this.listLoading = false;
 		});
 	},
 	methods: {
+		//分页函数
+		refresh() {
+			console.log(this.listQuery.page);
+		},
 		changeShowCover() {
 			if (showID) {
 				this.showID = false;
