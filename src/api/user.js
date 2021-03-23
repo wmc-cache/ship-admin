@@ -15,7 +15,7 @@ export function getInfo() {
 
   })
 }
-//获取设备列表
+// 获取设备列表
 export function getDeviceList(page, pageSize) {
   return request({
     url: `/admin/xxl/device/${page}/${pageSize}`,
@@ -31,18 +31,18 @@ export function logout() {
   })
 }
 
-//获取管理用户分页列表
+// 获取管理用户分页列表
 export function getUserList() {
   return request({
-    url: "/admin/xxl/user/1/10",
-    method: "get"
+    url: '/admin/xxl/user/1/10',
+    method: 'get'
   })
 }
-//新增用户
+// 新增用户
 export function addUser(data) {
   return request({
-    url: "/admin/xxl/user/save",
-    method: "post",
+    url: '/admin/xxl/user/save',
+    method: 'post',
     data
   })
 }
