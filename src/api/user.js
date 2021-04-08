@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+// 用户登录
 export function login(data) {
   return request({
     url: 'admin/xxl/login',
@@ -7,7 +7,7 @@ export function login(data) {
     data
   })
 }
-
+// 获取用户信息
 export function getInfo() {
   return request({
     url: '/admin/xxl/index/info',
@@ -15,7 +15,7 @@ export function getInfo() {
 
   })
 }
-// 获取设备列表
+// 获取无人船列表
 export function getDeviceList(page, pageSize) {
   return request({
     url: `/admin/xxl/device/${page}/${pageSize}`,

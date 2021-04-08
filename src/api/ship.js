@@ -1,5 +1,5 @@
 import request from '@/utils/request'
-
+// 获取水质探测数据
 export function getDetectData(deviceId, mapId, startTime, endTime) {
   return request({
     url: '/admin/xxl/data/getData',
@@ -13,7 +13,7 @@ export function getDetectData(deviceId, mapId, startTime, endTime) {
   })
 }
 
-
+// 获取地图列表
 export function getMapList(mapId) {
   return request({
     url: '/admin/xxl/map/list',
@@ -23,7 +23,6 @@ export function getMapList(mapId) {
   })
 }
 
-
 export function getMapListShow(deviceId) {
   return request({
     url: '/admin/xxl/map/list',
@@ -32,7 +31,7 @@ export function getMapListShow(deviceId) {
 
   })
 }
-
+// 修改湖名
 export function postMapName(mapId, name) {
   return request({
     url: '/admin/xxl/map/updata',
