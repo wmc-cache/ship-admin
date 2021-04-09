@@ -52,7 +52,7 @@
 		<!-- 无人船 -->
 		<!-- 无人船 -->
 		<!-- 无人船 -->
-		<!-- <el-col
+		<el-col
 			:xs="12"
 			:sm="12"
 			:lg="8"
@@ -60,7 +60,7 @@
 		>
 			<div
 				class="card-panel"
-				@click="handleSetLineChartData('messages','/equipment/quilt/list')"
+				@click="handleSetLineChartData('messages','/equipment/camera/list')"
 			>
 				<div class="card-panel-icon-wrapper icon-message">
 					<svg-icon
@@ -70,7 +70,7 @@
 				</div>
 				<div class="card-panel-description">
 					<div class="card-panel-text">
-						晒被机
+						摄像头
 					</div>
 					<count-to
 						:start-val="0"
@@ -81,7 +81,7 @@
 				</div>
 			</div>
 		</el-col>
-		<el-col
+		<!-- <el-col
 			:xs="12"
 			:sm="12"
 			:lg="8"
@@ -109,8 +109,8 @@
 					/>
 				</div>
 			</div>
-		</el-col>
-		<el-col
+		</el-col> -->
+		<!-- <el-col
 			:xs="12"
 			:sm="12"
 			:lg="8"
@@ -149,11 +149,11 @@ import { bookHome } from "@/api/book";
 
 export default {
 	components: {
-		CountTo
+		CountTo,
 	},
 	data() {
 		return {
-			data: { user: 1000, book: 1200, shelf: 1800, rank: 300000 }
+			data: { user: 1000, book: 1200, shelf: 1800, rank: 300000 },
 		};
 	},
 	mounted() {
@@ -165,8 +165,8 @@ export default {
 		handleSetLineChartData(type, link) {
 			this.$router.push({ path: `${link}` });
 			//this.$emit("handleSetLineChartData", type);
-		}
-	}
+		},
+	},
 };
 </script>
 

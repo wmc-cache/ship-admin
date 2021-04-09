@@ -3,7 +3,6 @@ import Router from 'vue-router'
 import Layout from '@/layout'
 
 Vue.use(Router)
-
 export const constantRoutes = [
   {
     path: '/redirect',
@@ -72,6 +71,13 @@ export const asyncRoutes = [
 
       },
       {
+        path: 'camera/list',
+        component: () => import('@/views/camera/list'),
+        name: 'CameraList',
+        meta: { title: '摄像头列表', icon: 'list', noCache: true },
+
+      },
+      {
         path: 'selectMap/:deviceId',
         component: () => import('@/views/ship/selectMap'),
         name: 'selectMap',
@@ -129,6 +135,13 @@ export const asyncRoutes = [
 
   //   ]
   // },
+  {
+    path: '/camera/detail',
+    component: () => import('@/views/camera/detail'),
+    name: 'CameraDetail',
+    meta: { title: '摄像头详情', icon: 'guide', noCache: true },
+    hidden: true
+  },
   {
     path: '/ship/detail/:deviceId',
     component: () => import('@/views/ship/detail'),
