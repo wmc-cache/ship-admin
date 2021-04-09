@@ -50,7 +50,6 @@ export const constantRoutes = [
   }
 ]
 
-
 export const asyncRoutes = [
   {
     path: '/equipment',
@@ -67,14 +66,14 @@ export const asyncRoutes = [
         path: 'ship/list',
         component: () => import('@/views/ship/list'),
         name: 'ShipList',
-        meta: { title: '无人船列表', icon: 'list', noCache: true },
+        meta: { title: '无人船列表', icon: 'list', noCache: true }
 
       },
       {
         path: 'camera/list',
         component: () => import('@/views/camera/list'),
         name: 'CameraList',
-        meta: { title: '摄像头列表', icon: 'list', noCache: true },
+        meta: { title: '摄像头列表', icon: 'list', noCache: true }
 
       },
       {
@@ -83,7 +82,7 @@ export const asyncRoutes = [
         name: 'selectMap',
         meta: { title: '选择地图', icon: 'list', noCache: true },
         hidden: true
-      },
+      }
 
     ]
   },
@@ -111,7 +110,6 @@ export const asyncRoutes = [
         hidden: true
       }
 
-
     ]
   },
   // {
@@ -130,8 +128,6 @@ export const asyncRoutes = [
   //       name: 'userList',
   //       meta: { title: '用户管理列表', icon: 'list', noCache: true }
   //     }
-
-
 
   //   ]
   // },
@@ -167,13 +163,12 @@ export const asyncRoutes = [
 ]
 
 const createRouter = () => new Router({
-  //mode: 'history', // require service support
+  // mode: 'history', // require service support
   scrollBehavior: () => ({ y: 0 }),
   routes: constantRoutes
 })
 
 const router = createRouter()
-
 
 export function resetRouter() {
   const newRouter = createRouter()

@@ -1,145 +1,140 @@
 <template>
 
-	<div class="body">
-		<div class="content">
-			<div class="menu1">数据总览</div>
-			<div
-				class="menu2"
-				@click="goOperation"
-				@touchstart="goOperation"
-			>设备操作</div>
-			<div
-				@click="goIndex"
-				@touchstart="goIndex"
-				class="menu3"
-			>返回</div>
-			<!-- header -->
-			<div class="header">
+  <div class="body">
+    <div class="content">
+      <div class="menu1">数据总览</div>
+      <div
+        class="menu2"
+        @click="goOperation"
+        @touchstart="goOperation"
+      >设备操作</div>
+      <div
+        class="menu3"
+        @click="goIndex"
+        @touchstart="goIndex"
+      >返回</div>
+      <!-- header -->
+      <div class="header">
 
-				<div class="title">
-					<div
-						class="text"
-						style="margin-top:1vh;margin-bottom:-1vw"
-					>水质监控系统</div>
+        <div class="title">
+          <div
+            class="text"
+            style="margin-top:1vh;margin-bottom:-1vw"
+          >水质监控系统</div>
 
-					<dv-decoration-5 style="width:40vw;height:5vh;" />
-				</div>
+          <dv-decoration-5 style="width:40vw;height:5vh;" />
+        </div>
 
-				<div class="tip-item">
+        <div class="tip-item" />
 
-				</div>
+      </div>
+      <!-- header -->
+      <div class="content-middle">
+        <div class="content-left">
+          <div class="left1">
+            <dv-border-box-10>
 
-			</div>
-			<!-- header -->
-			<div class="content-middle">
-				<div class="content-left">
-					<div class="left1">
-						<dv-border-box-10>
+              <div class="title">气象数据</div>
 
-							<div class="title">气象数据</div>
+            </dv-border-box-10>
+          </div>
+          <div class="left2">
+            <dv-border-box-10>
+              <div class="title">状态数据</div>
 
-						</dv-border-box-10>
-					</div>
-					<div class="left2">
-						<dv-border-box-10>
-							<div class="title">状态数据</div>
+            </dv-border-box-10>
+          </div>
+        </div>
+        <div class="middle">
+          <dv-border-box-8
+            :reverse="true"
+            style="padding:0.5vh"
+          >
+            <div
+              id="container"
+              style="width:38vw;height:54vh;"
+            />
+          </dv-border-box-8>
 
-						</dv-border-box-10>
-					</div>
-				</div>
-				<div class="middle">
-					<dv-border-box-8
-						:reverse="true"
-						style="padding:0.5vh"
-					>
-						<div
-							style="width:38vw;height:54vh;"
-							id="container"
-						>
-						</div>
-					</dv-border-box-8>
+        </div>
 
-				</div>
+        <div class="content-right">
+          <div class="right1">
+            <dv-border-box-10>
+              <div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
+                <video
+                  id="myPlayer"
+                  style="width:22vw;height: 18vh;"
+                  controls
+                  playsInline
+                >
+                  <source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
+                </video>
+              </div>
+            </dv-border-box-10>
+          </div>
+          <div class="right2">
+            <dv-border-box-10>
+              <div class="title">其它数据</div>
+              <div class="data-list" />
+            </dv-border-box-10>
+          </div>
+        </div>
 
-				<div class="content-right">
-					<div class="right1">
-						<dv-border-box-10>
-							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
-								<video
-									style="width:22vw;height: 18vh;"
-									id="myPlayer"
-									controls
-									playsInline
-								>
-									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8" />
-								</video>
-							</div>
-						</dv-border-box-10>
-					</div>
-					<div class="right2">
-						<dv-border-box-10>
-							<div class="title">其它数据</div>
-							<div class="data-list">
+      </div>
+      <div class="bottom">
+        <dv-border-box-10>
+          <div class="title">水质数据</div>
 
-							</div>
-						</dv-border-box-10>
-					</div>
-				</div>
-
-			</div>
-			<div class="bottom">
-				<dv-border-box-10>
-					<div class="title">水质数据</div>
-
-				</dv-border-box-10>
-			</div>
-		</div>
-	</div>
+        </dv-border-box-10>
+      </div>
+    </div>
+  </div>
 
 </template>
 
 <script>
-import MQTT from "paho-mqtt";
+import MQTT from 'paho-mqtt'
 export default {
-	mounted() {
-		this.initMap();
-	},
 	components: {},
 	data() {
 		return {
-			client: null, //MQTT实例
+			client: null, // MQTT实例
 			x: null,
 			y: null,
 			map: null,
-			deviceId: null,
-		};
+			deviceId: null
+		}
+	},
+	mounted() {
+		this.initMap()
 	},
 	methods: {
 		initMap() {
 			if (!this.x && !this.y) {
-				this.x = 114.431408;
-				this.y = 30.523486;
+				this.x = 114.431408
+				this.y = 30.523486
 			}
-			let map = new AMap.Map("container", {
+			const map = new AMap.Map('container', {
 				zoom: 13,
-				viewMode: "3D",
+				viewMode: '3D',
 				center: [this.x, this.y],
-				mapStyle: "amap://styles/001a637581603985681831e1471630a5", //设置地图的显示样式
-			});
-			this.map = map;
+				mapStyle: 'amap://styles/001a637581603985681831e1471630a5' // 设置地图的显示样式
+			})
+			this.map = map
 		},
 		goOperation() {
 			this.$router.push({
-				path: `/ship/operation/${this.deviceId}`,
-			});
+				path: `/ship/operation/${this.deviceId}`
+			})
 		},
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`,
-			});
-		},
-	},
-};
+				path: `/equipment/ship/list`
+			})
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>
