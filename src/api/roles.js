@@ -3,7 +3,7 @@ import request from '@/utils/request'
 export function getRoleList(page, limit) {
   return request({
     url: `/admin/xxl/role/${page}/${limit}`,
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -18,18 +18,15 @@ export function addRole(data) {
 export function deleteRole(id) {
   return request({
     url: `/admin/xxl/role/remove/${id}`,
-    method: 'delete',
-
+    method: 'delete'
 
   })
-};
+}
 // /admin/xxl / permission / toAssign / { roleId }
 export function getRolePower(roleId) {
   return request({
     url: `/admin/xxl/permission/toAssign/${roleId}`,
-    method: 'get',
+    method: 'get'
   })
-};
-
-
+}
 

@@ -1,6 +1,5 @@
 import request from '@/utils/request'
 
-
 // 获取菜单列表
 export function getMenuList() {
   return request({
@@ -9,7 +8,6 @@ export function getMenuList() {
 
   })
 }
-
 
 // 添加菜单
 export function AddMenu(data) {
@@ -21,7 +19,7 @@ export function AddMenu(data) {
   })
 }
 
-//修改菜单
+// 修改菜单
 export function UpdateMenu() {
   return request({
     url: `/admin/xxl/permission/update`,
@@ -30,7 +28,7 @@ export function UpdateMenu() {
   })
 }
 
-//删除菜单
+// 删除菜单
 export function removeMenu(id) {
   return request({
     url: `/admin/xxl/permission/remove/${id}`,
@@ -39,9 +37,7 @@ export function removeMenu(id) {
   })
 }
 
-
-
-//给角色分配权限
+// 给角色分配权限
 export function doAssign() {
   return request({
     url: `/admin/xxl/permission/doAssign`,

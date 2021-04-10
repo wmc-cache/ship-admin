@@ -31,11 +31,6 @@ export function logout() {
   })
 }
 
-
-
-
-
-
 // 获取管理用户分页列表
 export function getUserList(page, pageSize) {
   return request({
@@ -51,19 +46,19 @@ export function addUser(data) {
     data
   })
 }
-//删除管理用户
+// 删除管理用户
 export function removeUser(id) {
   return request({
     url: `/admin/xxl/user/remove/${id}`,
-    method: 'delete',
+    method: 'delete'
 
   })
 }
-//修改管理用户
+// 修改管理用户
 export function updataUser() {
   return request({
     url: `/admin/xxl/user/updata`,
-    method: 'put',
+    method: 'put'
   })
 }
 
@@ -71,7 +66,7 @@ export function updataUser() {
 export function userToRole(userId) {
   return request({
     url: `/admin/xxl/user/toAssign/${userId}`,
-    method: 'get',
+    method: 'get'
   })
 }
 
@@ -86,6 +81,4 @@ export function userAddRole(roleId, userId) {
 
   })
 }
-
-
 

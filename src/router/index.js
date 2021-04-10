@@ -136,7 +136,6 @@ export const asyncRoutes = [
         hidden: true
       }
 
-
     ]
   },
   {
