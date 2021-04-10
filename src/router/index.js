@@ -112,25 +112,59 @@ export const asyncRoutes = [
 
     ]
   },
-  // {
-  //   path: '/user',
-  //   component: Layout,
-  //   redirect: '/user/list',
-  //   name: 'user',
-  //   meta: {
-  //     title: '用户管理',
-  //     icon: 'documentation'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'list',
-  //       component: () => import('@/views/users/list'),
-  //       name: 'userList',
-  //       meta: { title: '用户管理列表', icon: 'list', noCache: true }
-  //     }
+  {
+    path: '/roles',
+    component: Layout,
+    redirect: '/roles/list',
+    name: 'power',
+    meta: {
+      title: '角色管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/roles/list'),
+        name: 'rolesList',
+        meta: { title: '角色管理列表', icon: 'list', noCache: true }
+      },
+      {
+        path: 'detail/:id/:name',
+        component: () => import('@/views/roles/detail'),
+        name: 'rolesDetail',
+        meta: { title: '角色权限', icon: 'list', noCache: true },
+        hidden: true
+      }
 
-  //   ]
-  // },
+
+    ]
+  },
+  {
+    path: '/user',
+    component: Layout,
+    redirect: '/user/list',
+    name: 'user',
+    meta: {
+      title: '用户管理',
+      icon: 'documentation'
+    },
+    children: [
+      {
+        path: 'list',
+        component: () => import('@/views/users/list'),
+        name: 'userList',
+        meta: { title: '用户管理列表', icon: 'list', noCache: true }
+      },
+      {
+        path: 'detail/:id/:name',
+        component: () => import('@/views/users/detail'),
+        name: 'userRoleList',
+        meta: { title: '用户角色管理', icon: 'list', noCache: true },
+        hidden: true
+      }
+
+    ]
+  },
   {
     path: '/camera/detail',
     component: () => import('@/views/camera/detail'),

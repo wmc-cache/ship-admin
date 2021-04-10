@@ -1,6 +1,7 @@
 <template>
 
 	<div class="app-container">
+
 		<el-dialog
 			title="新增用户"
 			:visible.sync="dialogVisible"
@@ -44,6 +45,7 @@
 
 		</div>
 		<!-- 表格 -->
+
 		<el-table
 			:key="tableKey"
 			:data="userList"
@@ -89,46 +91,86 @@
 						style="cursor: pointer;"
 					>删除用户
 					</el-button>
+					<el-button
+						@click="goToDetail(row.id,row.username)"
+						type="text"
+						icon="el-icon-view"
+						style="cursor: pointer;"
+					>用户角色管理
+					</el-button>
 				</template>
 			</el-table-column>
 
 		</el-table>
 
+		<pagination
+			v-show="total > 0"
+			:total="total"
+			:page.sync="listQuery.page"
+			:limit.sync="listQuery.pageSize"
+			@pagination="refresh"
+		/>
 	</div>
 
 </template>
 
 <script>
-import { getUserList, addUser } from "../../api/user";
+import Pagination from "@/components/Pagination";
+import { getUserList, addUser, userToRole } from "../../api/user";
 export default {
 	name: "userList",
+	components: {
+		Pagination,
+	},
 	data() {
 		return {
+			total: 10,
 			userList: null,
 			tableKey: 0,
 			dialogVisible: false,
 			username: null,
-			password: null
+			password: null,
+			listQuery: {
+				page: 1, // 当前页数
+				pageSize: 5, // 每页数量
+			},
 		};
 	},
 	mounted() {
-		getUserList().then(res => {
+		getUserList(0, 5).then((res) => {
 			console.log(res);
 			this.userList = res.data.items;
+			this.total = res.data.total;
+		});
+		userToRole(1).then((res) => {
+			console.log("res", res);
 		});
 	},
 	methods: {
 		handleCreate() {
 			this.dialogVisible = true;
 		},
+		refresh() {
+			getUserList(this.listQuery.page, this.listQuery.pageSize).then((res) => {
+				this.userList = res.data.items;
+				this.total = res.data.total;
+			});
+		},
 		sure() {
 			addUser({
 				password: this.password,
-				username: this.username
+				username: this.username,
 			});
 			this.dialogVisible = false;
-		}
-	}
+		},
+		handleClose() {},
+		goToDetail(id, name) {
+			console.log(id, name);
+			this.$router.push({
+				path: `/user/detail/${id}/${name}`,
+			});
+		},
+	},
 };
 </script>
 
