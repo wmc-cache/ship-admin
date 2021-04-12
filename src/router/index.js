@@ -89,7 +89,7 @@ export const asyncRoutes = [
         name: 'showWaterData',
         meta: { title: '历史监测数据', icon: 'list', noCache: true },
         hidden: true
-      },
+      }
 
     ]
   },

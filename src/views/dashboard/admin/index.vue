@@ -1,19 +1,19 @@
 <template>
-	<div class="dashboard-editor-container">
+  <div class="dashboard-editor-container">
 
-		<panel-group @handleSetLineChartData="handleSetLineChartData" />
-		<!-- <pie-chart></pie-chart>
+    <panel-group @handleSetLineChartData="handleSetLineChartData" />
+    <!-- <pie-chart></pie-chart>
 		<raddar-chart></raddar-chart>
 		<el-row style="background:#fff;padding:16px 16px 0;margin-bottom:32px;">
 			<line-chart :chart-data="lineChartData" />
 		</el-row> -->
-	</div>
+  </div>
 </template>
 <script>
-import RaddarChart from "@/views/dashboard/admin/components/RaddarChart";
-import PanelGroup from "./components/PanelGroup";
-import LineChart from "./components/LineChart";
-import PieChart from "@/views/dashboard/admin/components/PieChart";
+import RaddarChart from '@/views/dashboard/admin/components/RaddarChart'
+import PanelGroup from './components/PanelGroup'
+import LineChart from './components/LineChart'
+import PieChart from '@/views/dashboard/admin/components/PieChart'
 
 const lineChartData = {
 	newVisitis: {
@@ -32,10 +32,10 @@ const lineChartData = {
 		expectedData: [130, 140, 141, 142, 145, 150, 160],
 		actualData: [120, 82, 91, 154, 162, 140, 130]
 	}
-};
+}
 
 export default {
-	name: "DashboardAdmin",
+	name: 'DashboardAdmin',
 	components: {
 		PanelGroup,
 		LineChart,
@@ -45,14 +45,14 @@ export default {
 	data() {
 		return {
 			lineChartData: lineChartData.newVisitis
-		};
+		}
 	},
 	methods: {
 		handleSetLineChartData(type) {
-			this.lineChartData = lineChartData[type];
+			this.lineChartData = lineChartData[type]
 		}
 	}
-};
+}
 </script>
 
 <style lang="scss" scoped>
