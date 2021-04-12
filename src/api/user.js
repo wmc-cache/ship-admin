@@ -15,6 +15,15 @@ export function getInfo() {
 
   })
 }
+
+// 获取无人船列表
+export function getProductList(page, pageSize) {
+  return request({
+    url: `/admin/xxl/product/${page}/${pageSize}`,
+    method: 'get'
+
+  })
+}
 // 获取无人船列表
 export function getDeviceList(page, pageSize) {
   return request({

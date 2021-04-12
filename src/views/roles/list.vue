@@ -1,107 +1,148 @@
 <template>
 
-  <div class="app-container">
-    <div>
-      <el-button
-        type="primary"
-        @click="add"
-      >增加</el-button>
-      <el-table
-        :key="tableKey"
-        :data="roleList"
-        border
-        fit
-        highlight-current-row
-        style="width: 100%;"
-      >
+	<div class="app-container">
+		<el-dialog
+			title="新增角色"
+			:visible.sync="dialogVisible"
+			width="30%"
+			:before-close="handleClose"
+		>
+			<el-input
+				v-model="rolename"
+				clearable
+				placeholder="角色名称"
+			/>
+			<el-input
+				v-model="rolecontent"
+				clearable
+				placeholder="角色描述"
+			/>
+			<span
+				slot="footer"
+				class="dialog-footer"
+			>
+				<el-button @click="dialogVisible = false">取 消</el-button>
+				<el-button
+					type="primary"
+					@click="sure"
+				>确 定</el-button>
+			</span>
+		</el-dialog>
+		<div>
 
-        <el-table-column
-          label="id"
-          prop="id"
-          align="center"
-          width="200"
-        />
-        <el-table-column
-          label="角色名"
-          prop="roleName"
-          align="center"
-          width="200"
-        />
-        <el-table-column
-          label="remark"
-          prop="remark"
-          align="center"
-          width="200"
-        />
-        <el-table-column
-          label="gmtCreate"
-          prop="gmtCreate"
-          align="center"
-          width="200"
-        />
-        <el-table-column
-          label="gmtModified"
-          prop="gmtModified"
-          align="center"
-          width="200"
-        />
+			<div class="filter-container">
+				<el-button
+					class="filter-item"
+					type="primary"
+					icon="el-icon-edit"
+					@click="add"
+				>新增角色</el-button>
+			</div>
 
-        <el-table-column
-          label="操作"
-          align="center"
-        >
-          <template slot-scope="{ row }">
-            <el-button
-              type="text"
-              icon="el-icon-view"
-              style="cursor: pointer;"
-              @click="deleteRole(row.id)"
-            >删除角色
-            </el-button>
-            <el-button
-              type="text"
-              icon="el-icon-view"
-              style="cursor: pointer;"
-              @click="RoleDetail(row.id,row.roleName)"
-            >角色权限管理
-            </el-button>
-          </template>
-        </el-table-column>
+			<el-table
+				:key="tableKey"
+				:data="roleList"
+				border
+				fit
+				highlight-current-row
+				style="width: 100%;"
+			>
 
-      </el-table>
+				<el-table-column
+					label="id"
+					prop="id"
+					align="center"
+					width="200"
+				/>
+				<el-table-column
+					label="角色名"
+					prop="roleName"
+					align="center"
+					width="200"
+				/>
+				<el-table-column
+					label="remark"
+					prop="remark"
+					align="center"
+					width="200"
+				/>
+				<el-table-column
+					label="gmtCreate"
+					prop="gmtCreate"
+					align="center"
+					width="200"
+				/>
+				<el-table-column
+					label="gmtModified"
+					prop="gmtModified"
+					align="center"
+					width="200"
+				/>
 
-    </div>
-  </div>
+				<el-table-column
+					label="操作"
+					align="center"
+				>
+					<template slot-scope="{ row }">
+						<el-button
+							type="text"
+							icon="el-icon-view"
+							style="cursor: pointer;"
+							@click="deleteRole(row.id)"
+						>删除角色
+						</el-button>
+						<el-button
+							type="text"
+							icon="el-icon-view"
+							style="cursor: pointer;"
+							@click="RoleDetail(row.id,row.roleName)"
+						>角色权限管理
+						</el-button>
+					</template>
+				</el-table-column>
+
+			</el-table>
+
+		</div>
+	</div>
 
 </template>
 
 <script>
-import { getRoleList, addRole, deleteRole } from '../../api/roles'
+import { getRoleList, addRole, deleteRole } from "../../api/roles";
 export default {
 	data() {
 		return {
 			roleList: null,
-			tableKey: 0
-		}
+			tableKey: 0,
+			dialogVisible: null,
+			rolename: null,
+			rolecontent: null,
+		};
 	},
 	async mounted() {
-		const roleList = await getRoleList(0, 5)
-		this.roleList = roleList.data.items
-		console.log('role', this.roleList)
+		const roleList = await getRoleList(0, 5);
+		this.roleList = roleList.data.items;
+		console.log("role", this.roleList);
 	},
 	methods: {
 		add() {
-			addRole({ roleName: '吴梦成', remark: '开发者' })
+			this.dialogVisible = true;
 		},
+		handleClose() {},
 		async deleteRole(id) {
-			await deleteRole(id)
-			location.reload()
+			await deleteRole(id);
+			location.reload();
+		},
+		async sure() {
+			await addRole({ roleName: this.rolename, remark: this.rolecontent });
+			location.reload();
 		},
 		RoleDetail(id, name) {
-			this.$router.push({ path: `/roles/detail/${id}/${name}` })
-		}
-	}
-}
+			this.$router.push({ path: `/roles/detail/${id}/${name}` });
+		},
+	},
+};
 </script>
 
 <style>

@@ -14,6 +14,7 @@ import RaddarChart from "@/views/dashboard/admin/components/RaddarChart";
 import PanelGroup from "./components/PanelGroup";
 import LineChart from "./components/LineChart";
 import PieChart from "@/views/dashboard/admin/components/PieChart";
+
 const lineChartData = {
 	newVisitis: {
 		expectedData: [100, 120, 161, 134, 105, 160, 165],

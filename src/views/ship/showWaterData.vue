@@ -4,6 +4,7 @@
 
 	<div class="body">
 		<div class="content">
+			<!-- <div class="menu2"></div> -->
 			<div
 				@click="goIndex"
 				class="menu3"
@@ -157,12 +158,12 @@ export default {
 			ec: [], //电导
 			td: [], //浊度
 			wt: [], //水温
-			DO: [] //溶解氧
+			DO: [], //溶解氧
 		};
 	},
 	components: {
 		PieChart,
-		LineChart
+		LineChart,
 	},
 	watch: {
 		date(value) {
@@ -178,10 +179,10 @@ export default {
 				mapId,
 				fmt(value[0]).split(" ")[0],
 				fmt(value[1]).split(" ")[0]
-			).then(res => {
+			).then((res) => {
 				console.log(res);
 				this.water = res.data.data.water;
-				this.water.forEach(ele => {
+				this.water.forEach((ele) => {
 					this.ph.push(ele.ph);
 					this.ec.push(ele.ec);
 					this.td.push(ele.td);
@@ -192,7 +193,7 @@ export default {
 			});
 			console.log(fmt(value[0]).split(" ")[0]);
 			console.log(fmt(value[1]).split(" ")[0]);
-		}
+		},
 	},
 	mounted() {
 		this.MapId = this.$route.params.MapId;
@@ -204,14 +205,34 @@ export default {
 	methods: {
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`
+				path: `/equipment/ship/list`,
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 
 <style lang="scss" scoped>
+.menu2 {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	right: 12vw;
+	top: 2vh;
+	background: linear-gradient(0deg, #ffa128 0%, #b57700 50%, #ffa128 100%);
+	//border: 0.1vh solid #4081c4;
+	color: #fff;
+	font-size: 1.5vh;
+	width: 7vh;
+	height: 3vh;
+	font-family: Source Han Sans CN;
+	font-weight: bold;
+	opacity: 0.8;
+	text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
+	cursor: pointer;
+}
 .menu3 {
 	position: absolute;
 	display: flex;

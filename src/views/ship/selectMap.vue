@@ -48,7 +48,7 @@
 			<el-table-column
 				label="操作"
 				align="center"
-				width="200"
+				width="400"
 			>
 				<template slot-scope="{ row }">
 
@@ -57,7 +57,13 @@
 						icon="el-icon-view"
 						style="cursor: pointer;"
 						@click="goToDetail(row)"
-					>查看历史监测数据
+					>查看历史监测数据(可视化)</el-button>
+					<el-button
+						type="text"
+						icon="el-icon-view"
+						style="cursor: pointer;"
+						@click="goToDetailTable(row)"
+					>查看历史监测数据(图表)
 					</el-button>
 
 					<el-button
@@ -85,12 +91,12 @@ export default {
 			MapList: null,
 			dialogVisible: false,
 			name: null,
-			mapId: null
+			mapId: null,
 		};
 	},
 	async mounted() {
 		const deviceId = this.$route.params.deviceId;
-		getMapListShow(deviceId).then(res => {
+		getMapListShow(deviceId).then((res) => {
 			this.MapList = res.data.mapList;
 		});
 	},
@@ -100,7 +106,7 @@ export default {
 			this.dialogVisible = true;
 		},
 		sure() {
-			postMapName(this.mapId, this.name).then(res => {
+			postMapName(this.mapId, this.name).then((res) => {
 				console.log(res);
 				location.reload();
 			});
@@ -108,13 +114,19 @@ export default {
 		goToDetail(row) {
 			const deviceId = this.$route.params.deviceId;
 			this.$router.push({
-				path: `/showWaterData/${deviceId}/${row.id}`
+				path: `/showWaterData/${deviceId}/${row.id}`,
+			});
+		},
+		goToDetailTable(row) {
+			const deviceId = this.$route.params.deviceId;
+			this.$router.push({
+				path: `/waterDataTable/${deviceId}/${row.id}`,
 			});
 		},
 		handleClose() {
 			this.dialogVisible = false;
-		}
-	}
+		},
+	},
 };
 </script>
 
