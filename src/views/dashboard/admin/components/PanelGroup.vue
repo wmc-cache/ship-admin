@@ -81,6 +81,66 @@
 			</div>
 		</el-col>
 
+		<el-col
+			:xs="12"
+			:sm="12"
+			:lg="8"
+			class="card-panel-col"
+		>
+			<div
+				class="card-panel"
+				@click="handleSetLineChartData('/equipment/ship/list')"
+			>
+				<div class="card-panel-icon-wrapper icon-shopping">
+					<svg-icon
+						icon-class="link"
+						class-name="card-panel-icon"
+					/>
+				</div>
+				<div class="card-panel-description">
+					<div class="card-panel-text">
+						传感器
+					</div>
+					<count-to
+						:start-val="0"
+						:end-val="data.rank"
+						:duration="2600"
+						class="card-panel-num"
+					/>
+				</div>
+			</div>
+		</el-col>
+
+		<el-col
+			:xs="12"
+			:sm="12"
+			:lg="8"
+			class="card-panel-col"
+		>
+			<div
+				class="card-panel"
+				@click="handleSetLineChartData('/equipment/ship/list')"
+			>
+				<div class="card-panel-icon-wrapper icon-money">
+					<svg-icon
+						icon-class="guide"
+						class-name="card-panel-icon"
+					/>
+				</div>
+				<div class="card-panel-description">
+					<div class="card-panel-text">
+						飞机
+					</div>
+					<count-to
+						:start-val="0"
+						:end-val="data.shelf"
+						:duration="2600"
+						class="card-panel-num"
+					/>
+				</div>
+			</div>
+		</el-col>
+
 	</el-row>
 </template>
 
