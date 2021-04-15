@@ -30,12 +30,12 @@ export function getRolePower(roleId) {
   })
 }
 
-export function roleAddPower(permissionId, roleId) {
+export function roleAddPower(permissionId, roleId, id) {
   return request({
     url: `/admin/xxl/permission/doAssign`,
     method: 'post',
     params: {
-      permissionId, roleId
+      permissionId, roleId, id
 
     }
   })

@@ -39,12 +39,12 @@
 					<div class="card-panel-text">
 						无人船
 					</div>
-					<count-to
+					<!-- <count-to
 						:start-val="0"
 						:end-val="data.user"
 						:duration="2600"
 						class="card-panel-num"
-					/>
+					/> -->
 				</div>
 			</div>
 		</el-col>
@@ -71,12 +71,12 @@
 					<div class="card-panel-text">
 						摄像头
 					</div>
-					<count-to
+					<!-- <count-to
 						:start-val="0"
 						:end-val="data.book"
 						:duration="3000"
 						class="card-panel-num"
-					/>
+					/> -->
 				</div>
 			</div>
 		</el-col>
@@ -101,12 +101,12 @@
 					<div class="card-panel-text">
 						传感器
 					</div>
-					<count-to
+					<!-- <count-to
 						:start-val="0"
 						:end-val="data.rank"
 						:duration="2600"
 						class="card-panel-num"
-					/>
+					/> -->
 				</div>
 			</div>
 		</el-col>
@@ -131,12 +131,12 @@
 					<div class="card-panel-text">
 						飞机
 					</div>
-					<count-to
+					<!-- <count-to
 						:start-val="0"
 						:end-val="data.shelf"
 						:duration="2600"
 						class="card-panel-num"
-					/>
+					/> -->
 				</div>
 			</div>
 		</el-col>
