@@ -218,7 +218,7 @@
 									controls
 									playsInline
 								>
-									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8" />
+									<source src="rtmp://58.200.131.2:1935/livetv/hunantv" />
 								</video>
 							</div>
 						</dv-border-box-10>
@@ -347,7 +347,7 @@ export default {
 		// }, 1000);
 	},
 	components: {
-		LineChart
+		LineChart,
 	},
 	data() {
 		return {
@@ -366,21 +366,21 @@ export default {
 			ec: [], //电导
 			td: [], //浊度
 			wt: [], //水温
-			DO: [] //溶解氧
+			DO: [], //溶解氧
 		};
 	},
 	computed: {
 		Point() {
 			const { x, y } = this;
 			return [x, y];
-		}
+		},
 	},
 	watch: {
 		Point(value) {
 			if (value[0] != 114.431408) {
 				this.initPoint();
 			}
-		}
+		},
 	},
 	// computed: {
 	// 	status() {
@@ -460,7 +460,7 @@ export default {
 			var map = new AMap.Map("container", {
 				zoom: 13,
 				center: [this.x, this.y],
-				mapStyle: "amap://styles/001a637581603985681831e1471630a5" //设置地图的显示样式
+				mapStyle: "amap://styles/001a637581603985681831e1471630a5", //设置地图的显示样式
 			});
 			this.map = map;
 		},
@@ -472,7 +472,7 @@ export default {
 			var icon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
 				image: "http://101.37.119.148:3000/ship.png", // Icon的图像
-				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+				imageSize: new AMap.Size(40, 50), // 根据所设置的大小拉伸或压缩图片
 			});
 
 			// 将 Icon 实例添加到 marker 上:
@@ -481,7 +481,7 @@ export default {
 				offset: new AMap.Pixel(-25, -25),
 				icon: icon,
 				title: "行星轮",
-				zoom: 13
+				zoom: 13,
 			});
 			this.prePoint = marker;
 			this.map.add(marker);
@@ -502,15 +502,15 @@ export default {
 		},
 		goOperation() {
 			this.$router.push({
-				path: `/ship/operation/${this.deviceId}`
+				path: `/ship/operation/${this.deviceId}`,
 			});
 		},
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`
+				path: `/equipment/ship/list`,
 			});
-		}
-	}
+		},
+	},
 };
 </script>
 

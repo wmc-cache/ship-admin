@@ -167,10 +167,10 @@ export default {
 			this.$confirm("是否删除该用户")
 				.then(async () => {
 					const data = await removeUser(id);
-					console.log(data);
+					//console.log(data);
 				})
 				.catch(() => {
-					console.log("error");
+					//console.log("error");
 				});
 		},
 		handleClose() {},
