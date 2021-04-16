@@ -82,8 +82,8 @@ export default {
 			}
 		};
 		const validatePassword = (rule, value, callback) => {
-			if (value.length < 5) {
-				callback(new Error("密码不能少于5位"));
+			if (value.length < 1) {
+				callback(new Error("密码不能少于1位"));
 			} else {
 				callback();
 			}
@@ -91,35 +91,35 @@ export default {
 		return {
 			loginForm: {
 				username: "admin",
-				password: "111111"
+				password: "111111",
 			},
 			loginRules: {
 				username: [
-					{ required: true, trigger: "blur", validator: validateUsername }
+					{ required: true, trigger: "blur", validator: validateUsername },
 				],
 				password: [
-					{ required: true, trigger: "blur", validator: validatePassword }
-				]
+					{ required: true, trigger: "blur", validator: validatePassword },
+				],
 			},
 			passwordType: "password",
 			capsTooltip: false,
 			loading: false,
 			showDialog: false,
 			redirect: undefined,
-			otherQuery: {}
+			otherQuery: {},
 		};
 	},
 	watch: {
 		$route: {
-			handler: function(route) {
+			handler: function (route) {
 				const query = route.query;
 				if (query) {
 					this.redirect = query.redirect;
 					this.otherQuery = this.getOtherQuery(query);
 				}
 			},
-			immediate: true
-		}
+			immediate: true,
+		},
 	},
 	created() {
 		// window.addEventListener('storage', this.afterQRScan)
@@ -161,7 +161,7 @@ export default {
 			});
 		},
 		handleLogin() {
-			this.$refs.loginForm.validate(valid => {
+			this.$refs.loginForm.validate((valid) => {
 				if (valid) {
 					this.loading = true;
 					this.$store
@@ -169,7 +169,7 @@ export default {
 						.then(() => {
 							this.$router.push({
 								path: this.redirect || "/",
-								query: this.otherQuery
+								query: this.otherQuery,
 							});
 							this.loading = false;
 						})
@@ -189,8 +189,8 @@ export default {
 				}
 				return acc;
 			}, {});
-		}
-	}
+		},
+	},
 };
 </script>
 

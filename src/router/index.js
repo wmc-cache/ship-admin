@@ -58,7 +58,8 @@ export const asyncRoutes = [
     name: 'equipment',
     meta: {
       title: '设备管理',
-      icon: 'documentation'
+      icon: 'documentation',
+      roles: ['admin', 'equipment']
     },
     children: [
 
@@ -100,7 +101,8 @@ export const asyncRoutes = [
     name: 'power',
     meta: {
       title: '权限管理',
-      icon: 'documentation'
+      icon: 'documentation',
+      roles: ['admin', 'power']
     },
     children: [
       {
@@ -126,7 +128,8 @@ export const asyncRoutes = [
     name: 'power',
     meta: {
       title: '角色管理',
-      icon: 'documentation'
+      icon: 'documentation',
+      roles: ['admin', 'roles']
     },
     children: [
       {
@@ -152,7 +155,8 @@ export const asyncRoutes = [
     name: 'user',
     meta: {
       title: '用户管理',
-      icon: 'documentation'
+      icon: 'documentation',
+      roles: ['admin', 'user']
     },
     children: [
       {

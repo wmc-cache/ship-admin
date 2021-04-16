@@ -25,9 +25,30 @@ service.interceptors.response.use(
   response => {
     const res = response.data
     //
-    //res.data.roles = ["admin"]
+    res.data.roles = []
+    if (res.data.name == "admin") {
+      res.data.roles = ["admin"]
+    }
+
     //
-    console.log("登录返回信息", res)
+    //console.log("登录返回信息", )
+    if (res.data.permissionMenuList) {
+      res.data.roles.push("equipment")
+    }
+
+    if (res.data.permissionMenuList) {
+      res.data.permissionMenuList.forEach(ele => {
+        if (ele.select == true) {
+          res.data.roles.push(ele.name)
+        }
+
+      })
+    }
+
+    // if (res.data.roles.length = 0) {
+    //   res.data.roles = ["test"]
+    // }
+
     const errMsg = res.message || res.msg || '请求失败'
     if (res.code !== 20000) {
       Message({
