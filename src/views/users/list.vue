@@ -1,126 +1,126 @@
 <template>
 
-	<div class="app-container">
+  <div class="app-container">
 
-		<el-dialog
-			title="新增用户"
-			:visible.sync="dialogVisible"
-			width="30%"
-			:before-close="handleClose"
-		>
-			<el-input
-				v-model="username"
-				clearable
-				placeholder="用户名称"
-			/>
-			<el-input
-				v-model="password"
-				type="password"
-				clearable
-				placeholder="密码"
-			/>
-			<span
-				slot="footer"
-				class="dialog-footer"
-			>
-				<el-button @click="dialogVisible = false">取 消</el-button>
-				<el-button
-					type="primary"
-					@click="sure"
-				>确 定</el-button>
-			</span>
-		</el-dialog>
+    <el-dialog
+      title="新增用户"
+      :visible.sync="dialogVisible"
+      width="30%"
+      :before-close="handleClose"
+    >
+      <el-input
+        v-model="username"
+        clearable
+        placeholder="用户名称"
+      />
+      <el-input
+        v-model="password"
+        type="password"
+        clearable
+        placeholder="密码"
+      />
+      <span
+        slot="footer"
+        class="dialog-footer"
+      >
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button
+          type="primary"
+          @click="sure"
+        >确 定</el-button>
+      </span>
+    </el-dialog>
 
-		<div class="filter-container">
+    <div class="filter-container">
 
-			<el-button
-				class="filter-item"
-				type="primary"
-				icon="el-icon-edit"
-				@click="handleCreate"
-			>
-				新增用户
-			</el-button>
+      <el-button
+        class="filter-item"
+        type="primary"
+        icon="el-icon-edit"
+        @click="handleCreate"
+      >
+        新增用户
+      </el-button>
 
-		</div>
-		<!-- 表格 -->
+    </div>
+    <!-- 表格 -->
 
-		<el-table
-			:key="tableKey"
-			:data="userList"
-			border
-			fit
-			highlight-current-row
-			style="width: 100%;"
-		>
+    <el-table
+      :key="tableKey"
+      :data="userList"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%;"
+    >
 
-			<el-table-column
-				label="id"
-				prop="id"
-				align="center"
-				width="200"
-			/>
-			<el-table-column
-				label="用户名"
-				prop="username"
-				align="center"
-				width="200"
-			/>
-			<el-table-column
-				label="gmtCreate"
-				prop="gmtCreate"
-				align="center"
-				width="200"
-			/>
-			<el-table-column
-				label="gmtModified"
-				prop="gmtModified"
-				align="center"
-				width="200"
-			/>
+      <el-table-column
+        label="id"
+        prop="id"
+        align="center"
+        width="200"
+      />
+      <el-table-column
+        label="用户名"
+        prop="username"
+        align="center"
+        width="200"
+      />
+      <el-table-column
+        label="gmtCreate"
+        prop="gmtCreate"
+        align="center"
+        width="200"
+      />
+      <el-table-column
+        label="gmtModified"
+        prop="gmtModified"
+        align="center"
+        width="200"
+      />
 
-			<el-table-column
-				label="操作"
-				align="center"
-			>
-				<template slot-scope="{ row }">
-					<el-button
-						type="text"
-						icon="el-icon-view"
-						style="cursor: pointer;"
-						@click="deleteUser(row.id)"
-					>删除用户
-					</el-button>
-					<el-button
-						type="text"
-						icon="el-icon-view"
-						style="cursor: pointer;"
-						@click="goToDetail(row.id,row.username)"
-					>用户角色管理
-					</el-button>
-				</template>
-			</el-table-column>
+      <el-table-column
+        label="操作"
+        align="center"
+      >
+        <template slot-scope="{ row }">
+          <el-button
+            type="text"
+            icon="el-icon-view"
+            style="cursor: pointer;"
+            @click="deleteUser(row.id)"
+          >删除用户
+          </el-button>
+          <el-button
+            type="text"
+            icon="el-icon-view"
+            style="cursor: pointer;"
+            @click="goToDetail(row.id,row.username)"
+          >用户角色管理
+          </el-button>
+        </template>
+      </el-table-column>
 
-		</el-table>
+    </el-table>
 
-		<pagination
-			v-show="total > 0"
-			:total="total"
-			:page.sync="listQuery.page"
-			:limit.sync="listQuery.pageSize"
-			@pagination="refresh"
-		/>
-	</div>
+    <pagination
+      v-show="total > 0"
+      :total="total"
+      :page.sync="listQuery.page"
+      :limit.sync="listQuery.pageSize"
+      @pagination="refresh"
+    />
+  </div>
 
 </template>
 
 <script>
-import Pagination from "@/components/Pagination";
-import { getUserList, addUser, userToRole, removeUser } from "../../api/user";
+import Pagination from '@/components/Pagination'
+import { getUserList, addUser, userToRole, removeUser } from '../../api/user'
 export default {
-	name: "UserList",
+	name: 'UserList',
 	components: {
-		Pagination,
+		Pagination
 	},
 	data() {
 		return {
@@ -132,57 +132,57 @@ export default {
 			password: null,
 			listQuery: {
 				page: 1, // 当前页数
-				pageSize: 5, // 每页数量
-			},
-		};
+				pageSize: 5 // 每页数量
+			}
+		}
 	},
 	mounted() {
 		getUserList(0, 5).then((res) => {
 			// console.log(res);
-			this.userList = res.data.items;
-			this.total = res.data.total;
-		});
+			this.userList = res.data.items
+			this.total = res.data.total
+		})
 		userToRole(1).then((res) => {
-			console.log("res", res);
-		});
+			console.log('res', res)
+		})
 	},
 	methods: {
 		handleCreate() {
-			this.dialogVisible = true;
+			this.dialogVisible = true
 		},
 		refresh() {
 			getUserList(this.listQuery.page, this.listQuery.pageSize).then((res) => {
-				this.userList = res.data.items;
-				this.total = res.data.total;
-			});
+				this.userList = res.data.items
+				this.total = res.data.total
+			})
 		},
 		async sure() {
 			await addUser({
 				password: this.password,
-				username: this.username,
-			});
-			this.dialogVisible = false;
-			location.reload();
+				username: this.username
+			})
+			this.dialogVisible = false
+			location.reload()
 		},
 		deleteUser(id) {
-			this.$confirm("是否删除该用户")
-				.then(async () => {
-					const data = await removeUser(id);
+			this.$confirm('是否删除该用户')
+				.then(async() => {
+					const data = await removeUser(id)
 					// console.log(data);
 				})
 				.catch(() => {
 					// console.log("error");
-				});
+				})
 		},
 		handleClose() {},
 		goToDetail(id, name) {
-			console.log(id, name);
+			console.log(id, name)
 			this.$router.push({
-				path: `/user/detail/${id}/${name}`,
-			});
-		},
-	},
-};
+				path: `/user/detail/${id}/${name}`
+			})
+		}
+	}
+}
 </script>
 
 <style>
