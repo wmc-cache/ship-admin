@@ -156,12 +156,13 @@ export default {
 				this.total = res.data.total;
 			});
 		},
-		sure() {
-			addUser({
+		async sure() {
+			await addUser({
 				password: this.password,
 				username: this.username,
 			});
 			this.dialogVisible = false;
+			location.reload();
 		},
 		deleteUser(id) {
 			this.$confirm("是否删除该用户")

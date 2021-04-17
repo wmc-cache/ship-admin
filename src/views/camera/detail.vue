@@ -41,7 +41,11 @@
 					<div class="left2">
 						<dv-border-box-10>
 							<div class="title">状态数据</div>
-
+							<pie-chart
+								class-name="pie"
+								height="23vh"
+								width="23vw"
+							></pie-chart>
 						</dv-border-box-10>
 					</div>
 				</div>
@@ -75,8 +79,10 @@
 					</div>
 					<div class="right2">
 						<dv-border-box-10>
-							<div class="title">其它数据</div>
-							<div class="data-list" />
+							<div class="title">操作</div>
+
+							<!-- <a-button>拍照</a-button> -->
+
 						</dv-border-box-10>
 					</div>
 				</div>
@@ -84,30 +90,8 @@
 			</div>
 			<div class="bottom">
 				<dv-border-box-10>
-					<!-- <div class="title">水质数据</div> -->
-					<div>
-						<div class="item-container">
-							<el-button @click="direction('lookup')">抬头</el-button>
-							<el-button @click="direction('lookdown')">低头</el-button>
-						</div>
-						<div class="center">
-							<el-button @click="direction('left')">左偏</el-button>
-							<el-button @click="direction('right')">右偏</el-button>
-						</div>
-						<div class="center">
-							<el-button @click="direction('up')">上升</el-button>
-							<el-button @click="direction('down')">下降</el-button>
-						</div>
+					<div class="title">方向操作</div>
 
-					</div>
-
-					<!-- <el-button></el-button>
-					<el-button></el-button> -->
-					<!-- <img
-						style="width:35px;height:35px"
-						src="../../assets/direction.png"
-						alt=""
-					> -->
 				</dv-border-box-10>
 			</div>
 		</div>
@@ -117,8 +101,11 @@
 
 <script>
 import MQTT from "paho-mqtt";
+import PieChart from "@/views/camera/pieChart";
 export default {
-	components: {},
+	components: {
+		PieChart,
+	},
 	data() {
 		return {
 			client: null, // MQTT实例
@@ -165,11 +152,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.item-container {
-	display: flex;
-	justify-content: flex-start;
-	align-items: flex-start;
+.pie {
+	position: absolute;
+	top: 6vh;
+	left: 2vh;
 }
+
 .body {
 	width: 100vw;
 	height: 100vh;
@@ -473,6 +461,7 @@ export default {
 			//background-color: #fff;
 			margin: auto;
 			margin-top: 2vh;
+
 			.title {
 				position: absolute;
 				left: 2vw;
@@ -482,13 +471,21 @@ export default {
 				font-weight: 400;
 				color: #0096ff;
 			}
-			.chart-list {
-				width: 95vw;
-				height: 22vh;
-				display: flex;
-				justify-content: space-around;
-				align-items: center;
-			}
+
+			// .box {
+			// 	// position: absolute;
+			// 	// left: 8vh;
+			// 	// top: 3vw;
+			// 	width: 13vh;
+			// 	height: 13vh;
+			// 	background: rgba(12, 51, 103, 0.51);
+			// 	box-shadow: 0px 0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6),
+			// 		0px -0.6vh 1.8vh 0px rgba(2, 245, 242, 0.6);
+			// 	border-radius: 50%;
+			// 	display: flex;
+			// 	justify-content: center;
+			// 	align-items: center;
+			// }
 		}
 	}
 }

@@ -94,7 +94,7 @@
 					width="200"
 				/>
 
-				<el-table-column label="操作">
+				<!-- <el-table-column label="操作">
 					<template slot-scope="{ row }">
 						<el-button
 							type="text"
@@ -102,11 +102,11 @@
 							style="cursor: pointer;"
 							@click="addRole(row.id,row.ids)"
 						>已拥有
-							<!-- {{row.select=="已拥有" ? "删除菜单":"添加菜单"}} -->
+
 						</el-button>
 
 					</template>
-				</el-table-column>
+				</el-table-column> -->
 
 			</el-table>
 
@@ -144,6 +144,7 @@ export default {
 	methods: {
 		async addRole(id, ids) {
 			await roleAddPower(id, this.$route.params.id);
+			location.reload();
 		},
 	},
 };
