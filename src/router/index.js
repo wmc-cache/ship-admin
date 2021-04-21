@@ -78,6 +78,13 @@ export const asyncRoutes = [
 
       },
       {
+        path: 'sensor/list',
+        component: () => import('@/views/sensor/list'),
+        name: 'SensorList',
+        meta: { title: '传感器列表', icon: 'list', noCache: true }
+
+      },
+      {
         path: 'selectMap/:deviceId',
         component: () => import('@/views/ship/selectMap'),
         name: 'selectMap',

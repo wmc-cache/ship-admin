@@ -16,7 +16,7 @@ export function getInfo() {
   })
 }
 
-// 获取无人船列表
+// 获取产品列表
 export function getProductList(page, pageSize) {
   return request({
     url: `/admin/xxl/product/${page}/${pageSize}`,
@@ -71,14 +71,14 @@ export function updataUser() {
   })
 }
 
-//
+//根据用户获取角色数据
 export function userToRole(userId) {
   return request({
     url: `/admin/xxl/user/toAssign/${userId}`,
     method: 'get'
   })
 }
-
+//用户添加角色
 export function userAddRole(roleId, userId) {
   return request({
     url: `/admin/xxl/user/doAssign`,
