@@ -190,6 +190,13 @@ export const asyncRoutes = [
     hidden: true
   },
   {
+    path: '/sensor/detail',
+    component: () => import('@/views/sensor/detail'),
+    name: 'SensorDetail',
+    meta: { title: '传感器详情', icon: 'guide', noCache: true },
+    hidden: true
+  },
+  {
     path: '/ship/detail/:deviceId',
     component: () => import('@/views/ship/detail'),
     name: 'ShipDetail',
