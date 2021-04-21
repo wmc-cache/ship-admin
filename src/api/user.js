@@ -71,14 +71,14 @@ export function updataUser() {
   })
 }
 
-//根据用户获取角色数据
+// 根据用户获取角色数据
 export function userToRole(userId) {
   return request({
     url: `/admin/xxl/user/toAssign/${userId}`,
     method: 'get'
   })
 }
-//用户添加角色
+// 用户添加角色
 export function userAddRole(roleId, userId) {
   return request({
     url: `/admin/xxl/user/doAssign`,

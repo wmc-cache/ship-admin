@@ -1,9 +1,9 @@
 <template>
-	<div class="app-container">
+  <div class="app-container">
 
-		<el-button @click="goToDetail">进入水质监控系统</el-button>
+    <el-button @click="goToDetail">进入水质监控系统</el-button>
 
-	</div>
+  </div>
 
 </template>
 
@@ -12,11 +12,11 @@ export default {
 	methods: {
 		goToDetail() {
 			this.$router.push({
-				path: "/camera/detail",
-			});
-		},
-	},
-};
+				path: '/camera/detail'
+			})
+		}
+	}
+}
 </script>
 
 <style>
