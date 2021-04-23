@@ -34,18 +34,18 @@
 					<div class="left1">
 						<dv-border-box-10>
 
-							<div class="title">气象数据</div>
+							<div class="title">{{ fmt( new Date() ) }}</div>
 
 						</dv-border-box-10>
 					</div>
 					<div class="left2">
 						<dv-border-box-10>
-							<div class="title">状态数据</div>
-							<!-- <pie-chart
+							<!-- <div class="title">状态数据</div> -->
+							<pie-chart
 								class-name="pie"
 								height="23vh"
 								width="23vw"
-							/> -->
+							/>
 						</dv-border-box-10>
 					</div>
 				</div>
@@ -66,14 +66,7 @@
 					<div class="right1">
 						<dv-border-box-10>
 							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
-								<video
-									id="myPlayer"
-									style="width:22vw;height: 18vh;"
-									controls
-									playsInline
-								>
-									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
-								</video>
+								<dv-decoration-12 style="width:150px;height:150px;" />
 							</div>
 						</dv-border-box-10>
 					</div>
@@ -106,31 +99,35 @@
 </template>
 
 <script>
+import { fmt } from "../../utils/date";
 import MQTT from "paho-mqtt";
-
+import PieChart from "@/views/sensor/pieChart";
 import Axios from "axios";
 export default {
-	components: {},
+	components: {
+		PieChart,
+	},
 	data() {
 		return {
+			fmt: fmt, // 时间格式化
 			client: null, // MQTT实例
 			x: null,
 			y: null,
 			map: null,
 			deviceId: null,
 			config: {
-				header: ["列1", "列2", "列3"],
+				header: ["ID", "传感器种类", "监测数据"],
 				data: [
-					["行1列1", "行1列2", "行1列3"],
-					["行2列1", "行2列2", "行2列3"],
-					["行3列1", "行3列2", "行3列3"],
-					["行4列1", "行4列2", "行4列3"],
-					["行5列1", "行5列2", "行5列3"],
-					["行6列1", "行6列2", "行6列3"],
-					["行7列1", "行7列2", "行7列3"],
-					["行8列1", "行8列2", "行8列3"],
-					["行9列1", "行9列2", "行9列3"],
-					["行10列1", "行10列2", "行10列3"],
+					["1", "水温", "17.9"],
+					["2", "电导率", "8.75"],
+					["3", "PH", "8.69"],
+					["4", "浊度", "9.4"],
+					["5", "溶解氧", "295"],
+					["6", "水温", "17.9"],
+					["7", "电导率", "8.75"],
+					["8", "PH", "8.69"],
+					["9", "浊度", "9.4"],
+					["10", "溶解氧", "295"],
 				],
 			},
 		};
