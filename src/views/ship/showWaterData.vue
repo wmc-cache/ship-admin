@@ -1,119 +1,119 @@
 <template>
 
-	<!-- <dv-full-screen-container> -->
+  <!-- <dv-full-screen-container> -->
 
-	<div class="body">
-		<div class="content">
-			<!-- <div class="menu2"></div> -->
-			<div
-				class="menu3"
-				@click="goIndex"
-			> 返回</div>
-			<!-- header -->
-			<div class="header">
+  <div class="body">
+    <div class="content">
+      <!-- <div class="menu2"></div> -->
+      <div
+        class="menu3"
+        @click="goIndex"
+      > 返回</div>
+      <!-- header -->
+      <div class="header">
 
-				<div class="title">
-					<div
-						class="text"
-						style="margin-top:1vh;margin-bottom:-1vw"
-					>无人船智能云平台</div>
+        <div class="title">
+          <div
+            class="text"
+            style="margin-top:1vh;margin-bottom:-1vw"
+          >无人船智能云平台</div>
 
-					<dv-decoration-5 style="width:40vw;height:5vh;" />
-				</div>
-				<img
-					src="../../assets/logo.png"
-					class="logo"
-				>
-			</div>
-			<!-- header -->
+          <dv-decoration-5 style="width:40vw;height:5vh;" />
+        </div>
+        <img
+          src="../../assets/logo.png"
+          class="logo"
+        >
+      </div>
+      <!-- header -->
 
-			<div
-				class="data-content"
-				style="display:flex"
-			>
-				<div class="left">
-					<div class="left1">
-						<dv-border-box-10>
-							<div style="height: 18vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
-								<el-date-picker
-									v-model="date"
-									type="daterange"
-									range-separator="-"
-									start-placeholder="开始日期"
-									end-placeholder="结束日期"
-								/>
-							</div>
+      <div
+        class="data-content"
+        style="display:flex"
+      >
+        <div class="left">
+          <div class="left1">
+            <dv-border-box-10>
+              <div style="height: 18vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+                <el-date-picker
+                  v-model="date"
+                  type="daterange"
+                  range-separator="-"
+                  start-placeholder="开始日期"
+                  end-placeholder="结束日期"
+                />
+              </div>
 
-						</dv-border-box-10>
-					</div>
-					<div class="left2">
-						<dv-border-box-10>
-							<pie-chart
-								class-name="pie"
-								height="23vh"
-								width="23vw"
-							/>
-						</dv-border-box-10>
+            </dv-border-box-10>
+          </div>
+          <div class="left2">
+            <dv-border-box-10>
+              <pie-chart
+                class-name="pie"
+                height="23vh"
+                width="23vw"
+              />
+            </dv-border-box-10>
 
-					</div>
-					<div class="left3">
-						<dv-border-box-10>
-							<div style="height:33vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
-								<line-chart
-									title="水温"
-									:chart-data="wt"
-								/>
-							</div>
+          </div>
+          <div class="left3">
+            <dv-border-box-10>
+              <div style="height:33vh;width: 26vw;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+                <line-chart
+                  title="水温"
+                  :chart-data="wt"
+                />
+              </div>
 
-						</dv-border-box-10>
-					</div>
+            </dv-border-box-10>
+          </div>
 
-				</div>
-				<div class="middle">
-					<div class="middle1">
-						<dv-border-box-10>
-							<div class="ID1">
-								船ID:{{ deviceId }}
+        </div>
+        <div class="middle">
+          <div class="middle1">
+            <dv-border-box-10>
+              <div class="ID1">
+                船ID:{{ deviceId }}
 
-							</div>
+              </div>
 
-							<div class="ID2">
-								湖泊ID:{{ MapId }}
-							</div>
+              <div class="ID2">
+                湖泊ID:{{ MapId }}
+              </div>
 
-						</dv-border-box-10>
-					</div>
-					<div class="middle2">
-						<dv-border-box-10>
-							<div style="width: 46.5vw;height: 61vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
-								<line-chart
-									title="电导率"
-									:chart-data="ec"
-								/>
-								<line-chart
-									title="浊度"
-									:chart-data="td"
-								/>
-								<line-chart
-									title="PH"
-									:chart-data="ph"
-								/>
-								<line-chart
-									title="溶解氧"
-									:chart-data="DO"
-								/>
+            </dv-border-box-10>
+          </div>
+          <div class="middle2">
+            <dv-border-box-10>
+              <div style="width: 46.5vw;height: 61vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+                <line-chart
+                  title="电导率"
+                  :chart-data="ec"
+                />
+                <line-chart
+                  title="浊度"
+                  :chart-data="td"
+                />
+                <line-chart
+                  title="PH"
+                  :chart-data="ph"
+                />
+                <line-chart
+                  title="溶解氧"
+                  :chart-data="DO"
+                />
 
-							</div>
+              </div>
 
-						</dv-border-box-10>
-					</div>
-				</div>
+            </dv-border-box-10>
+          </div>
+        </div>
 
-				<div class="right">
+        <div class="right">
 
-					<dv-border-box-10>
-						<div style="	width: 22vw;height: 84vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
-							<!-- <line-chart
+          <dv-border-box-10>
+            <div style="	width: 22vw;height: 84vh;display:flex;flex-wrap:wrap;justify-content:center;align-items: center;">
+              <!-- <line-chart
 								title="PH"
 								:chart-data="lineChartData"
 							/>
@@ -125,30 +125,30 @@
 								title="PM10"
 								:chart-data="lineChartData"
 							/> -->
-						</div>
+            </div>
 
-					</dv-border-box-10>
-				</div>
-			</div>
+          </dv-border-box-10>
+        </div>
+      </div>
 
-		</div>
-	</div>
+    </div>
+  </div>
 
-	<!-- </dv-full-screen-container> -->
+  <!-- </dv-full-screen-container> -->
 
 </template>
 
 <script>
-const lineChartData = ["8", "19", "29", "19", "12", "13", "13", "11", "22"];
-import LineChart from "@/views/ship/lineChart";
-import PieChart from "@/views/ship/pieChart";
-import { getDetectData } from "../../api/ship.js";
-import { fmt } from "../../utils/date";
+const lineChartData = ['8', '19', '29', '19', '12', '13', '13', '11', '22']
+import LineChart from '@/views/ship/lineChart'
+import PieChart from '@/views/ship/pieChart'
+import { getDetectData } from '../../api/ship.js'
+import { fmt } from '../../utils/date'
 export default {
-	name: "ShowWaterData",
+	name: 'ShowWaterData',
 	components: {
 		PieChart,
-		LineChart,
+		LineChart
 	},
 	data() {
 		return {
@@ -161,42 +161,42 @@ export default {
 			ec: [], // 电导
 			td: [], // 浊度
 			wt: [], // 水温
-			DO: [], // 溶解氧
-		};
+			DO: [] // 溶解氧
+		}
 	},
 	watch: {
 		date(value) {
-			const deviceId = this.$route.params.deviceId;
-			const mapId = this.$route.params.MapId;
-			this.ph = [];
-			this.ec = [];
-			this.td = [];
-			this.wt = [];
-			this.DO = [];
+			const deviceId = this.$route.params.deviceId
+			const mapId = this.$route.params.MapId
+			this.ph = []
+			this.ec = []
+			this.td = []
+			this.wt = []
+			this.DO = []
 			getDetectData(
 				deviceId,
 				mapId,
-				fmt(value[0]).split(" ")[0],
-				fmt(value[1]).split(" ")[0]
+				fmt(value[0]).split(' ')[0],
+				fmt(value[1]).split(' ')[0]
 			).then((res) => {
-				console.log(res);
-				this.water = res.data.data.water;
+				console.log(res)
+				this.water = res.data.data.water
 				this.water.forEach((ele) => {
-					this.ph.push(ele.ph);
-					this.ec.push(ele.ec);
-					this.td.push(ele.td);
-					this.wt.push(ele.wt);
-					this.DO.push(ele.doDo);
-				});
-				console.log("ph", this.ph);
-			});
-			console.log(fmt(value[0]).split(" ")[0]);
-			console.log(fmt(value[1]).split(" ")[0]);
-		},
+					this.ph.push(ele.ph)
+					this.ec.push(ele.ec)
+					this.td.push(ele.td)
+					this.wt.push(ele.wt)
+					this.DO.push(ele.doDo)
+				})
+				console.log('ph', this.ph)
+			})
+			console.log(fmt(value[0]).split(' ')[0])
+			console.log(fmt(value[1]).split(' ')[0])
+		}
 	},
 	mounted() {
-		this.MapId = this.$route.params.MapId;
-		this.deviceId = this.$route.params.deviceId;
+		this.MapId = this.$route.params.MapId
+		this.deviceId = this.$route.params.deviceId
 		// setInterval(() => {
 		// 	lineChartData.push(Math.random() * 100);
 		// }, 1000);
@@ -204,11 +204,11 @@ export default {
 	methods: {
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`,
-			});
-		},
-	},
-};
+				path: `/equipment/ship/list`
+			})
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>
