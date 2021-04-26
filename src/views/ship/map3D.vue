@@ -1,11 +1,9 @@
-<template>
-
-</template>
+<template />
 
 <script>
 export default {
-	name: "map3D",
-};
+	name: 'Map3D'
+}
 </script>
 
 <style>

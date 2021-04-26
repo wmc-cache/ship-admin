@@ -1,109 +1,109 @@
 <template>
 
-	<div class="body">
-		<div class="content">
-			<div class="menu1">数据总览</div>
-			<div
-				class="menu2"
-				@click="goOperation"
-				@touchstart="goOperation"
-			>设备操作</div>
-			<div
-				class="menu3"
-				@click="goIndex"
-				@touchstart="goIndex"
-			>返回</div>
-			<!-- header -->
-			<div class="header">
+  <div class="body">
+    <div class="content">
+      <div class="menu1">数据总览</div>
+      <div
+        class="menu2"
+        @click="goOperation"
+        @touchstart="goOperation"
+      >设备操作</div>
+      <div
+        class="menu3"
+        @click="goIndex"
+        @touchstart="goIndex"
+      >返回</div>
+      <!-- header -->
+      <div class="header">
 
-				<div class="title">
-					<div
-						class="text"
-						style="margin-top:1vh;margin-bottom:-1vw"
-					>传感器监控系统</div>
+        <div class="title">
+          <div
+            class="text"
+            style="margin-top:1vh;margin-bottom:-1vw"
+          >传感器监控系统</div>
 
-					<dv-decoration-5 style="width:40vw;height:5vh;" />
-				</div>
+          <dv-decoration-5 style="width:40vw;height:5vh;" />
+        </div>
 
-				<div class="tip-item" />
+        <div class="tip-item" />
 
-			</div>
-			<!-- header -->
-			<div class="content-middle">
-				<div class="content-left">
-					<div class="left1">
-						<dv-border-box-10>
+      </div>
+      <!-- header -->
+      <div class="content-middle">
+        <div class="content-left">
+          <div class="left1">
+            <dv-border-box-10>
 
-							<div class="title">{{ fmt( new Date() ) }}</div>
+              <div class="title">{{ fmt( new Date() ) }}</div>
 
-						</dv-border-box-10>
-					</div>
-					<div class="left2">
-						<dv-border-box-10>
-							<!-- <div class="title">状态数据</div> -->
-							<pie-chart
-								class-name="pie"
-								height="23vh"
-								width="23vw"
-							/>
-						</dv-border-box-10>
-					</div>
-				</div>
-				<div class="middle">
-					<dv-border-box-8
-						:reverse="true"
-						style="padding:0.5vh"
-					>
-						<div
-							id="container"
-							style="width:38vw;height:54vh;"
-						/>
-					</dv-border-box-8>
+            </dv-border-box-10>
+          </div>
+          <div class="left2">
+            <dv-border-box-10>
+              <!-- <div class="title">状态数据</div> -->
+              <pie-chart
+                class-name="pie"
+                height="23vh"
+                width="23vw"
+              />
+            </dv-border-box-10>
+          </div>
+        </div>
+        <div class="middle">
+          <dv-border-box-8
+            :reverse="true"
+            style="padding:0.5vh"
+          >
+            <div
+              id="container"
+              style="width:38vw;height:54vh;"
+            />
+          </dv-border-box-8>
 
-				</div>
+        </div>
 
-				<div class="content-right">
-					<div class="right1">
-						<dv-border-box-10>
-							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
-								<dv-decoration-12 style="width:150px;height:150px;" />
-							</div>
-						</dv-border-box-10>
-					</div>
-					<div class="right2">
-						<dv-border-box-10>
-							<div class="title">操作</div>
-							<div class="scroll-data">
-								<dv-scroll-board
-									:config="config"
-									style="	width: 26vw;
+        <div class="content-right">
+          <div class="right1">
+            <dv-border-box-10>
+              <div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
+                <dv-decoration-12 style="width:150px;height:150px;" />
+              </div>
+            </dv-border-box-10>
+          </div>
+          <div class="right2">
+            <dv-border-box-10>
+              <div class="title">操作</div>
+              <div class="scroll-data">
+                <dv-scroll-board
+                  :config="config"
+                  style="	width: 26vw;
 			                    height: 30vh;"
-								/>
-							</div>
+                />
+              </div>
 
-							<!-- <a-button>拍照</a-button> -->
+              <!-- <a-button>拍照</a-button> -->
 
-						</dv-border-box-10>
-					</div>
-				</div>
+            </dv-border-box-10>
+          </div>
+        </div>
 
-			</div>
-			<div class="bottom">
-				<dv-border-box-10 />
-			</div>
-		</div>
-	</div>
+      </div>
+      <div class="bottom">
+        <dv-border-box-10 />
+      </div>
+    </div>
+  </div>
 
 </template>
 
 <script>
-import { fmt } from "../../utils/date";
-import MQTT from "paho-mqtt";
-import PieChart from "@/views/sensor/pieChart";
-import Axios from "axios";
+import { fmt } from '../../utils/date'
+import MQTT from 'paho-mqtt'
+import PieChart from '@/views/sensor/pieChart'
+import Axios from 'axios'
 export default {
 	components: {
-		PieChart,
+		PieChart
 	},
 	data() {
 		return {
@@ -114,143 +114,143 @@ export default {
 			map: null,
 			deviceId: null,
 			config: {
-				header: ["ID", "传感器种类", "监测数据"],
+				header: ['ID', '传感器种类', '监测数据'],
 				data: [
-					["1", "水温", "17.9"],
-					["2", "电导率", "8.75"],
-					["3", "PH", "8.69"],
-					["4", "浊度", "9.4"],
-					["5", "溶解氧", "295"],
-					["6", "水温", "17.9"],
-					["7", "电导率", "8.75"],
-					["8", "PH", "8.69"],
-					["9", "浊度", "9.4"],
-					["10", "溶解氧", "295"],
-				],
-			},
-		};
+					['1', '水温', '17.9'],
+					['2', '电导率', '8.75'],
+					['3', 'PH', '8.69'],
+					['4', '浊度', '9.4'],
+					['5', '溶解氧', '295'],
+					['6', '水温', '17.9'],
+					['7', '电导率', '8.75'],
+					['8', 'PH', '8.69'],
+					['9', '浊度', '9.4'],
+					['10', '溶解氧', '295']
+				]
+			}
+		}
 	},
 	mounted() {
 		this.initMap();
 		[
 			[114.431408, 30.523486],
 			[114.431408, 30.524486],
-			[114.433408, 30.525486],
+			[114.433408, 30.525486]
 		].forEach((ele) => {
-			this.icon(ele[0], ele[1]);
-		});
+			this.icon(ele[0], ele[1])
+		})
 	},
 	methods: {
 		initMap() {
 			if (!this.x && !this.y) {
-				this.x = 114.431408;
-				this.y = 30.523486;
+				this.x = 114.431408
+				this.y = 30.523486
 			}
-			const map = new AMap.Map("container", {
+			const map = new AMap.Map('container', {
 				zoom: 13,
-				viewMode: "3D",
+				viewMode: '3D',
 				center: [this.x, this.y],
-				mapStyle: "amap://styles/001a637581603985681831e1471630a5", // 设置地图的显示样式
-			});
-			this.map = map;
+				mapStyle: 'amap://styles/001a637581603985681831e1471630a5' // 设置地图的显示样式
+			})
+			this.map = map
 		},
 		// 画摄像头
 		icon(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: "https://www.xxlun.com/website/file/sensor.png", // Icon的图像
-				imageSize: new AMap.Size(40, 50), // 根据所设置的大小拉伸或压缩图片
-			});
+				image: 'https://www.xxlun.com/website/file/sensor.png', // Icon的图像
+				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+			})
 			const planMarker = new AMap.Marker({
 				position: new AMap.LngLat(x, y),
 				offset: new AMap.Pixel(-20, -20),
 				icon: planIcon,
-				title: "摄像头",
-				zoom: 13,
-			});
-			planMarker.on("click", this.iconClick);
-			this.map.add(planMarker);
+				title: '摄像头',
+				zoom: 13
+			})
+			planMarker.on('click', this.iconClick)
+			this.map.add(planMarker)
 		},
 		// 摄像头点击事件
 		iconClick(e) {
-			console.log(e.lnglat.lng, e.lnglat.lat);
-			let title = `检测站${e.lnglat.lng},${e.lnglat.lat}`;
-			let content = [];
+			console.log(e.lnglat.lng, e.lnglat.lat)
+			const title = `检测站${e.lnglat.lng},${e.lnglat.lat}`
+			const content = []
 			content.push(
 				"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里"
-			);
-			content.push("电话：010-64733333");
+			)
+			content.push('电话：010-64733333')
 			content.push(
 				"<a href='https://ditu.amap.com/detail/B000A8URXB?citycode=110105'>详细信息</a>"
-			);
-			let infoWindow = new AMap.InfoWindow({
-				anchor: "bottom-left",
-				isCustom: true, //使用自定义窗体
-				content: this.createInfoWindow(title, content.join("<br/>")),
-				//offset: new AMap.Pixel(0, -155),
-			});
+			)
+			const infoWindow = new AMap.InfoWindow({
+				anchor: 'bottom-left',
+				isCustom: true, // 使用自定义窗体
+				content: this.createInfoWindow(title, content.join('<br/>'))
+				// offset: new AMap.Pixel(0, -155),
+			})
 
-			infoWindow.open(this.map, [`${e.lnglat.lng}`, `${e.lnglat.lat}`]);
+			infoWindow.open(this.map, [`${e.lnglat.lng}`, `${e.lnglat.lat}`])
 		},
-		//构建自定义信息窗体
+		// 构建自定义信息窗体
 		createInfoWindow(title, content) {
-			let info = document.createElement("div");
-			info.style.color = "#fff";
-			//可以通过下面的方式修改自定义窗体的宽高
+			const info = document.createElement('div')
+			info.style.color = '#fff'
+			// 可以通过下面的方式修改自定义窗体的宽高
 
-			info.style.width = "400px";
-			info.style.position = "relative";
+			info.style.width = '400px'
+			info.style.position = 'relative'
 			// 定义顶部标题
 
-			let top = document.createElement("div");
-			let titleD = document.createElement("div");
-			let closeX = document.createElement("img");
-			closeX.style.position = "absolute";
-			closeX.style.right = "0";
-			closeX.style.top = "0";
-			closeX.style.cursor = "pointer";
+			const top = document.createElement('div')
+			const titleD = document.createElement('div')
+			const closeX = document.createElement('img')
+			closeX.style.position = 'absolute'
+			closeX.style.right = '0'
+			closeX.style.top = '0'
+			closeX.style.cursor = 'pointer'
 
-			closeX.src = "https://webapi.amap.com/images/close2.gif";
-			closeX.onclick = this.closeInfoWindow;
-			top.style.backgroundColor = "#245098";
-			titleD.innerHTML = title;
+			closeX.src = 'https://webapi.amap.com/images/close2.gif'
+			closeX.onclick = this.closeInfoWindow
+			top.style.backgroundColor = '#245098'
+			titleD.innerHTML = title
 
-			top.appendChild(closeX);
-			top.appendChild(titleD);
-			info.appendChild(top);
+			top.appendChild(closeX)
+			top.appendChild(titleD)
+			info.appendChild(top)
 
 			// 定义中部内容
 
-			let middle = document.createElement("div");
-			middle.style.backgroundColor = "#245098";
-			middle.innerHTML = content;
-			info.appendChild(middle);
+			const middle = document.createElement('div')
+			middle.style.backgroundColor = '#245098'
+			middle.innerHTML = content
+			info.appendChild(middle)
 			// 定义底部内容
 
-			let bottom = document.createElement("div");
-			info.appendChild(bottom);
-			return info;
+			const bottom = document.createElement('div')
+			info.appendChild(bottom)
+			return info
 		},
 		closeInfoWindow() {
-			this.map.clearInfoWindow();
+			this.map.clearInfoWindow()
 		},
 		direction(value) {
-			if (value == "lookup") {
-				console.log(value);
+			if (value == 'lookup') {
+				console.log(value)
 			}
 		},
 		goOperation() {
 			this.$router.push({
-				path: `/ship/operation/${this.deviceId}`,
-			});
+				path: `/ship/operation/${this.deviceId}`
+			})
 		},
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`,
-			});
-		},
-	},
-};
+				path: `/equipment/ship/list`
+			})
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>
