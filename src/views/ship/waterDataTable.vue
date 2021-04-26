@@ -10,7 +10,6 @@
 				end-placeholder="结束日期"
 			/>
 			<FilenameOption v-model="filename" />
-			<!-- <AutoWidthOption v-model="autoWidth" /> -->
 			<BookTypeOption v-model="bookType" />
 			<el-button
 				:loading="downloadLoading"
@@ -127,9 +126,8 @@ export default {
 			import("@/vendor/Export2Excel").then((excel) => {
 				const tHeader = ["deviceId", "td", "ph", "wt", "doDo", "ec"];
 				const filterVal = ["deviceId", "td", "ph", "wt", "doDo", "ec"];
-				// const list = this.list;
 				const data = this.formatJson(filterVal, this.waterData);
-				// console.log(this.date, data);
+
 				excel.export_json_to_excel({
 					header: tHeader,
 					data,

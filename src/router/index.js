@@ -217,6 +217,14 @@ export const asyncRoutes = [
     meta: { title: '历史监测数据', icon: 'list', noCache: true },
     hidden: true
   },
+  {
+    path: '/map3D/:deviceId/:MapId',
+    component: () => import('@/views/ship/map3D'),
+    name: 'map3D',
+    meta: { title: 'map3D', icon: 'list', noCache: true },
+    hidden: true
+  },
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
