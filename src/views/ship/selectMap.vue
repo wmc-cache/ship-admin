@@ -63,8 +63,15 @@
 						icon="el-icon-view"
 						style="cursor: pointer;"
 						@click="goToDetailTable(row)"
-					>查看历史监测数据(图表)
+					>查看历史监测数据(可导出表格)
 					</el-button>
+
+					<el-button
+						type="text"
+						icon="el-icon-view"
+						style="cursor: pointer;"
+						@click="goToMap3D(row)"
+					>查看湖泊探测数据(可视化)</el-button>
 
 					<el-button
 						type="text"
@@ -122,6 +129,12 @@ export default {
 			const deviceId = this.$route.params.deviceId;
 			this.$router.push({
 				path: `/waterDataTable/${deviceId}/${row.id}`,
+			});
+		},
+		goToMap3D(row) {
+			const deviceId = this.$route.params.deviceId;
+			this.$router.push({
+				path: `/map3D/${deviceId}/${row.id}`,
 			});
 		},
 		handleClose() {

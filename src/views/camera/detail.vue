@@ -1,232 +1,234 @@
 <template>
 
-  <div class="body">
-    <div class="content">
-      <div class="menu1">数据总览</div>
-      <div
-        class="menu2"
-        @click="goOperation"
-        @touchstart="goOperation"
-      >设备操作</div>
-      <div
-        class="menu3"
-        @click="goIndex"
-        @touchstart="goIndex"
-      >返回</div>
-      <!-- header -->
-      <div class="header">
+	<div class="body">
+		<div class="content">
+			<div
+				class="menu3"
+				@click="goIndex"
+				@touchstart="goIndex"
+			>返回</div>
+			<!-- header -->
+			<div class="header">
 
-        <div class="title">
-          <div
-            class="text"
-            style="margin-top:1vh;margin-bottom:-1vw"
-          >水质监控系统</div>
+				<div class="title">
+					<div
+						class="text"
+						style="margin-top:1vh;margin-bottom:-1vw"
+					>水质监控系统</div>
 
-          <dv-decoration-5 style="width:40vw;height:5vh;" />
-        </div>
+					<dv-decoration-5 style="width:40vw;height:5vh;" />
+				</div>
 
-        <div class="tip-item" />
+				<div class="tip-item" />
 
-      </div>
-      <!-- header -->
-      <div class="content-middle">
-        <div class="content-left">
-          <div class="left1">
-            <dv-border-box-10>
+			</div>
+			<!-- header -->
+			<div class="content-middle">
+				<div class="content-left">
+					<div class="left1">
+						<dv-border-box-10>
 
-              <div class="title">{{ fmt( new Date() ) }}</div>
+							<img
+								src="../../assets/logo.png"
+								class="logo"
+							>
 
-            </dv-border-box-10>
-          </div>
-          <div class="left2">
-            <dv-border-box-10>
-              <!-- <div class="title">状态数据</div> -->
-              <pie-chart
-                class-name="pie"
-                height="23vh"
-                width="23vw"
-              />
-            </dv-border-box-10>
-          </div>
-        </div>
-        <div class="middle">
-          <dv-border-box-8
-            :reverse="true"
-            style="padding:0.5vh"
-          >
-            <div
-              id="container"
-              style="width:38vw;height:54vh;"
-            />
-          </dv-border-box-8>
+							<div
+								:key="fmtKey"
+								class="title"
+							>{{ fmt( new Date() ) }}</div>
 
-        </div>
+						</dv-border-box-10>
+					</div>
+					<div class="left2">
+						<dv-border-box-10>
+							<!-- <div class="title">状态数据</div> -->
+							<pie-chart
+								class-name="pie"
+								height="23vh"
+								width="23vw"
+							/>
+						</dv-border-box-10>
+					</div>
+				</div>
+				<div class="middle">
+					<dv-border-box-8
+						:reverse="true"
+						style="padding:0.5vh"
+					>
+						<div
+							id="container"
+							style="width:38vw;height:54vh;"
+						/>
+					</dv-border-box-8>
 
-        <div class="content-right">
-          <div class="right1">
-            <dv-border-box-10>
-              <div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
+				</div>
 
-                <video
-                  id="myPlayer"
-                  :key="key"
-                  style="width:22vw;height: 18vh;"
-                  controls
-                  playsInline
-                >
-                  <source :src="videoSrc">
-                </video>
-              </div>
-            </dv-border-box-10>
-          </div>
-          <div class="right2">
-            <dv-border-box-10>
-              <div class="title">操作</div>
-              <div class="scroll-data">
-                <dv-scroll-board
-                  :config="config"
-                  style="	width: 26vw;height: 30vh;"
-                  @click="scrollBoard"
-                />
-              </div>
+				<div class="content-right">
+					<div class="right1">
+						<dv-border-box-10>
+							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
 
-              <!-- <a-button>拍照</a-button> -->
+								<video
+									id="myPlayer"
+									:key="key"
+									style="width:22vw;height: 18vh;"
+									controls
+									playsInline
+								>
+									<source :src="videoSrc">
+								</video>
+							</div>
+						</dv-border-box-10>
+					</div>
+					<div class="right2">
+						<dv-border-box-10>
+							<div class="title">操作</div>
+							<div class="scroll-data">
+								<dv-scroll-board
+									:config="config"
+									style="	width: 26vw;height: 30vh;"
+									@click="scrollBoard"
+								/>
+							</div>
 
-            </dv-border-box-10>
-          </div>
-        </div>
+							<!-- <a-button>拍照</a-button> -->
 
-      </div>
-      <div class="bottom">
-        <dv-border-box-10>
+						</dv-border-box-10>
+					</div>
+				</div>
 
-          <div style="display:flex">
-            <div class="tip">方向控制</div>
-            <div class="box">
-              <el-tooltip
-                class="item"
-                effect="light"
-                content="抬头"
-                placement="top-start"
-              >
-                <i
-                  style="color:#4081c4;font-size:40px;"
-                  class="el-icon-caret-top pointer"
-                />
-              </el-tooltip>
+			</div>
+			<div class="bottom">
+				<dv-border-box-10>
 
-              <div class="box-middle">
-                <el-tooltip
-                  class="item"
-                  effect="light"
-                  content="左偏"
-                  placement="left-start"
-                >
-                  <i
-                    style="color:#4081c4;font-size:40px"
-                    class="el-icon-caret-left pointer"
-                  />
+					<div style="display:flex">
+						<div class="tip">方向控制</div>
+						<div class="box">
+							<el-tooltip
+								class="item"
+								effect="light"
+								content="抬头"
+								placement="top-start"
+							>
+								<i
+									style="color:#4081c4;font-size:40px;"
+									class="el-icon-caret-top pointer"
+								/>
+							</el-tooltip>
 
-                </el-tooltip>
-                <el-tooltip
-                  class="item"
-                  effect="light"
-                  content="右偏"
-                  placement="right-start"
-                ><i
-                  style="color:#4081c4;font-size:40px"
-                  class="el-icon-caret-right pointer"
-                />
+							<div class="box-middle">
+								<el-tooltip
+									class="item"
+									effect="light"
+									content="左偏"
+									placement="left-start"
+								>
+									<i
+										style="color:#4081c4;font-size:40px"
+										class="el-icon-caret-left pointer"
+									/>
 
-                </el-tooltip>
+								</el-tooltip>
+								<el-tooltip
+									class="item"
+									effect="light"
+									content="右偏"
+									placement="right-start"
+								><i
+										style="color:#4081c4;font-size:40px"
+										class="el-icon-caret-right pointer"
+									/>
 
-              </div>
+								</el-tooltip>
 
-              <el-tooltip
-                class="item"
-                effect="light"
-                content="低头"
-                placement="bottom-start"
-              >
-                <i
-                  style="color:#4081c4;font-size:40px"
-                  class="el-icon-caret-bottom pointer"
-                />
-              </el-tooltip>
+							</div>
 
-            </div>
-            <div class="tip">位置和焦距控制</div>
-            <div class="box2">
-              <el-tooltip
-                class="item"
-                effect="light"
-                content="上升"
-                placement="top-start"
-              >
-                <i
-                  style="color:#4081c4;font-size:40px;"
-                  class="el-icon-caret-top pointer"
-                />
-              </el-tooltip>
+							<el-tooltip
+								class="item"
+								effect="light"
+								content="低头"
+								placement="bottom-start"
+							>
+								<i
+									style="color:#4081c4;font-size:40px"
+									class="el-icon-caret-bottom pointer"
+								/>
+							</el-tooltip>
 
-              <div class="box-middle">
-                <el-tooltip
-                  class="item"
-                  effect="light"
-                  content="减小焦距"
-                  placement="left-start"
-                >
-                  <i
-                    style="color:#4081c4;font-size:40px"
-                    class="el-icon-caret-left pointer"
-                  />
+						</div>
+						<div class="tip">位置和焦距控制</div>
+						<div class="box2">
+							<el-tooltip
+								class="item"
+								effect="light"
+								content="上升"
+								placement="top-start"
+							>
+								<i
+									style="color:#4081c4;font-size:40px;"
+									class="el-icon-caret-top pointer"
+								/>
+							</el-tooltip>
 
-                </el-tooltip>
-                <el-tooltip
-                  class="item"
-                  effect="light"
-                  content="增大焦距"
-                  placement="right-start"
-                ><i
-                  style="color:#4081c4;font-size:40px"
-                  class="el-icon-caret-right pointer"
-                />
+							<div class="box-middle">
+								<el-tooltip
+									class="item"
+									effect="light"
+									content="减小焦距"
+									placement="left-start"
+								>
+									<i
+										style="color:#4081c4;font-size:40px"
+										class="el-icon-caret-left pointer"
+									/>
 
-                </el-tooltip>
+								</el-tooltip>
+								<el-tooltip
+									class="item"
+									effect="light"
+									content="增大焦距"
+									placement="right-start"
+								><i
+										style="color:#4081c4;font-size:40px"
+										class="el-icon-caret-right pointer"
+									/>
 
-              </div>
+								</el-tooltip>
 
-              <el-tooltip
-                class="item"
-                effect="light"
-                content="下降"
-                placement="bottom-start"
-              >
-                <i
-                  style="color:#4081c4;font-size:40px"
-                  class="el-icon-caret-bottom pointer"
-                />
-              </el-tooltip>
+							</div>
 
-            </div>
+							<el-tooltip
+								class="item"
+								effect="light"
+								content="下降"
+								placement="bottom-start"
+							>
+								<i
+									style="color:#4081c4;font-size:40px"
+									class="el-icon-caret-bottom pointer"
+								/>
+							</el-tooltip>
 
-          </div>
+						</div>
 
-        </dv-border-box-10>
-      </div>
-    </div>
-  </div>
+					</div>
+
+				</dv-border-box-10>
+			</div>
+		</div>
+	</div>
 
 </template>
 
 <script>
-import { fmt } from '../../utils/date'
-import MQTT from 'paho-mqtt'
-import PieChart from '@/views/camera/pieChart'
-import Axios from 'axios'
+import { fmt } from "../../utils/date";
+import MQTT from "paho-mqtt";
+import PieChart from "@/views/camera/pieChart";
+import Axios from "axios";
 export default {
 	components: {
-		PieChart
+		PieChart,
 	},
 	data() {
 		return {
@@ -237,32 +239,36 @@ export default {
 			deviceId: null,
 			fmt: fmt,
 			key: 0,
-			videoSrc: 'https://www.xxlun.com/website/file/test.mp4',
+			fmtKey: 0,
+			videoSrc: "https://www.xxlun.com/website/file/test.mp4",
 			config: {
-				header: ['摄像头编号', '状态信息'],
+				header: ["摄像头编号", "状态信息", "视频源"],
 				data: [
-					['摄像头1号', '正常'],
-					['摄像头2号', '捕捉到船'],
-					['摄像头3号', '正常'],
-					['摄像头4号', '正常'],
-					['摄像头5号', "<span style='color:#ff0000;'>异常状态</span>"],
-					['摄像头6号', '正常'],
-					['摄像头7号', '捕捉到人'],
-					['摄像头8号', '捕捉到船'],
-					['摄像头9号', '正常'],
-					['摄像头10号', '正常']
-				]
-			}
-		}
+					["摄像头1号", "正常", "https://www.xxlun.com/website/file/test.mp4"],
+					["摄像头2号", "捕捉到船"],
+					["摄像头3号", "正常"],
+					["摄像头4号", "正常"],
+					["摄像头5号", "<span style='color:#ff0000;'>异常状态</span>"],
+					["摄像头6号", "正常"],
+					["摄像头7号", "捕捉到人"],
+					["摄像头8号", "捕捉到船"],
+					["摄像头9号", "正常"],
+					["摄像头10号", "正常"],
+				],
+			},
+		};
 	},
 	mounted() {
 		this.initMap();
 		[
 			[114.431408, 30.523486],
-			[114.433408, 30.525486]
+			[114.433408, 30.525486],
 		].forEach((ele) => {
-			this.icon(ele[0], ele[1])
-		})
+			this.icon(ele[0], ele[1]);
+		});
+		setInterval(() => {
+			this.fmtKey++;
+		}, 1000);
 		// Axios.get(
 		// 	"https://api.seniverse.com/v3/weather/now.json?key=SXinuArqvyJdzO34c&location=beijing&language=zh-Hans&unit=c"
 		// ).then((res) => {
@@ -272,70 +278,71 @@ export default {
 	methods: {
 		initMap() {
 			if (!this.x && !this.y) {
-				this.x = 114.431408
-				this.y = 30.523486
+				this.x = 114.431408;
+				this.y = 30.523486;
 			}
-			const map = new AMap.Map('container', {
+			const map = new AMap.Map("container", {
 				zoom: 13,
-				viewMode: '3D',
+				viewMode: "3D",
 				center: [this.x, this.y],
-				mapStyle: 'amap://styles/001a637581603985681831e1471630a5' // 设置地图的显示样式
-			})
-			this.map = map
+				mapStyle: "amap://styles/001a637581603985681831e1471630a5", // 设置地图的显示样式
+			});
+			this.map = map;
 		},
 		// 画摄像头
 		icon(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
-				image: 'https://www.xxlun.com/website/file/camera.png', // Icon的图像
-				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
-			})
+				image: "https://www.xxlun.com/website/file/camera.png", // Icon的图像
+				imageSize: new AMap.Size(40, 50), // 根据所设置的大小拉伸或压缩图片
+			});
 			const planMarker = new AMap.Marker({
 				position: new AMap.LngLat(x, y),
 				offset: new AMap.Pixel(-20, -20),
 				icon: planIcon,
-				title: '摄像头',
-				zoom: 13
-			})
-			planMarker.on('click', this.iconClick)
+				title: "摄像头",
+				zoom: 13,
+			});
+			planMarker.on("click", this.iconClick);
 
-			this.map.add(planMarker)
+			this.map.add(planMarker);
 		},
 		// 轮播表点击事件
 		scrollBoard(e) {
-			this.videoSrc = 'https://www.xxlun.com/website/file/test.mp4'
-			this.key++
-			console.log(e)
+			if (e.row[2]) {
+				this.videoSrc = e.row[2];
+				this.key++;
+			}
 		},
 		// 摄像头点击事件
 		iconClick(e) {
 			this.videoSrc =
-				'https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8'
-			this.key++
-			console.log(e.lnglat.lng, e.lnglat.lat)
+				"https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8";
+			this.key++;
+			console.log(e.lnglat.lng, e.lnglat.lat);
 			const infoWindow = new AMap.InfoWindow({
-				anchor: 'top-left',
-				content: `${e.lnglat.lng},${e.lnglat.lat}`
-			})
-			infoWindow.open(this.map, [`${e.lnglat.lng}`, `${e.lnglat.lat}`])
+				anchor: "top-left",
+				content: `${e.lnglat.lng},${e.lnglat.lat}`,
+			});
+			infoWindow.open(this.map, [`${e.lnglat.lng}`, `${e.lnglat.lat}`]);
 		},
 		direction(value) {
-			if (value == 'lookup') {
-				console.log(value)
+			if (value == "lookup") {
+				console.log(value);
 			}
 		},
 		goOperation() {
 			this.$router.push({
-				path: `/ship/operation/${this.deviceId}`
-			})
+				path: `/ship/operation/${this.deviceId}`,
+			});
 		},
 		goIndex() {
 			this.$router.push({
-				path: `/equipment/ship/list`
-			})
-		}
-	}
-}
+				path: `/equipment/ship/list`,
+			});
+		},
+	},
+};
 </script>
 
 <style lang="scss" scoped>
@@ -481,10 +488,17 @@ export default {
 			margin-top: -11vh;
 			margin-left: 2vw;
 			position: relative;
+			.logo {
+				width: 10vw;
+				height: 5vh;
+				position: absolute;
+				top: 2vh;
+				left: 3vh;
+			}
 			.title {
 				position: absolute;
-				left: 2vw;
-				top: 2vh;
+				left: 14vw;
+				top: 3vh;
 				font-size: 1vw;
 				font-family: Source Han Sans CN;
 				font-weight: 400;
