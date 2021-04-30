@@ -75,6 +75,7 @@
 									style="width:22vw;height: 18vh;"
 									controls
 									playsInline
+									autoplay
 								>
 									<source :src="videoSrc">
 								</video>
@@ -239,15 +240,32 @@ export default {
 			deviceId: null,
 			fmt: fmt,
 			key: 0,
+			currentVideo: "摄像头1号",
 			fmtKey: 0,
-			videoSrc: "https://www.xxlun.com/website/file/test.mp4",
+			videoSrc: "https://www.xxlun.com/website/file/video/video1.mp4",
 			config: {
 				header: ["摄像头编号", "状态信息", "视频源"],
 				data: [
-					["摄像头1号", "正常", "https://www.xxlun.com/website/file/test.mp4"],
-					["摄像头2号", "捕捉到船"],
-					["摄像头3号", "正常"],
-					["摄像头4号", "正常"],
+					[
+						"摄像头1号",
+						"捕捉到车",
+						"https://www.xxlun.com/website/file/video/video1.mp4",
+					],
+					[
+						"摄像头2号",
+						"捕捉到人",
+						"https://www.xxlun.com/website/file/video/video2.mp4",
+					],
+					[
+						"摄像头3号",
+						"捕捉到船",
+						"https://www.xxlun.com/website/file/video/video3.mp4",
+					],
+					[
+						"摄像头4号",
+						"正常",
+						"https://www.xxlun.com/website/file/video/video4.mp4",
+					],
 					["摄像头5号", "<span style='color:#ff0000;'>异常状态</span>"],
 					["摄像头6号", "正常"],
 					["摄像头7号", "捕捉到人"],
