@@ -3,10 +3,12 @@
   <div class="app-container">
 
     <el-dialog
+      v-el-drag-dialog
       title="新增用户"
       :visible.sync="dialogVisible"
       width="30%"
       :before-close="handleClose"
+      @dragDialog="handleDrag"
     >
       <el-input
         v-model="username"
@@ -118,12 +120,14 @@
 
 <script>
 import Pagination from '@/components/Pagination'
+import elDragDialog from '@/directive/el-drag-dialog'
 import { getUserList, addUser, userToRole, removeUser } from '../../api/user'
 export default {
 	name: 'UserList',
 	components: {
 		Pagination
 	},
+	directives: { elDragDialog },
 	data() {
 		return {
 			total: 10,
@@ -149,6 +153,9 @@ export default {
 		})
 	},
 	methods: {
+		handleDrag() {
+			this.$refs.select.blur()
+		},
 		handleCreate() {
 			this.dialogVisible = true
 		},

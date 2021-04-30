@@ -29,9 +29,9 @@
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/ship/list')"
 			>
-				<div class="card-panel-icon-wrapper icon-people">
+				<div class="card-panel-icon-wrapper icon-ship">
 					<svg-icon
-						icon-class="peoples"
+						icon-class="ship"
 						class-name="card-panel-icon"
 					/>
 				</div>
@@ -61,9 +61,9 @@
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/camera/list')"
 			>
-				<div class="card-panel-icon-wrapper icon-message">
+				<div class="card-panel-icon-wrapper icon-camera">
 					<svg-icon
-						icon-class="message"
+						icon-class="camera"
 						class-name="card-panel-icon"
 					/>
 				</div>
@@ -197,11 +197,11 @@ export default {
 				color: #fff;
 			}
 
-			.icon-people {
+			.icon-ship {
 				background: #40c9c6;
 			}
 
-			.icon-message {
+			.icon-camera {
 				background: #36a3f7;
 			}
 
@@ -214,11 +214,11 @@ export default {
 			}
 		}
 
-		.icon-people {
+		.icon-ship {
 			color: #40c9c6;
 		}
 
-		.icon-message {
+		.icon-camera {
 			color: #36a3f7;
 		}
 
