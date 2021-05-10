@@ -53,11 +53,8 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-        //const { roles, username: name, avatar, introduction = '' } = data
+
         console.log("用户信息:", data)
-        // if (!roles || roles.length <= 0) {
-        //   reject('角色不存在！')
-        // }
         commit('SET_ROLES', data.roles)
         commit('SET_NAME', data.name)
         commit('SET_AVATAR', data.avatar)
@@ -88,7 +85,7 @@ const actions = {
   resetToken({ commit }) {
     return new Promise(resolve => {
       commit('SET_TOKEN', '')
-      commit('SET_ROLES', [])
+      commit('SET_ROLES', ["equipment"])
       removeToken()
       resolve()
     })
