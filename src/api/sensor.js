@@ -16,7 +16,7 @@ export function getSiteList(page, pageSize) {
 //获取传感器列表
 export function getSensorList(page, pageSize) {
   return request({
-    url: `/admin/xxl/device/${page}/${pageSize}`,
+    url: `/admin/xxl/device/${page}/${pageSize}/3`,
     method: 'get'
 
   })

@@ -71,6 +71,7 @@
 </template>
 
 <script>
+import { getToken } from "@/utils/auth";
 export default {
 	name: "Login",
 	data() {
@@ -167,10 +168,13 @@ export default {
 					this.$store
 						.dispatch("user/login", this.loginForm)
 						.then(() => {
+							console.log(getToken());
+
 							this.$router.push({
 								path: this.redirect || "/",
 								query: this.otherQuery,
 							});
+
 							this.loading = false;
 						})
 						.catch(() => {

@@ -1,13 +1,30 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+	<div id="app">
+		<router-view />
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'App'
-}
+	name: "App",
+
+	// watch: {
+	// 	Point(value) {
+	// 		if (value[0] != 114.431408) {
+	// 			this.initPoint();
+	// 			this.currentList.push(value);
+	// 			this.draw(this.currentList);
+	// 		}
+	// 	},
+	// },
+	mounted() {
+		setTimeout(() => {
+			if (!this.$store.state.user.name) {
+				location.reload();
+			}
+		}, 3000);
+	},
+};
 </script>
 
 <style scoped>

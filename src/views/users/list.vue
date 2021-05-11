@@ -8,7 +8,6 @@
 			:visible.sync="dialogVisible"
 			width="30%"
 			:before-close="handleClose"
-			@dragDialog="handleDrag"
 		>
 			<el-input
 				v-model="username"
@@ -154,7 +153,7 @@ export default {
 	},
 	methods: {
 		handleDrag() {
-			//this.$refs.select.blur();
+			// this.$refs.select.blur();
 		},
 		handleCreate() {
 			this.dialogVisible = true;

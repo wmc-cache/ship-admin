@@ -27,8 +27,10 @@ export function getProductList(page, pageSize) {
 // 获取无人船列表
 export function getDeviceList(page, pageSize) {
   return request({
-    url: `/admin/xxl/device/${page}/${pageSize}`,
-    method: 'get'
+    url: `/admin/xxl/device/${page}/${pageSize}/1`,
+    method: 'get',
+
+
 
   })
 }

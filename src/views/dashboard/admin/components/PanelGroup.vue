@@ -37,7 +37,7 @@
 				</div>
 				<div class="card-panel-description">
 					<div class="card-panel-text">
-						无人船
+						无人船云平台
 					</div>
 					<!-- <count-to
 						:start-val="0"
@@ -69,7 +69,7 @@
 				</div>
 				<div class="card-panel-description">
 					<div class="card-panel-text">
-						摄像头
+						智慧监控云平台
 					</div>
 					<!-- <count-to
 						:start-val="0"
@@ -99,7 +99,7 @@
 				</div>
 				<div class="card-panel-description">
 					<div class="card-panel-text">
-						传感器
+						环境监测平台
 					</div>
 					<!-- <count-to
 						:start-val="0"
@@ -129,7 +129,7 @@
 				</div>
 				<div class="card-panel-description">
 					<div class="card-panel-text">
-						飞机
+						无人机智慧云平台
 					</div>
 					<!-- <count-to
 						:start-val="0"
