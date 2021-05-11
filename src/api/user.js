@@ -28,9 +28,7 @@ export function getProductList(page, pageSize) {
 export function getDeviceList(page, pageSize) {
   return request({
     url: `/admin/xxl/device/${page}/${pageSize}/1`,
-    method: 'get',
-
-
+    method: 'get'
 
   })
 }

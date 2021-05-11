@@ -1,8 +1,8 @@
 <template>
-	<!-- 三等分 四等分 五等分 -->
-	<!-- <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col"> -->
-	<!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col"> -->
-	<!-- <el-col :xs="12" :sm="12" :lg="{span: '4-8'}" class="card-panel-col">
+  <!-- 三等分 四等分 五等分 -->
+  <!-- <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col"> -->
+  <!-- <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col"> -->
+  <!-- <el-col :xs="12" :sm="12" :lg="{span: '4-8'}" class="card-panel-col">
 </el-col>
 
 ---------------------------------------------------------------------------
@@ -12,165 +12,165 @@
 	}
 </style> -->
 
-	<el-row
-		:gutter="30"
-		class="panel-group"
-	>
-		<!-- 无人船 -->
-		<!-- 无人船 -->
-		<!-- 无人船 -->
-		<el-col
-			:xs="12"
-			:sm="12"
-			:lg="8"
-			class="card-panel-col"
-		>
-			<div
-				class="card-panel"
-				@click="handleSetLineChartData('/equipment/ship/list')"
-			>
-				<div class="card-panel-icon-wrapper icon-ship">
-					<svg-icon
-						icon-class="ship"
-						class-name="card-panel-icon"
-					/>
-				</div>
-				<div class="card-panel-description">
-					<div class="card-panel-text">
-						无人船云平台
-					</div>
-					<!-- <count-to
+  <el-row
+    :gutter="30"
+    class="panel-group"
+  >
+    <!-- 无人船 -->
+    <!-- 无人船 -->
+    <!-- 无人船 -->
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="8"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('/equipment/ship/list')"
+      >
+        <div class="card-panel-icon-wrapper icon-ship">
+          <svg-icon
+            icon-class="ship"
+            class-name="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            无人船云平台
+          </div>
+          <!-- <count-to
 						:start-val="0"
 						:end-val="data.user"
 						:duration="2600"
 						class="card-panel-num"
 					/> -->
-				</div>
-			</div>
-		</el-col>
-		<!-- 无人船 -->
-		<!-- 无人船 -->
-		<!-- 无人船 -->
-		<el-col
-			:xs="12"
-			:sm="12"
-			:lg="8"
-			class="card-panel-col"
-		>
-			<div
-				class="card-panel"
-				@click="handleSetLineChartData('/equipment/camera/list')"
-			>
-				<div class="card-panel-icon-wrapper icon-camera">
-					<svg-icon
-						icon-class="camera"
-						class-name="card-panel-icon"
-					/>
-				</div>
-				<div class="card-panel-description">
-					<div class="card-panel-text">
-						智慧监控云平台
-					</div>
-					<!-- <count-to
+        </div>
+      </div>
+    </el-col>
+    <!-- 无人船 -->
+    <!-- 无人船 -->
+    <!-- 无人船 -->
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="8"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('/equipment/camera/list')"
+      >
+        <div class="card-panel-icon-wrapper icon-camera">
+          <svg-icon
+            icon-class="camera"
+            class-name="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            智慧监控云平台
+          </div>
+          <!-- <count-to
 						:start-val="0"
 						:end-val="data.book"
 						:duration="3000"
 						class="card-panel-num"
 					/> -->
-				</div>
-			</div>
-		</el-col>
+        </div>
+      </div>
+    </el-col>
 
-		<el-col
-			:xs="12"
-			:sm="12"
-			:lg="8"
-			class="card-panel-col"
-		>
-			<div
-				class="card-panel"
-				@click="handleSetLineChartData('/equipment/ship/list')"
-			>
-				<div class="card-panel-icon-wrapper icon-shopping">
-					<svg-icon
-						icon-class="link"
-						class-name="card-panel-icon"
-					/>
-				</div>
-				<div class="card-panel-description">
-					<div class="card-panel-text">
-						环境监测平台
-					</div>
-					<!-- <count-to
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="8"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('/equipment/ship/list')"
+      >
+        <div class="card-panel-icon-wrapper icon-shopping">
+          <svg-icon
+            icon-class="link"
+            class-name="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            环境监测平台
+          </div>
+          <!-- <count-to
 						:start-val="0"
 						:end-val="data.rank"
 						:duration="2600"
 						class="card-panel-num"
 					/> -->
-				</div>
-			</div>
-		</el-col>
+        </div>
+      </div>
+    </el-col>
 
-		<el-col
-			:xs="12"
-			:sm="12"
-			:lg="8"
-			class="card-panel-col"
-		>
-			<div
-				class="card-panel"
-				@click="handleSetLineChartData('/equipment/ship/list')"
-			>
-				<div class="card-panel-icon-wrapper icon-money">
-					<svg-icon
-						icon-class="guide"
-						class-name="card-panel-icon"
-					/>
-				</div>
-				<div class="card-panel-description">
-					<div class="card-panel-text">
-						无人机智慧云平台
-					</div>
-					<!-- <count-to
+    <el-col
+      :xs="12"
+      :sm="12"
+      :lg="8"
+      class="card-panel-col"
+    >
+      <div
+        class="card-panel"
+        @click="handleSetLineChartData('/equipment/ship/list')"
+      >
+        <div class="card-panel-icon-wrapper icon-money">
+          <svg-icon
+            icon-class="guide"
+            class-name="card-panel-icon"
+          />
+        </div>
+        <div class="card-panel-description">
+          <div class="card-panel-text">
+            无人机智慧云平台
+          </div>
+          <!-- <count-to
 						:start-val="0"
 						:end-val="data.shelf"
 						:duration="2600"
 						class="card-panel-num"
 					/> -->
-				</div>
-			</div>
-		</el-col>
+        </div>
+      </div>
+    </el-col>
 
-	</el-row>
+  </el-row>
 </template>
 
 <script>
-import CountTo from "vue-count-to";
-import { bookHome } from "@/api/book";
-import { getProductList } from "../../../../api/user";
+import CountTo from 'vue-count-to'
+import { bookHome } from '@/api/book'
+import { getProductList } from '../../../../api/user'
 
 export default {
 	components: {
-		CountTo,
+		CountTo
 	},
 	data() {
 		return {
-			data: { user: 1000, book: 1200, shelf: 1800, rank: 300000 },
-		};
+			data: { user: 1000, book: 1200, shelf: 1800, rank: 300000 }
+		}
 	},
 	mounted() {
-		getProductList(1, 10);
+		getProductList(1, 10)
 		// bookHome().then(response => {
 		// 	this.data = response.data;
 		// });
 	},
 	methods: {
 		handleSetLineChartData(link) {
-			this.$router.push({ path: `${link}` });
+			this.$router.push({ path: `${link}` })
 			// this.$emit("handleSetLineChartData", type);
-		},
-	},
-};
+		}
+	}
+}
 </script>
 
 <style lang="scss" scoped>

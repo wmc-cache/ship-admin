@@ -38,7 +38,6 @@ service.interceptors.response.use(
     }
     const errMsg = res.message || res.msg || '请求失败'
     if (res.code !== 20000) {
-
       Message({
         message: errMsg,
         type: 'error',
