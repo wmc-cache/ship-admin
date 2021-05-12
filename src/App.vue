@@ -1,12 +1,12 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+	<div id="app">
+		<router-view />
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'App',
+	name: "App",
 
 	// watch: {
 	// 	Point(value) {
@@ -20,11 +20,11 @@ export default {
 	mounted() {
 		setTimeout(() => {
 			if (!this.$store.state.user.name) {
-				location.reload()
+				location.reload();
 			}
-		}, 3000)
-	}
-}
+		}, 15000);
+	},
+};
 </script>
 
 <style scoped>

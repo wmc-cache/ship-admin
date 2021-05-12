@@ -23,9 +23,20 @@ export function getMapList(mapId) {
   })
 }
 
-export function getMapListShow(deviceId) {
+// 无人船
+export function editDevice(data) {
   return request({
-    url: '/admin/xxl/map/list',
+    url: `/admin/xxl/device/updata`,
+    method: 'post',
+    data
+
+  })
+}
+
+
+export function getMapListShow(deviceId, page, pageSize) {
+  return request({
+    url: `/admin/xxl/map/list/${page}/${pageSize}`,
     method: 'get',
     params: { deviceId }
 
