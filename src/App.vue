@@ -18,11 +18,11 @@ export default {
 	// 	},
 	// },
 	mounted() {
-		setTimeout(() => {
-			if (!this.$store.state.user.name) {
-				location.reload();
-			}
-		}, 15000);
+		// setTimeout(() => {
+		// 	if (!this.$store.state.user.name) {
+		// 		location.reload();
+		// 	}
+		// }, 15000);
 	},
 };
 </script>

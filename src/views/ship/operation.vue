@@ -3,6 +3,28 @@
 	<!-- <dv-full-screen-container> -->
 
 	<div class="body">
+		<!-- <el-dialog
+			title="无人船实时视频"
+			:visible.sync="dialogVideo"
+			width="50%"
+			:before-close="handleClose"
+		>
+			<video
+				id="dialogPlayer"
+				style="width:48vw;height: 50vh;"
+				controls
+				playsInline
+			>
+				<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
+			</video>
+		</el-dialog> -->
+		<el-button
+			@click="openVideo"
+			class="fixed"
+			type="primary"
+		>
+			打开视频拖拽框
+		</el-button>
 		<!-- 设置对话框 -->
 		<el-dialog
 			title="设置"
@@ -417,6 +439,7 @@
 						<dv-border-box-10>
 							<div style="width: 25vw;height: 21vh;display:flex;justify-content:center;align-items:center;">
 								<video
+									ref="video"
 									id="myPlayer"
 									style="width:22vw;height: 18vh;"
 									controls
@@ -618,6 +641,7 @@ export default {
 	},
 	data() {
 		return {
+			dialogVideo: false,
 			selectBackMode: false,
 			isFirst: true,
 			fmt: fmt, // 时间格式化
@@ -1286,6 +1310,9 @@ export default {
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
+		openVideo() {
+			this.$refs.video.requestPictureInPicture();
+		},
 		// 对话框
 		handleClose(done) {
 			this.$confirm("确认关闭？")
@@ -1389,6 +1416,13 @@ export default {
 }
 .draw {
 	cursor: pointer;
+}
+
+.fixed {
+	position: fixed;
+	top: 25vh;
+	left: 5vw;
+	z-index: 1000;
 }
 
 .backActive {
