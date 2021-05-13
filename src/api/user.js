@@ -32,6 +32,16 @@ export function getDeviceList(page, pageSize) {
 
   })
 }
+// 搜索无人船
+export function searchShip(page, pageSize, query) {
+  return request({
+    url: `/admin/xxl/device/${page}/${pageSize}/1`,
+    method: 'get',
+    params: {
+      ...query
+    }
+  })
+}
 
 export function logout() {
   return request({

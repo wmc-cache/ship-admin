@@ -174,6 +174,12 @@ export default {
 								path: this.redirect || '/',
 								query: this.otherQuery
 							})
+							// 修补不知名的bug
+							setTimeout(() => {
+								if (!this.$store.state.user.name) {
+									location.reload()
+								}
+							}, 1000)
 
 							this.loading = false
 						})
