@@ -1546,7 +1546,7 @@ export default {
 			border: 0.1vh solid #4081c4;
 			color: #fff;
 			font-size: 1.5vh;
-			width: auto;
+			width: 25vw;
 			height: 3vh;
 			font-family: Source Han Sans CN;
 			font-weight: bold;

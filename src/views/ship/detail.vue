@@ -351,11 +351,11 @@ export default {
 		this.$nextTick(() => {
 			const player = new EZUIPlayer("myPlayer");
 		});
-		// setInterval(() => {
-		// 	if (this.DO) {
-		// 		this.DO.push(Math.random() * 100);
-		// 	}
-		// }, 1000);
+		setInterval(() => {
+			if (this.DO) {
+				this.DO.push(Math.random() * 100);
+			}
+		}, 1000);
 	},
 	// computed: {
 	// 	status() {

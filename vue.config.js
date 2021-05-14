@@ -22,20 +22,20 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    // proxy: {
-    //   '/admin': {
-    //     target: 'http://192.168.199.186:8009/union',
-    //     changOrigin: true
-    //   }
-
-    // },
     proxy: {
       '/admin': {
-        target: 'http://wuhanligong.xxlun.com/union',
+        target: 'http://192.168.199.186:8009/union',
         changOrigin: true
       }
 
     },
+    // proxy: {
+    //   '/admin': {
+    //     target: 'http://wuhanligong.xxlun.com/union',
+    //     changOrigin: true
+    //   }
+
+    // },
 
   },
   configureWebpack: {

@@ -82,6 +82,7 @@
 						placeholder="平台名称"
 					/>
 				</el-form-item>
+				<upload></upload>
 			</el-form>
 
 			<span
@@ -94,6 +95,7 @@
 					@click="sureEdit"
 				>确 定</el-button>
 			</span>
+
 		</el-dialog>
 
 		<el-table
@@ -216,13 +218,16 @@
 </template>
 
 <script>
+import upload from "@/views/ship/upload";
 import Pagination from "@/components/Pagination";
 import elDragDialog from "@/directive/el-drag-dialog";
 import { getDeviceList, searchShip } from "../../api/user";
 import { editDevice } from "../../api/ship";
+
 export default {
 	components: {
 		Pagination,
+		upload,
 	},
 	directives: { elDragDialog },
 	filters: {
