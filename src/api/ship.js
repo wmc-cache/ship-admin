@@ -16,7 +16,7 @@ export function getDetectData(deviceId, mapId, startTime, endTime) {
 // 获取地图列表
 export function getMapList(mapId) {
   return request({
-    url: '/admin/xxl/map/list',
+    url: '/admin/xxl/map/list/0/10',
     method: 'get',
     params: { mapId }
 

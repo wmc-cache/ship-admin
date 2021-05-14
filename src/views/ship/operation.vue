@@ -23,7 +23,15 @@
 			class="fixed"
 			type="primary"
 		>
-			打开视频拖拽框
+			切换视频与地图
+		</el-button>
+
+		<el-button
+			@click="openVideo2"
+			class="fixed2"
+			type="primary"
+		>
+			画中画模式
 		</el-button>
 		<!-- 设置对话框 -->
 		<el-dialog
@@ -641,6 +649,7 @@ export default {
 	},
 	data() {
 		return {
+			state: "map",
 			dialogVideo: false,
 			selectBackMode: false,
 			isFirst: true,
@@ -822,7 +831,7 @@ export default {
 				// console.log("mapId", this.pool_info.mapId);
 				if (this.pool_info.mapId) {
 					getMapList(this.pool_info.mapId).then((res) => {
-						this.draw(JSON.parse(res.data.mapList[0].mapData));
+						this.draw(JSON.parse(res.data.mapList.records[0].mapData));
 						this.sureMap = true;
 					});
 				}
@@ -896,7 +905,7 @@ export default {
 			}
 			var map = new AMap.Map("container", {
 				zoom: 13,
-				scrollWheel: false,
+				// scrollWheel: false,
 				center: [this.x, this.y],
 				mapStyle: "amap://styles/001a637581603985681831e1471630a5", // 设置地图的显示样式
 			});
@@ -1310,8 +1319,41 @@ export default {
 				this.initPoint(this.x, this.y);
 			}, 2000);
 		},
+		swap(node1, node2) {
+			const afterNode2 = node2.nextElementSibling;
+			const parent = node2.parentNode;
+			node1.replaceWith(node2);
+			parent.insertBefore(node1, afterNode2);
+		},
 		openVideo() {
-			this.$refs.video.requestPictureInPicture();
+			console.log(
+				document.getElementById("myPlayer"),
+				document.getElementById("container")
+			);
+			if (this.state == "map") {
+				this.state = "video";
+				document.getElementById("container").style.width = "22vw";
+				document.getElementById("container").style.height = "18vh";
+				document.getElementById("myPlayer").style.width = "64vw";
+				document.getElementById("myPlayer").style.height = "56vh";
+			} else {
+				this.state = "map";
+				document.getElementById("myPlayer").style.width = "22vw";
+				document.getElementById("myPlayer").style.height = "18vh";
+				document.getElementById("container").style.width = "64vw";
+				document.getElementById("container").style.height = "56vh";
+			}
+			this.swap(
+				document.getElementById("myPlayer"),
+				document.getElementById("container")
+			);
+		},
+		openVideo2() {
+			if (this.$refs.video.requestPictureInPicture) {
+				this.$refs.video.requestPictureInPicture();
+			} else {
+				alert("该浏览器不支持自动调用,请手动调用画中画模式");
+			}
 		},
 		// 对话框
 		handleClose(done) {
@@ -1422,6 +1464,12 @@ export default {
 	position: fixed;
 	top: 25vh;
 	left: 5vw;
+	z-index: 1000;
+}
+.fixed2 {
+	position: fixed;
+	top: 25vh;
+	left: 15vw;
 	z-index: 1000;
 }
 

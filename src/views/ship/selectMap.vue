@@ -191,7 +191,7 @@ export default {
 			});
 		},
 		indexMethod(index) {
-			return index * 1;
+			return index * 1 + 1;
 		},
 		upDataName(row) {
 			this.mapId = row.id;

@@ -100,67 +100,43 @@
 									<div class="num">暂无</div>
 								</div> -->
 								<div class="icon-item">
-									<img
-										src="../../assets/2.png"
-										alt=""
-									>
+
 									<div class="text">船头方向</div>
 									<div class="num">{{ status_data.direction||"暂无" }}</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/3.png"
-										alt=""
-									>
+
 									<div class="text">设备电量</div>
 									<div class="num">{{ status_data.dump_energy||"暂无" }}</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
 								<!-- 分割 -->
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
 								<div class="icon-item">
-									<img
-										src="../../assets/1.png"
-										alt=""
-									>
+
 									<div class="text">液位</div>
 									<div class="num">暂无</div>
 								</div>
@@ -217,7 +193,7 @@
 									controls
 									playsInline
 								>
-									<source src="rtmp://58.200.131.2:1935/livetv/hunantv">
+									<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
 								</video>
 							</div>
 						</dv-border-box-10>
