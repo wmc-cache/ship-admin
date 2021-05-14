@@ -1,9 +1,10 @@
 <template>
 	<div>
-		<img
+		<!-- <img
 			:src="`http://192.168.199.186:8009/union/img/${url}`"
-			alt="www"
-		>
+			alt="加载失败"
+		> -->
+		<token-img auth-src="https://images.pexels.com/photos/7682736/pexels-photo-7682736.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"></token-img>
 		<input
 			ref="input"
 			type="file"
@@ -18,7 +19,9 @@
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 import { editDevice } from "../../api/ship";
+import tokenImg from '@/components/token-img.vue';
 export default {
+  components: { tokenImg },
 	data() {
 		return {
 			urlList: [],

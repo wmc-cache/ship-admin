@@ -22,20 +22,20 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      '/admin': {
-        target: 'http://192.168.199.186:8009/union',
-        changOrigin: true
-      }
-
-    },
     // proxy: {
     //   '/admin': {
-    //     target: 'http://wuhanligong.xxlun.com/union',
+    //     target: 'http://192.168.199.186:8009/union',
     //     changOrigin: true
     //   }
 
-    // },
+    // }
+    proxy: {
+      '/admin': {
+        target: 'http://wuhanligong.xxlun.com/union',
+        changOrigin: true
+      }
+
+    }
 
   },
   configureWebpack: {
@@ -83,7 +83,7 @@ module.exports = {
       // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
         config => config.devtool('source-map')
-        //config => config.devtool('eval')
+        // config => config.devtool('eval')
       )
 
     config
