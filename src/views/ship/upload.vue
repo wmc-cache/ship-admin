@@ -1,62 +1,80 @@
 <template>
-  <div>
-    <!-- <img
-			:src="`http://192.168.199.186:8009/union/img/${url}`"
+	<div>
+		<!-- <img
+http://wuhanligong.xxlun.com/union
+http://localhost:9527
 			alt="加载失败"
 		> -->
-    <token-img auth-src="https://images.pexels.com/photos/7682736/pexels-photo-7682736.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500" />
-    <input
-      ref="input"
-      type="file"
-      @change="handleFileChange"
-    >
-    <button @click="upload">上传文件</button>
-    <button @click="submit">提交</button>
-  </div>
+		<token-img
+			width="100px"
+			height="100px"
+			v-if="url"
+			:key="key"
+			:auth-src="`http://wuhanligong.xxlun.com/union/admin/img/${url}`"
+		/>
+		<input
+			ref="input"
+			type="file"
+			@change="handleFileChange"
+		>
+		<div>
+			<el-button @click="upload">上传文件</el-button>
+			<el-button @click="submit">提交</el-button>
+		</div>
+
+	</div>
 </template>
 
 <script>
-import axios from 'axios'
-import { getToken } from '@/utils/auth'
-import { editDevice } from '../../api/ship'
-import tokenImg from '@/components/token-img.vue'
+import axios from "axios";
+import { getToken } from "@/utils/auth";
+import { editDevice } from "../../api/ship";
+import tokenImg from "@/components/token-img.vue";
 export default {
-  components: { tokenImg },
+	components: { tokenImg },
 	data() {
 		return {
 			urlList: [],
-			url: null
-		}
+			url: null,
+			key: 0,
+		};
 	},
 	methods: {
 		upload() {
-			this.$refs.input.click()
+			this.$refs.input.click();
 		},
 		handleFileChange(e) {
-			const currentTarget = e.target
+			const currentTarget = e.target;
 			if (currentTarget.files) {
-				const files = Array.from(currentTarget.files)
-				console.log('files', files)
-				const formData = new FormData()
-				formData.append('file', files[0])
+				const files = Array.from(currentTarget.files);
+				console.log("files", files);
+				const formData = new FormData();
+				formData.append("file", files[0]);
 				axios
-					.post('/admin/uploadFile', formData, {
+					.post("/union/admin/uploadFile", formData, {
 						headers: {
-							'Content-Type': 'multipart/form-data',
-							Authorization: `Bearer ${getToken()}`
-						}
+							"Content-Type": "multipart/form-data",
+							Authorization: `Bearer ${getToken()}`,
+						},
 					})
 					.then((res) => {
-						console.log(res.data.data.picName)
-						this.url = res.data.data.picName
-					})
+						console.log(res.data.data.picName);
+						this.url = res.data.data.picName;
+						this.key++;
+					});
 			}
 		},
-		submit() {
-			// editDevice()
-		}
-	}
-}
+		async submit() {
+			const id = localStorage.getItem("id");
+			//console.log(id);
+			await editDevice({
+				id: `${id}`,
+				logoUrl: `http://wuhanligong.xxlun.com/union/admin/img/${this.url}`,
+			});
+			location.reload();
+		},
+	},
+};
 </script>
 
 <style scoped>

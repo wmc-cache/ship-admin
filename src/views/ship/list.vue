@@ -1,6 +1,7 @@
 <template>
 	<div class="app-container">
 		<div class="filter-container">
+
 			<el-input
 				v-model="listQuery.deviceName"
 				clearable
@@ -82,7 +83,7 @@
 						placeholder="平台名称"
 					/>
 				</el-form-item>
-				<upload></upload>
+
 			</el-form>
 
 			<span
@@ -95,6 +96,18 @@
 					@click="sureEdit"
 				>确 定</el-button>
 			</span>
+
+		</el-dialog>
+
+		<el-dialog
+			v-el-drag-dialog
+			title="上传图片"
+			:visible.sync="dialogVisible2"
+			width="30%"
+			:before-close="handleClose2"
+		>
+
+			<upload></upload>
 
 		</el-dialog>
 
@@ -137,11 +150,28 @@
 				width="150"
 			/>
 			<el-table-column
+				label="图片"
+				prop="logUrl"
+				align="center"
+				width="200"
+			>
+				<template slot-scope="{row}">
+					<tokenImg
+						v-if="row.logoUrl"
+						width="100px"
+						height="100px"
+						:auth-src="`${row.logoUrl}`"
+						alt=""
+					/>
+				</template>
+			</el-table-column>
+			<el-table-column
 				label="位置"
 				prop="position"
 				align="center"
 				width="200"
 			/>
+
 			<el-table-column
 				label="加入时间"
 				prop="gmtCreate"
@@ -203,6 +233,13 @@
 						@click="edit(row)"
 					>编辑
 					</el-button>
+					<el-button
+						type="text"
+						icon="el-icon-view"
+						style="cursor: pointer;"
+						@click="editImage(row)"
+					>修改图片
+					</el-button>
 				</template>
 			</el-table-column>
 
@@ -218,6 +255,7 @@
 </template>
 
 <script>
+import tokenImg from "@/components/token-img";
 import upload from "@/views/ship/upload";
 import Pagination from "@/components/Pagination";
 import elDragDialog from "@/directive/el-drag-dialog";
@@ -228,6 +266,7 @@ export default {
 	components: {
 		Pagination,
 		upload,
+		tokenImg,
 	},
 	directives: { elDragDialog },
 	filters: {
@@ -247,6 +286,7 @@ export default {
 			listLoading: true,
 			showID: true,
 			dialogVisible: false,
+			dialogVisible2: false,
 			shipName: "shipName",
 			platformName: "platformName",
 			unitName: "unitName",
@@ -315,8 +355,15 @@ export default {
 				this.showID = true;
 			}
 		},
+		editImage(row) {
+			this.dialogVisible2 = true;
+			localStorage.setItem("id", row.id);
+		},
 		handleClose() {
 			this.dialogVisible = false;
+		},
+		handleClose2() {
+			this.dialogVisible2 = false;
 		},
 		async sureEdit(row) {
 			await editDevice({
@@ -334,6 +381,7 @@ export default {
 				query: {
 					platformName: row.platformName,
 					corporateName: row.corporateName,
+					img: row.logoUrl,
 				},
 			});
 		},

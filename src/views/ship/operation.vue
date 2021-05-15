@@ -185,6 +185,13 @@
 				@click="dialog"
 			>
 			<div class="menu0">
+
+				<token-img
+					v-if="$route.query.img"
+					style="width:auto;height:2vh"
+					:authSrc="
+					`${$route.query.img}`"
+				/>
 				{{$route.query.corporateName}}
 			</div>
 
@@ -623,13 +630,15 @@
 </template>
 
 <script>
+import tokenImg from "@/components/token-img";
 import MQTT from "paho-mqtt";
 import waves from "@/directive/waves";
 import { getMapList } from "../../api/ship";
 import { fmt } from "../../utils/date";
+import TokenImg from "@/components/token-img.vue";
 export default {
-	components: {},
-	directives: { waves },
+	components: { TokenImg },
+	directives: { waves, tokenImg },
 	filters: {
 		valueFilter(value) {
 			if (value) {
@@ -1032,6 +1041,7 @@ export default {
 		goHome() {
 			this.$router.push({
 				path: `/ship/detail/${this.deviceId}`,
+				query: { ...this.$route.query },
 			});
 		},
 		goIndex() {

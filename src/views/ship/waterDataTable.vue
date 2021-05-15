@@ -37,11 +37,33 @@
 				width="200"
 			/>
 			<el-table-column
+				style="color:red"
+				label="时间"
+				prop="gmtCreate"
+				align="center"
+				width="100"
+			/>
+			<el-table-column
+				label="湖名"
+				prop="mapName"
+				align="center"
+				width="100"
+			/>
+
+			<el-table-column
 				label="浊度"
 				prop="td"
 				align="center"
 				width="100"
-			/>
+			>
+
+				<template slot-scope="{row}">
+
+					{{row.td}}
+
+				</template>
+			</el-table-column>
+
 			<el-table-column
 				label="PH"
 				prop="ph"
@@ -124,8 +146,24 @@ export default {
 		handleDownload() {
 			this.downloadLoading = true;
 			import("@/vendor/Export2Excel").then((excel) => {
-				const tHeader = ["浊度", "PH", "水温", "溶解氧", "电导"];
-				const filterVal = ["td", "ph", "wt", "doDo", "ec"];
+				const tHeader = [
+					"时间",
+					"湖名",
+					"浊度",
+					"PH",
+					"水温",
+					"溶解氧",
+					"电导",
+				];
+				const filterVal = [
+					"gmtCreate",
+					"mapName",
+					"td",
+					"ph",
+					"wt",
+					"doDo",
+					"ec",
+				];
 				const data = this.formatJson(filterVal, this.waterData);
 				excel.export_json_to_excel({
 					header: tHeader,

@@ -353,7 +353,11 @@ export default {
 		});
 		setInterval(() => {
 			if (this.DO) {
-				this.DO.push(Math.random() * 100);
+				this.DO.push(Math.random() * 10);
+				this.ec.push(Math.random() * 10);
+				this.td.push(Math.random() * 10);
+				this.wt.push(Math.random() * 10);
+				this.PH.push(Math.random() * 10);
 			}
 		}, 1000);
 	},
@@ -478,6 +482,7 @@ export default {
 		goOperation() {
 			this.$router.push({
 				path: `/ship/operation/${this.deviceId}`,
+				query: { ...this.$route.query },
 			});
 		},
 		goIndex() {
@@ -700,6 +705,13 @@ export default {
 					justify-content: center;
 					align-items: center;
 					margin: 2vh;
+					width: 8vw;
+					height: 5vh;
+					background: rgba(16, 90, 178, 0.38);
+					display: flex;
+					flex-direction: column;
+					justify-content: space-around;
+					align-items: center;
 
 					img {
 						width: 4vh;
