@@ -480,7 +480,7 @@
                 <div v-if="message">船执行手动控制提示消息:{{ message.control_info }}</div>
                 <div v-if="message">低电量状态:{{ message.low_dump_energy_warnning }}</div>
                 <div v-if="message">当前偏差角度:{{ message.theta_error }}</div>
-                <div v-if="message">超声波距离 左侧 右侧:{{ message.ultrasonic_distance }}</div>
+
                 <div v-if="message">遥控器是否启用:{{ message.b_start_remote }}</div>
                 <div v-if="message"> 罗盘提示消息:{{ message.compass_notice_info }}</div>
                 <div v-if="status_data.lng_lat_error">{{ status_data.lng_lat_error }}m
@@ -1185,13 +1185,14 @@ export default {
 			var marker = new AMap.Marker({
 				position: new AMap.LngLat(this.x, this.y),
 				offset: new AMap.Pixel(-15, -15),
-				angle: this.direction,
+				angle: 360 - this.direction,
 				icon: icon,
 				title: '行星轮',
 				zoom: 13
 			})
 			this.prePoint = marker
 			this.map.add(marker)
+			this.addCircle(this.x, this.y)
 			if (this.isFirst) {
 				this.isFirst = false
 				this.map.setFitView()
