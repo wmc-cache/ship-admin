@@ -9,7 +9,7 @@ import getPageTitle from '@/utils/get-page-title'
 NProgress.configure({ showSpinner: true }) // 进度条配置
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 进度条
   NProgress.start()
   // 设置页面title
@@ -33,6 +33,7 @@ router.beforeEach(async(to, from, next) => {
         } catch (error) {
           console.log('error')
           await store.dispatch('user/resetToken')
+          console.log("remove token")
           Message.error(error || 'Has Error')
           next(`/login?redirect=${to.path}`)
           NProgress.done()

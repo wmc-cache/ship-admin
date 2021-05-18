@@ -630,6 +630,7 @@
 </template>
 
 <script>
+import { getLonAndLat } from "./map";
 import tokenImg from "@/components/token-img";
 import MQTT from "paho-mqtt";
 import waves from "@/directive/waves";
@@ -661,6 +662,7 @@ export default {
 			state: "map",
 			dialogVideo: false,
 			selectBackMode: false,
+			distance_info: null, //障碍物消息话题
 			isFirst: true,
 			fmt: fmt, // 时间格式化
 			sureMap: false, // 湖泊是否确定
@@ -669,7 +671,9 @@ export default {
 			map: null, // 地图实例
 			client: null, // MQTT实例
 			deviceId: null, // 设备ID
+			preCircle: null,
 			prePoint: null, // 前一刻船图标的位置
+			preBarrier: [],
 			status_data: {}, // 状态数据
 			detect_data: {}, // 探测数据
 			pool_info: {}, // 湖泊信息
@@ -680,6 +684,7 @@ export default {
 			message: null, // 提示信息
 			isSwitch: null, // 开关信息
 			dialogVisible: false,
+			direction: null, //船头方向
 			base_setting: {
 				row: "1", // 行间隔
 				col: "2", // 列间隔
@@ -746,14 +751,14 @@ export default {
 		},
 	},
 	mounted() {
-		console.log(this.$route);
 		// this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
-		// this.initTest();
+		//this.initTest();
 		this.initMqtt();
 
 		if (!this.map) {
 			this.initMap();
+			//this.icon(115.43192896435977, 30.5234859989586);
 		}
 		this.$nextTick(() => {
 			const player = new EZUIPlayer("myPlayer");
@@ -793,6 +798,8 @@ export default {
 			this.client.subscribe(`height_setting_${this.deviceId}`);
 			// 订阅刷新后请求数据消息
 			this.client.subscribe(`refresh_${this.deviceId}`);
+			// 订阅障碍物消息话题
+			this.client.subscribe(`distance_info_${this.deviceId}`);
 			// 刷新后请求数据消息
 			this.client.send(
 				`refresh_${this.deviceId}`,
@@ -823,6 +830,9 @@ export default {
 				if (this.status_data && this.status_data.current_lng_lat) {
 					this.x = this.status_data.current_lng_lat[0];
 					this.y = this.status_data.current_lng_lat[1];
+				}
+				if (this.status_data && this.status_data.direction) {
+					this.direction = this.status_data.direction;
 				}
 				if (!this.map) {
 					this.initMap();
@@ -857,14 +867,36 @@ export default {
 			// 接收提示信息
 			if (`${message.topic}` == `notice_info_${this.deviceId}`) {
 				this.message = JSON.parse(message.payloadString);
-				// console.log(">>>>>>>", this.message);
+
+				console.log("提示信息", this.message);
 			}
 			// 接收开关信息
 			if (`${message.topic}` == `switch_${this.deviceId}`) {
 				this.isSwitch = JSON.parse(message.payloadString);
 			}
-			// 订阅高级信息
+			//障碍物消息话题
+			if (`${message.topic}` == `distance_info_${this.deviceId}`) {
+				if (!this.preBarrier.length == 0) {
+					this.preBarrier.forEach((ele) => {
+						this.map.remove(ele);
+					});
+				}
+				this.distance_info = JSON.parse(message.payloadString);
+				console.log(this.distance_info);
+				let direction = this.distance_info.direction;
+				if (this.x && this.y) {
+					this.distance_info.distance_info.forEach((ele) => {
+						this.addBarrier(
+							this.x,
+							this.y,
+							360 - (ele.angle + direction),
+							ele.distance
+						);
+					});
+				}
+			}
 			if (`${message.topic}` == `height_setting_${this.deviceId}`) {
+				// 订阅高级信息
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.height_setting = JSON.parse(message.payloadString);
 					// console.log(".........", this.height_setting);
@@ -1143,15 +1175,17 @@ export default {
 				this.map.remove(this.prePoint);
 			}
 			var icon = new AMap.Icon({
-				size: new AMap.Size(40, 50), // 图标尺寸
+				size: new AMap.Size(20, 30), // 图标尺寸
+				imageOffset: new AMap.Pixel(0, 0),
 				image: "https://www.xxlun.com/website/file/ship.png", // Icon的图像
-				imageSize: new AMap.Size(40, 50), // 根据所设置的大小拉伸或压缩图片
+				imageSize: new AMap.Size(20, 30), // 根据所设置的大小拉伸或压缩图片
 			});
 
 			// 将 Icon 实例添加到 marker 上:
 			var marker = new AMap.Marker({
 				position: new AMap.LngLat(this.x, this.y),
-				offset: new AMap.Pixel(-25, -25),
+				offset: new AMap.Pixel(-15, -15),
+				angle: this.direction,
 				icon: icon,
 				title: "行星轮",
 				zoom: 13,
@@ -1323,11 +1357,14 @@ export default {
 		initTest() {
 			this.x = 115.431408;
 			this.y = 30.523486;
+			this.direction = 0;
 			setInterval(() => {
-				this.x += 0.01;
-				this.y += 0.01;
+				this.x += 0.0001;
+				this.y += 0.0001;
+				this.direction += 10;
 				this.initPoint(this.x, this.y);
-			}, 2000);
+				this.addCircle(this.x, this.y);
+			}, 1000);
 		},
 		swap(node1, node2) {
 			const afterNode2 = node2.nextElementSibling;
@@ -1392,6 +1429,43 @@ export default {
 			});
 			this.map.add(overlayGroup);
 			// this.map.setFitView();
+		},
+		addBarrier(x, y, d, l) {
+			let lngLat = getLonAndLat(x, y, d, l);
+			console.log(lngLat);
+
+			var icon = new AMap.Icon({
+				size: new AMap.Size(20, 30), // 图标尺寸
+				imageOffset: new AMap.Pixel(0, 0),
+				image: "https://www.xxlun.com/website/file/barrier.png", // Icon的图像
+				imageSize: new AMap.Size(20, 30), // 根据所设置的大小拉伸或压缩图片
+			});
+
+			// 将 Icon 实例添加到 marker 上:
+			var marker = new AMap.Marker({
+				position: new AMap.LngLat(lngLat.lng, lngLat.lat),
+				offset: new AMap.Pixel(-15, -15),
+				angle: this.direction,
+				icon: icon,
+				title: "行星轮",
+				zoom: 13,
+			});
+			this.preBarrier.push(marker);
+			this.map.add(marker);
+		},
+		addCircle(x, y) {
+			if (this.preCircle) {
+				this.map.remove(this.preCircle);
+			}
+			let circle = new AMap.Circle({
+				center: new AMap.LngLat(x, y), // 圆心位置
+				radius: 10, // 圆半径
+				fillOpacity: 0,
+				strokeColor: "#1890ff", // 描边颜色
+				strokeWeight: 1, // 描边宽度
+			});
+			this.preCircle = circle;
+			this.map.add(circle);
 		},
 		// 根据单个经纬坐标点画图标
 		icon(x, y) {
