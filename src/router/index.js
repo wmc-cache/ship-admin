@@ -95,7 +95,7 @@ export const asyncRoutes = [
         path: '/waterDataTable/:deviceId/:MapId',
         component: () => import('@/views/ship/waterDataTable'),
         name: 'showWaterData',
-        meta: { title: '历史监测数据', icon: 'list', noCache: true },
+        meta: { title: '历史监测数据', icon: 'list', noCache: false },
         hidden: true
       }
 
@@ -222,6 +222,13 @@ export const asyncRoutes = [
     component: () => import('@/views/ship/map3D'),
     name: 'map3D',
     meta: { title: 'map3D', icon: 'list', noCache: true },
+    hidden: true
+  },
+  {
+    path: '/up',
+    component: () => import('@/views/ship/up'),
+    name: 'up',
+    meta: { title: 'upload', icon: 'list', noCache: true },
     hidden: true
   },
 

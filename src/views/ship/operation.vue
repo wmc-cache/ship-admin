@@ -33,6 +33,13 @@
     >
       画中画模式
     </el-button>
+    <el-button
+      class="fixed3"
+      type="danger"
+      @click="shipGo"
+    >
+      启动
+    </el-button>
     <!-- 设置对话框 -->
     <el-dialog
       title="设置"
@@ -460,7 +467,7 @@
                   controls
                   playsInline
                 >
-                  <source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
+                  <source src="https://open.ys7.com/v3/openlive/C99929838_1_2.m3u8?expire=1653183047&id=317957803691556864&t=8989464f3b619e3eac8c0cb01e33e6456189fc781ccdcdf016fa36f586b4d7e3&ev=100">
                 </video>
               </div>
 
@@ -495,58 +502,63 @@
                 <div
                   v-waves
                   class="item"
-                  @click="shuiBeng"
+                  @click="controlSwitch('draw_info')"
                 >
                   <img
-                    src="../../assets/水泵.png"
+                    src="https://www.xxlun.com/website/file/水泵.png"
                     alt=""
                   >
+                  <span style="color:#fff;font-size:12px;margin-top:1vh">水泵</span>
                   <div
                     v-if="message"
                     class="tip"
-                  >水泵:{{ message.draw_info }}</div>
+                  >{{ message.draw_info|switchFilter }}</div>
                 </div>
                 <div
                   v-waves
                   class="item"
-                  @click="shuiBeng"
+                  @click="controlSwitch('headlight_info')"
                 >
                   <img
-                    src="../../assets/水泵.png"
+                    src="https://www.xxlun.com/website/file/大灯.png"
                     alt=""
                   >
+                  <span style="color:#fff;font-size:12px;margin-top:1vh">大灯</span>
                   <div
                     v-if="message"
                     class="tip"
-                  >水泵:{{ message.draw_info }}</div>
+                  >{{ message.headlight_info|switchFilter }}</div>
+
                 </div>
                 <div
                   v-waves
                   class="item"
-                  @click="shuiBeng"
+                  @click="controlSwitch('audio_light_info')"
                 >
                   <img
-                    src="../../assets/水泵.png"
+                    src="https://www.xxlun.com/website/file/声光报警器.png"
                     alt=""
                   >
+                  <span style="color:#fff;font-size:12px;margin-top:1vh">声光报警器</span>
                   <div
                     v-if="message"
                     class="tip"
-                  >水泵:{{ message.draw_info }}</div>
+                  >{{ message.audio_light_info|switchFilter }}</div>
                 </div>
                 <div
                   v-waves
                   class="item"
-                  @click="shuiBeng"
+                  @click="controlSwitch('side_light_info')"
                 >
                   <img
-                    src="../../assets/水泵.png"
+                    src="https://www.xxlun.com/website/file/弦灯.png"
                     alt=""
                   >
+                  <span style="color:#fff;font-size:12px;margin-top:1vh">弦灯</span>
                   <div
                     v-if="message"
                     class="tip"
-                  >水泵:{{ message.draw_info }}</div>
+                  >{{ message.side_light_info|switchFilter }}</div>
                 </div>
 
               </div>
@@ -630,6 +642,7 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
 import { getLonAndLat } from './map'
 import tokenImg from '@/components/token-img'
 import MQTT from 'paho-mqtt'
@@ -652,13 +665,19 @@ export default {
 			if (value == 1) {
 				return '开启中'
 			}
-			if (value == 2) {
+			if (value == 0) {
 				return '已关闭'
 			}
 		}
 	},
 	data() {
 		return {
+			startDirection: {
+				state: null,
+				single: null,
+				double: null,
+				search: null
+			},
 			state: 'map',
 			dialogVideo: false,
 			selectBackMode: false,
@@ -758,7 +777,6 @@ export default {
 
 		if (!this.map) {
 			this.initMap()
-			// this.icon(115.43192896435977, 30.5234859989586);
 		}
 		this.$nextTick(() => {
 			const player = new EZUIPlayer('myPlayer')
@@ -821,7 +839,7 @@ export default {
 		// MQTT接收到消息
 		onMessageArrived(message) {
 			//	console.log(`onMessageArrived:${message.payloadString}`);
-			console.log(`"topic" ${message.topic}`)
+			// console.log(`"topic" ${message.topic}`);
 			// 接收状态数据
 			if (`${message.topic}` == `status_data_${this.deviceId}`) {
 				this.status_data = JSON.parse(message.payloadString)
@@ -861,14 +879,14 @@ export default {
 				JSON.parse(message.payloadString).sampling_points.forEach((ele) => {
 					this.icon(ele[0], ele[1])
 				})
-				this.draw(JSON.parse(message.payloadString).path_points)
+				this.draw2(JSON.parse(message.payloadString).path_points)
 				this.doubleList = []
 			}
 			// 接收提示信息
 			if (`${message.topic}` == `notice_info_${this.deviceId}`) {
 				this.message = JSON.parse(message.payloadString)
 
-				console.log('提示信息', this.message)
+				// console.log("提示信息", this.message);
 			}
 			// 接收开关信息
 			if (`${message.topic}` == `switch_${this.deviceId}`) {
@@ -876,13 +894,19 @@ export default {
 			}
 			// 障碍物消息话题
 			if (`${message.topic}` == `distance_info_${this.deviceId}`) {
+				if (!this.x && !this.y) {
+					return
+				}
+				if (this.x == 114.431408) {
+					return
+				}
 				if (!this.preBarrier.length == 0) {
 					this.preBarrier.forEach((ele) => {
 						this.map.remove(ele)
 					})
 				}
 				this.distance_info = JSON.parse(message.payloadString)
-				console.log(this.distance_info)
+				// console.log(this.distance_info)
 				const direction = this.distance_info.direction
 
 				if (this.x && this.y) {
@@ -907,16 +931,20 @@ export default {
 			if (`${message.topic}` == `base_setting_${this.deviceId}`) {
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.base_setting = JSON.parse(message.payloadString)
-					// console.log(this.base_setting);
+					console.log('初级信息', this.base_setting)
 				}
 			}
 			// 订阅刷新后请求数据消息
 			if (`${message.topic}` == `refresh_${this.deviceId}`) {
 				if (JSON.parse(message.payloadString).info_type == 2) {
-					// console.log("!!!!", JSON.parse(message.payloadString));
+					console.log(
+						'订阅刷新后请求数据消息',
+						JSON.parse(message.payloadString)
+					)
 					if (JSON.parse(message.payloadString).mapId) {
 						getMapList(JSON.parse(message.payloadString).mapId).then((res) => {
-							this.draw(JSON.parse(res.data.mapList[0].mapData))
+							console.log('getMapList', res)
+							this.draw(JSON.parse(res.data.mapList.records[0].mapData))
 							this.sureMap = true
 						})
 					}
@@ -978,20 +1006,39 @@ export default {
 				2
 			)
 		},
-		// 水泵操作
-		shuiBeng() {
-			if (this.message.draw_info == 0) {
+		// 开关操作
+		controlSwitch(type) {
+			let messageType
+			if (!this.message) {
+				return
+			}
+			if (type) {
+				if (type === 'draw_info') {
+					messageType = 'b_draw'
+				}
+				if (type === 'headlight_info') {
+					messageType = 'headlight'
+				}
+				if (type === 'audio_light_info') {
+					messageType = 'audio_light'
+				}
+				if (type === 'side_light_info') {
+					messageType = 'side_light'
+				}
+			}
+			// console.log("type", type, { [messageType]: 1 });
+			if (type && this.message[type] == 0) {
 				this.client.send(
 					`switch_${this.deviceId}`,
-					JSON.stringify({ b_draw: 1 }),
+					JSON.stringify({ [messageType]: 1 }),
 					2
 				)
 				return
 			}
-			if (this.message.draw_info == 1) {
+			if (type && this.message[type] == 1) {
 				this.client.send(
 					`switch_${this.deviceId}`,
-					JSON.stringify({ b_draw: 0 }),
+					JSON.stringify({ [messageType]: 0 }),
 					2
 				)
 				return
@@ -1031,14 +1078,6 @@ export default {
 						}),
 						2
 					)
-					console.log({
-						row: this.base_setting.row,
-						col: this.base_setting.col,
-						speed_grade: this.base_setting.speed_grade,
-						secure_distance: this.base_setting.secure_distance,
-						arrive_range: this.base_setting.arrive_range,
-						keep_point: this.base_setting.keep_point
-					})
 				})
 				.catch(() => {
 					console.log('no')
@@ -1050,7 +1089,6 @@ export default {
 				JSON.stringify({ info_type: 4 }),
 				2
 			)
-			console.log({ info_type: 4 })
 			this.dialogVisible = false
 		},
 		settingSure() {
@@ -1083,6 +1121,10 @@ export default {
 			})
 		},
 		setOptions(value) {
+			if (!this.sureMap) {
+				Message.error('请先点击湖中心一点确定湖泊轮廓')
+				return
+			}
 			if (value == 'search') {
 				this.client.send(
 					`auto_lng_lat_${this.deviceId}`,
@@ -1144,7 +1186,7 @@ export default {
 				)
 				return
 			}
-			console.log(this.selectBackMode)
+			// console.log(this.selectBackMode);
 			if (this.selectBackMode == true) {
 				this.backPoint(e)
 				return
@@ -1197,9 +1239,10 @@ export default {
 			if (this.isFirst) {
 				this.isFirst = false
 				this.map.setFitView()
+				this.map.setFitView()
 			}
 		},
-		// 点击返回点
+		// 点击发送返回点
 		backPoint(e) {
 			this.$confirm('确认选择该点为返航点？')
 				.then((_) => {
@@ -1213,6 +1256,43 @@ export default {
 					this.selectBackMode = false
 				})
 				.catch((_) => {})
+		},
+		// 启动
+		shipGo() {
+			if (!this.startDirection.state) {
+				Message.error('行驶路径未配置')
+				return
+			}
+			if (this.startDirection.state == 'single') {
+				this.client.send(
+					`user_lng_lat_${this.deviceId}`,
+					JSON.stringify(this.startDirection.single),
+					2
+				)
+				this.startDirection = {
+					state: null,
+					single: null,
+					double: null,
+					search: null
+				}
+				console.log('single')
+				return
+			}
+			if (this.startDirection.state == 'double') {
+				this.client.send(
+					`user_lng_lat_${this.deviceId}`,
+					JSON.stringify(this.startDirection.double),
+					2
+				)
+				this.startDirection = {
+					state: null,
+					single: null,
+					double: null,
+					search: null
+				}
+				console.log('double')
+				return
+			}
 		},
 		// 单点模式
 		single(e) {
@@ -1232,15 +1312,14 @@ export default {
 					})
 
 					this.map.add(overlayGroup)
+
 					let back_home = this.options.cruise
 					let fix_point = this.options.fixed
 
 					if (back_home == false) {
-						console.log(back_home, fix_point)
 						back_home = 0
 					} else {
 						back_home = 1
-						console.log(back_home, fix_point)
 					}
 					console.log(back_home, fix_point)
 					if (fix_point == false) {
@@ -1248,25 +1327,9 @@ export default {
 						fix_point = 0
 					} else {
 						fix_point = 1
-						console.log(back_home, fix_point)
 					}
-					console.log(back_home, fix_point)
-					this.client.send(
-						`user_lng_lat_${this.deviceId}`,
-						JSON.stringify({
-							deviceId: this.deviceId,
-							lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
-							zoom: e.target.getZoom(),
-							meter_pix: e.target.getResolution(),
-							config: {
-								back_home: back_home,
-								fix_point: fix_point
-							}
-						}),
-						2
-					)
-
-					console.log('开始执行命令', {
+					this.startDirection.state = 'single'
+					this.startDirection.single = {
 						deviceId: this.deviceId,
 						lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
 						zoom: e.target.getZoom(),
@@ -1275,7 +1338,32 @@ export default {
 							back_home: back_home,
 							fix_point: fix_point
 						}
-					})
+					}
+					// this.client.send(
+					// 	`user_lng_lat_${this.deviceId}`,
+					// 	JSON.stringify({
+					// 		deviceId: this.deviceId,
+					// 		lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
+					// 		zoom: e.target.getZoom(),
+					// 		meter_pix: e.target.getResolution(),
+					// 		config: {
+					// 			back_home: back_home,
+					// 			fix_point: fix_point,
+					// 		},
+					// 	}),
+					// 	2
+					// );
+
+					// console.log("开始执行命令", {
+					// 	deviceId: this.deviceId,
+					// 	lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
+					// 	zoom: e.target.getZoom(),
+					// 	meter_pix: e.target.getResolution(),
+					// 	config: {
+					// 		back_home: back_home,
+					// 		fix_point: fix_point,
+					// 	},
+					// });
 				})
 				.catch((_) => {
 					console.log('取消')
@@ -1323,21 +1411,32 @@ export default {
 								} else {
 									fix_point = 1
 								}
+								this.startDirection.state = 'double'
+								this.startDirection.double = {
+									deviceId: this.deviceId,
+									lng_lat: this.doubleList,
+									zoom: e.target.getZoom(),
+									meter_pix: e.target.getResolution(),
+									config: {
+										back_home: back_home,
+										fix_point: fix_point
+									}
+								}
 
-								this.client.send(
-									`user_lng_lat_${this.deviceId}`,
-									JSON.stringify({
-										deviceId: this.deviceId,
-										lng_lat: this.doubleList,
-										zoom: e.target.getZoom(),
-										meter_pix: e.target.getResolution(),
-										config: {
-											back_home: back_home,
-											fix_point: fix_point
-										}
-									}),
-									2
-								)
+								// this.client.send(
+								// 	`user_lng_lat_${this.deviceId}`,
+								// 	JSON.stringify({
+								// 		deviceId: this.deviceId,
+								// 		lng_lat: this.doubleList,
+								// 		zoom: e.target.getZoom(),
+								// 		meter_pix: e.target.getResolution(),
+								// 		config: {
+								// 			back_home: back_home,
+								// 			fix_point: fix_point,
+								// 		},
+								// 	}),
+								// 	2
+								// );
 								console.log('开始', {
 									deviceId: this.deviceId,
 									lng_lat: this.doubleList,
@@ -1374,6 +1473,7 @@ export default {
 			node1.replaceWith(node2)
 			parent.insertBefore(node1, afterNode2)
 		},
+		// 切换视频与地图
 		openVideo() {
 			console.log(
 				document.getElementById('myPlayer'),
@@ -1397,6 +1497,7 @@ export default {
 				document.getElementById('container')
 			)
 		},
+		// 打开画中画
 		openVideo2() {
 			if (this.$refs.video.requestPictureInPicture) {
 				this.$refs.video.requestPictureInPicture()
@@ -1404,6 +1505,7 @@ export default {
 				alert('该浏览器不支持自动调用,请手动调用画中画模式')
 			}
 		},
+
 		// 对话框
 		handleClose(done) {
 			this.$confirm('确认关闭？')
@@ -1426,15 +1528,35 @@ export default {
 
 			// 对此覆盖物群组设置同一属性
 			overlayGroup.setOptions({
+				strokeColor: 'yellow',
+				strokeWeight: 1
+			})
+			this.map.add(overlayGroup)
+			// this.map.setFitView();
+		},
+		draw2(value) {
+			const list = value
+			list.forEach((ele) => {
+				ele = new AMap.LngLat(ele[0], ele[1])
+			})
+			var polyline1 = new AMap.Polyline({
+				path: list
+			})
+			// 创建覆盖物群组，传入覆盖物组成的数组
+			var overlayGroup = new AMap.OverlayGroup([polyline1])
+
+			// 对此覆盖物群组设置同一属性
+			overlayGroup.setOptions({
 				strokeColor: 'red',
 				strokeWeight: 1
 			})
 			this.map.add(overlayGroup)
 			// this.map.setFitView();
 		},
+		// 添加障碍物
 		addBarrier(x, y, d, l) {
 			const lngLat = getLonAndLat(x, y, d, l)
-			console.log(lngLat)
+			// console.log(lngLat);
 
 			var icon = new AMap.Icon({
 				size: new AMap.Size(20, 30), // 图标尺寸
@@ -1455,6 +1577,7 @@ export default {
 			this.preBarrier.push(marker)
 			this.map.add(marker)
 		},
+		// 绘制避障圆
 		addCircle(x, y) {
 			if (this.preCircle) {
 				this.map.remove(this.preCircle)
@@ -1472,13 +1595,13 @@ export default {
 		// 根据单个经纬坐标点画图标
 		icon(x, y) {
 			const planIcon = new AMap.Icon({
-				size: new AMap.Size(40, 50), // 图标尺寸
-				image: 'https://www.xxlun.com/website/file/pointer.png', // Icon的图像
-				imageSize: new AMap.Size(40, 50) // 根据所设置的大小拉伸或压缩图片
+				size: new AMap.Size(4, 5), // 图标尺寸
+				image: '//webapi.amap.com/theme/v1.3/markers/b/mark_bs.png', // Icon的图像
+				imageSize: new AMap.Size(4, 5) // 根据所设置的大小拉伸或压缩图片
 			})
 			const planMarker = new AMap.Marker({
 				position: new AMap.LngLat(x, y),
-				offset: new AMap.Pixel(-20, -20),
+				offset: new AMap.Pixel(-4, -5),
 				icon: planIcon,
 				title: '采样点',
 				zoom: 13
@@ -1486,6 +1609,7 @@ export default {
 
 			this.map.add(planMarker)
 		},
+		// 返航点图标
 		home(x, y) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
@@ -1501,7 +1625,7 @@ export default {
 			})
 			this.map.add(planMarker)
 		},
-		// 方向
+		// 船的方向控制
 		controlDirection(value) {
 			if (value == 'top') {
 				this.client.send(
@@ -1555,7 +1679,14 @@ export default {
 .fixed2 {
 	position: fixed;
 	top: 25vh;
-	left: 15vw;
+	left: 18vw;
+	z-index: 1000;
+}
+
+.fixed3 {
+	position: fixed;
+	top: 25vh;
+	left: 28vw;
 	z-index: 1000;
 }
 
@@ -1566,8 +1697,8 @@ export default {
 
 .selectBack {
 	position: absolute;
-	top: 16.2vh;
-	left: 70vh;
+	top: 16.5vh;
+	left: 90vh;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -1633,7 +1764,9 @@ export default {
 			color: #fff;
 			font-size: 1.5vh;
 			width: 25vw;
-			height: 3vh;
+			height: 5vh;
+			line-height: 5vh;
+			font-size: 1vw;
 			font-family: Source Han Sans CN;
 			font-weight: bold;
 			opacity: 0.8;
@@ -1775,7 +1908,7 @@ export default {
 					width: 25vw;
 					height: 15vh;
 					margin-left: 2vw;
-					margin-top: -11vh;
+					margin-top: -9vh;
 					position: relative;
 					.logo {
 						width: 10vw;
@@ -1843,14 +1976,14 @@ export default {
 					width: 66vw;
 					height: 58vh;
 					margin-left: 2vw;
-					margin-top: 2vh;
+					margin-top: 1vh;
 					//background-color: #ffa128;
 				}
 				.left3 {
 					width: 66vw;
 					height: 17vh;
 					margin-left: 2vw;
-					margin-top: 2vh;
+					margin-top: 1vh;
 					display: flex;
 					position: relative;
 
@@ -2074,8 +2207,6 @@ export default {
 						font-weight: bold;
 						color: #ffffff;
 						background: linear-gradient(0deg, #00a8ff 0%, #8fdffe 100%);
-						-webkit-background-clip: text;
-						-webkit-text-fill-color: transparent;
 					}
 				}
 			}
