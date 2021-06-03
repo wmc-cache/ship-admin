@@ -40,6 +40,7 @@
 		>
 			启动
 		</el-button>
+
 		<!-- 设置对话框 -->
 		<el-dialog
 			title="设置"
@@ -51,6 +52,20 @@
 				type="primary"
 				@click="reset"
 			>重置</el-button>
+
+			<el-button
+				type="danger"
+				@click="restart"
+			>
+				重启
+			</el-button>
+
+			<el-button
+				@click="end"
+				type="danger"
+			>
+				关机
+			</el-button>
 
 			<el-alert
 				title="时间设置类别"
@@ -1257,6 +1272,36 @@ export default {
 				})
 				.catch((_) => {});
 		},
+		//重启船
+		restart() {
+			this.$confirm("确认重启船?")
+				.then((_) => {
+					console.log("重启");
+					this.client.send(
+						`poweroff_restart_${this.deviceId}`,
+						JSON.stringify({
+							poweroff_restart: 2,
+						}),
+						2
+					);
+				})
+				.catch((_) => {});
+		},
+		//关机
+		end() {
+			this.$confirm("确认关机?关机后只能手动开机")
+				.then((_) => {
+					console.log("关机");
+					this.client.send(
+						`poweroff_restart_${this.deviceId}`,
+						JSON.stringify({
+							poweroff_restart: 1,
+						}),
+						2
+					);
+				})
+				.catch((_) => {});
+		},
 		// 启动
 		shipGo() {
 			if (!this.startDirection.state) {
@@ -1689,6 +1734,12 @@ export default {
 	left: 28vw;
 	z-index: 1000;
 }
+.fixed4 {
+	position: fixed;
+	top: 25vh;
+	left: 38vw;
+	z-index: 1000;
+}
 
 .backActive {
 	background-color: #0096ff !important;
@@ -1791,6 +1842,9 @@ export default {
 			opacity: 0.8;
 			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 		.menu2 {
 			position: absolute;
@@ -1811,6 +1865,9 @@ export default {
 			opacity: 0.8;
 			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 		.menu3 {
 			position: absolute;
@@ -1830,6 +1887,9 @@ export default {
 			opacity: 0.8;
 			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 		.menu4 {
 			position: absolute;
@@ -1848,6 +1908,9 @@ export default {
 			opacity: 0.8;
 			text-shadow: 0px 0.1vh 0.1vh rgba(0, 0, 0, 0.6);
 			cursor: pointer;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
 		}
 		.header {
 			height: 15vh;
