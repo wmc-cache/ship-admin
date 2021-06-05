@@ -1,12 +1,20 @@
 <template>
-
-	<div
-		id="map"
-		style="	width: 100%;
-	            height: 100%;
+	<div class="body">
+		<el-button
+			@click="goBack"
+			class="title"
+			type="primary"
+		>
+			返回
+		</el-button>
+		<div
+			id="map"
+			style="	width: 100vw;
+	            height: 100vh;
 	            margin: 0;
 	            padding: 0;"
-	/>
+		/>
+	</div>
 
 </template>
 
@@ -28,12 +36,12 @@ export default {
 	methods: {
 		initMap() {
 			const map = new AMap.Map("map", {
-				zooms: [6, 23],
+				zooms: [2, 23],
 				zoom: 11.7,
 				center: [114.431408, 30.523486],
 				pitch: 45,
 				// showLabel: false,
-				viewMode: "3D",
+				// viewMode: "3D",
 				mapStyle: "amap://styles/001a637581603985681831e1471630a5",
 			});
 			this.map = map;
@@ -54,28 +62,23 @@ export default {
 				}
 			);
 		},
+		goBack() {
+			this.$router.go(-1);
+		},
 	},
 };
 </script>
 
 <style  scoped>
-.demo-title {
+.body {
+	position: relative;
+}
+.title {
 	position: absolute;
-	top: 25px;
-	left: 25px;
-	z-index: 1;
-}
-
-h1 {
-	font-size: 18px;
-	margin: 0;
-	color: rgb(180, 180, 190);
-}
-
-h3 {
-	font-size: 12px;
-	font-weight: normal;
-	margin-top: 5px;
-	color: rgb(150, 150, 150);
+	top: 2vw;
+	left: 2vh;
+	width: auto;
+	height: auto;
+	z-index: 1000;
 }
 </style>
