@@ -1,24 +1,14 @@
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+	<div id="app">
+		<router-view />
+	</div>
 </template>
 
 <script>
 export default {
-	name: 'App',
-
-	// watch: {
-	// 	Point(value) {
-	// 		if (value[0] != 114.431408) {
-	// 			this.initPoint();
-	// 			this.currentList.push(value);
-	// 			this.draw(this.currentList);
-	// 		}
-	// 	},
-	// },
-	mounted() {}
-}
+	name: "App",
+	mounted() {},
+};
 </script>
 
 <style scoped>

@@ -1801,7 +1801,7 @@ export default {
 	.content {
 		width: 99vw;
 		height: 99vh;
-		border: 0.1vh solid #4081c4;
+		border: 0.1vh solid #0096ff;
 		position: relative;
 		.menu0 {
 			display: flex;
