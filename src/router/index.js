@@ -74,14 +74,14 @@ export const asyncRoutes = [
         path: 'camera/list',
         component: () => import('@/views/camera/list'),
         name: 'CameraList',
-        meta: { title: '摄像头列表', icon: 'list', noCache: true }
+        meta: { title: '摄像头列表', icon: 'list', noCache: true },
 
       },
       {
         path: 'sensor/list',
         component: () => import('@/views/sensor/list'),
         name: 'SensorList',
-        meta: { title: '传感器列表', icon: 'list', noCache: true }
+        meta: { title: '传感器列表', icon: 'list', noCache: true },
 
       },
       {
