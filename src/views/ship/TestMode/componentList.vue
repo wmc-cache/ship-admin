@@ -5,7 +5,6 @@
 		class="component-item"
 		@click="onItemClick(item)"
 	>
-
 	</div>
 </template>
 

@@ -20,7 +20,7 @@
 import ossUpload from "@/views/ship/ossUpload";
 
 export default {
-	name: "Oss",
+	name: "test",
 	components: { ossUpload },
 	mounted() {
 		this.$nextTick(() => {

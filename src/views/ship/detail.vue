@@ -1,7 +1,5 @@
 <template>
 
-	<!-- <dv-full-screen-container> -->
-
 	<div class="body">
 		<div class="content">
 			<div class="menu1">数据总览</div>
@@ -297,8 +295,6 @@
 			</div>
 		</div>
 	</div>
-
-	<!-- </dv-full-screen-container> -->
 
 </template>
 

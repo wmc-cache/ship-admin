@@ -1,23 +1,7 @@
 <template>
 
-	<!-- <dv-full-screen-container> -->
-
 	<div class="body">
-		<!-- <el-dialog
-			title="无人船实时视频"
-			:visible.sync="dialogVideo"
-			width="50%"
-			:before-close="handleClose"
-		>
-			<video
-				id="dialogPlayer"
-				style="width:48vw;height: 50vh;"
-				controls
-				playsInline
-			>
-				<source src="https://hls01open.ys7.com/openlive/fe78747055f6492ab39474f5b38916fc.m3u8">
-			</video>
-		</el-dialog> -->
+
 		<el-button
 			class="fixed"
 			type="primary"
@@ -651,8 +635,6 @@
 
 		</div>
 	</div>
-
-	<!-- </dv-full-screen-container> -->
 
 </template>
 

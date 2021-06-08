@@ -225,10 +225,10 @@ export const asyncRoutes = [
     hidden: true
   },
   {
-    path: '/up',
-    component: () => import('@/views/ship/up'),
-    name: 'up',
-    meta: { title: 'upload', icon: 'list', noCache: true },
+    path: '/test',
+    component: () => import('@/views/ship/test'),
+    name: 'test',
+    meta: { title: 'test', icon: 'list', noCache: true },
     hidden: true
   },
 
