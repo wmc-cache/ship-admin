@@ -27,6 +27,7 @@ service.interceptors.response.use(
       res.data.roles = ['admin']
     }
     if (res.data.permissionMenuList) {
+      console.log("res.data.permissionMenuList", res.data.permissionMenuList)
       res.data.roles.push('equipment')
     }
     if (res.data.permissionMenuList) {

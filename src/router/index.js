@@ -119,7 +119,7 @@ export const asyncRoutes = [
         meta: { title: '权限管理列表', icon: 'list', noCache: true }
       },
       {
-        path: 'detail',
+        path: 'detail/:id/:name',
         component: () => import('@/views/power/detail'),
         name: 'powerDetail',
         meta: { title: '权限详情', icon: 'guide', noCache: true },
@@ -228,6 +228,13 @@ export const asyncRoutes = [
     path: '/test',
     component: () => import('@/views/ship/test'),
     name: 'test',
+    meta: { title: 'test', icon: 'list', noCache: true },
+    hidden: true
+  },
+  {
+    path: '/node',
+    component: () => import('@/views/ship/node'),
+    name: 'node',
     meta: { title: 'test', icon: 'list', noCache: true },
     hidden: true
   },

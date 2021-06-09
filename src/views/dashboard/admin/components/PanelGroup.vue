@@ -19,6 +19,7 @@
 		<!-- 无人船 -->
 		<!-- 无人船 -->
 		<!-- 无人船 -->
+
 		<el-col
 			:xs="12"
 			:sm="12"
@@ -58,7 +59,7 @@
 			class="card-panel-col"
 		>
 			<div
-				v-if="$store.state.user.name=='admin'"
+				v-permission="['admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/camera/list')"
 			>
@@ -89,7 +90,7 @@
 			class="card-panel-col"
 		>
 			<div
-				v-if="$store.state.user.name=='admin'"
+				v-permission="['admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/ship/list')"
 			>
@@ -120,7 +121,7 @@
 			class="card-panel-col"
 		>
 			<div
-				v-if="$store.state.user.name=='admin'"
+				v-permission="['admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/ship/list')"
 			>
@@ -151,18 +152,21 @@
 import CountTo from "vue-count-to";
 import { bookHome } from "@/api/book";
 import { getProductList } from "../../../../api/user";
-
+import permission from "@/directive/permission/index.js"; // 权限判断指令
+import checkPermission from "@/utils/permission"; // 权限判断函数
+//import SwitchRoles from "./SwitchRoles.vue";
 export default {
 	components: {
 		CountTo,
 	},
+	directives: { permission },
 	data() {
 		return {
 			data: { user: 1000, book: 1200, shelf: 1800, rank: 300000 },
 		};
 	},
 	mounted() {
-		console.log(this.$store.state.user.name);
+		//console.log(this.$store.state.user.name);
 		//getProductList(1, 10)
 		// bookHome().then(response => {
 		// 	this.data = response.data;
