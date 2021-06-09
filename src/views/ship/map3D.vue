@@ -58,7 +58,11 @@ export default {
 				this.water = res.data.data.water;
 				this.water.forEach((ele) => {
 					if (ele.gjwd) {
-						this.drawIcon(JSON.parse(ele.gjwd)[0], JSON.parse(ele.gjwd)[1]);
+						this.drawIcon(
+							JSON.parse(ele.gjwd)[0],
+							JSON.parse(ele.gjwd)[1],
+							ele
+						);
 					}
 				});
 			});
@@ -96,7 +100,7 @@ export default {
 		goBack() {
 			this.$router.go(-1);
 		},
-		drawIcon(x, y) {
+		drawIcon(x, y, ele) {
 			const planIcon = new AMap.Icon({
 				size: new AMap.Size(40, 50), // 图标尺寸
 				image: "//webapi.amap.com/theme/v1.3/markers/b/mark_bs.png", // Icon的图像
@@ -109,13 +113,16 @@ export default {
 				title: "采样点",
 				zoom: 13,
 			});
-			planMarker.on("click", this.iconClick);
+			planMarker.on("click", (e) => {
+				this.iconClick(e, x, y, ele);
+			});
 			this.map.add(planMarker);
 		},
 		// 摄像头点击事件
-		iconClick(e) {
-			console.log(e.lnglat.lng, e.lnglat.lat);
-			const title = `检测站${e.lnglat.lng},${e.lnglat.lat}`;
+		iconClick(e, x, y, ele) {
+			console.log(ele);
+			//console.log(e.lnglat.lng, e.lnglat.lat);
+			const title = `检测站${x},${y}`;
 			const content = [];
 			content.push(
 				"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里"
