@@ -41,3 +41,17 @@ export function roleAddPower(permissionId, roleId, id) {
   })
 }
 
+
+// 给角色去掉权限
+export function roleDeletePower(permissionId, roleId, id) {
+  return request({
+    url: `/admin/xxl/permission/doAssign`,
+    method: 'post',
+    params: {
+      permissionId, roleId, id
+
+    }
+  })
+}
+
+
