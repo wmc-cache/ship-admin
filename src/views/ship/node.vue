@@ -23,7 +23,26 @@
 </template>
 
 <script>
+import { number } from "echarts/lib/export";
+import { getRolePower } from "../../api/roles";
+import { dfs } from "./help";
 export default {
+	props: {
+		roleId: {
+			type: String,
+			default: true,
+		},
+	},
+	async mounted() {
+		this.init();
+		const data = await getRolePower(this.roleId);
+		//console.log("children", data.data.children);
+
+		data.data.children.forEach((ele) => {
+			dfs(ele);
+		});
+		this.setCheckedKeys();
+	},
 	methods: {
 		getCheckedNodes() {
 			console.log(this.$refs.tree.getCheckedNodes());
@@ -44,10 +63,42 @@ export default {
 			]);
 		},
 		setCheckedKeys() {
-			this.$refs.tree.setCheckedKeys([3]);
+			console.log(localStorage.getItem("dfs").split(","));
+			this.$refs.tree.setCheckedKeys(localStorage.getItem("dfs").split(","));
 		},
 		resetChecked() {
 			this.$refs.tree.setCheckedKeys([]);
+		},
+		init() {
+			this.data = this.$store.state.permission.permissionMenuList;
+			this.data.forEach((ele) => {
+				ele.label = ele.name;
+				ele.key = ele.id;
+				if (ele.children.length != 0) {
+					ele.children.forEach((ele) => {
+						ele.label = ele.name;
+						ele.key = ele.id;
+						if (ele.children.length != 0) {
+							ele.children.forEach((ele) => {
+								ele.label = ele.name;
+								ele.key = ele.id;
+								if (ele.children.length != 0) {
+									ele.children.forEach((ele) => {
+										ele.label = ele.name;
+										ele.key = ele.id;
+										if (ele.children.length != 0) {
+											ele.children.forEach((ele) => {
+												ele.label = ele.name;
+												ele.key = ele.id;
+											});
+										}
+									});
+								}
+							});
+						}
+					});
+				}
+			});
 		},
 	},
 

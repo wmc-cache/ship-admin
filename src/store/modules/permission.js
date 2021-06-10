@@ -35,13 +35,17 @@ export function filterAsyncRoutes(routes, roles) {
 
 const state = {
   routes: [],
-  addRoutes: []
+  addRoutes: [],
+  permissionMenuList: null,
 }
 
 const mutations = {
   SET_ROUTES: (state, routes) => {
     state.addRoutes = routes
     state.routes = constantRoutes.concat(routes)
+  },
+  SET_permissionMenuList: (state, value) => {
+    state.permissionMenuList = value
   }
 }
 

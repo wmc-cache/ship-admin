@@ -36,6 +36,41 @@
 				>确 定</el-button>
 			</span>
 		</el-dialog>
+		<el-dialog
+			title="新增子菜单"
+			:visible.sync="dialogVisible2"
+			width="30%"
+			:before-close="handleClose"
+		>
+			<el-input
+				v-model="name"
+				style="margin-top:10px"
+				clearable
+				placeholder="菜单名称"
+			/>
+			<el-input
+				v-model="path"
+				style="margin-top:20px"
+				clearable
+				placeholder="菜单路径"
+			/>
+			<el-input
+				v-model="icon"
+				style="margin-top:20px"
+				clearable
+				placeholder="菜单图标"
+			/>
+			<span
+				slot="footer"
+				class="dialog-footer"
+			>
+				<el-button @click="dialogVisible2 = false">取 消</el-button>
+				<el-button
+					type="primary"
+					@click="sure2"
+				>确 定</el-button>
+			</span>
+		</el-dialog>
 
 		<!-- 表格 -->
 		<div class="filter-container">
@@ -47,6 +82,7 @@
 			>新增菜单</el-button>
 		</div>
 		<el-table
+			row-key="id"
 			:key="tableKey"
 			:data="powerList"
 			border
@@ -92,12 +128,19 @@
 						@click="deleteMenu(row.id)"
 					>删除菜单
 					</el-button>
-					<el-button
+					<!-- <el-button
 						type="text"
 						icon="el-icon-view"
 						style="cursor: pointer;"
 						@click="enterMenu(row)"
 					>菜单详情
+					</el-button> -->
+					<el-button
+						type="text"
+						icon="el-icon-view"
+						style="cursor: pointer;"
+						@click="add2(row.id)"
+					>新增子菜单
 					</el-button>
 				</template>
 			</el-table-column>
@@ -123,18 +166,21 @@ import { getMenuList, AddMenu, removeMenu } from "../../api/power";
 export default {
 	data() {
 		return {
+			id: 0,
 			powerList: null,
 			tableKey: 0,
 			dialogVisible: false,
+			dialogVisible2: false,
 			name: null,
 			path: null,
 			icon: null,
+			pid: null,
 		};
 	},
 	async mounted() {
 		const MenuList = await getMenuList();
 		this.powerList = MenuList.data.children;
-		console.log(this.powerList);
+		console.log("this.powerList", this.powerList);
 	},
 	methods: {
 		add() {
@@ -142,6 +188,13 @@ export default {
 		},
 		handleClose() {
 			this.dialogVisible = false;
+		},
+		add2(id) {
+			this.pid = id;
+			this.dialogVisible2 = true;
+		},
+		handleClose2() {
+			this.dialogVisible2 = false;
 		},
 		async deleteMenu(id) {
 			this.$confirm("是否删除该菜单")
@@ -151,20 +204,21 @@ export default {
 				})
 				.catch(() => {});
 		},
-		enterMenu(row) {
-			console.log(row.children);
-
-			this.$router.push({
-				path: `/power/detail/${row.id}/${row.name}`,
-				query: { children: row.children },
-			});
-		},
 		async sure() {
 			await AddMenu({
 				name: this.name,
 				icon: this.icon,
 				path: this.path,
 				pid: 0,
+			});
+			location.reload();
+		},
+		async sure2() {
+			await AddMenu({
+				name: this.name,
+				icon: this.icon,
+				path: this.path,
+				pid: this.pid,
 			});
 			location.reload();
 		},

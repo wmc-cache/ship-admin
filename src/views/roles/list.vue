@@ -7,7 +7,10 @@
 			width="30%"
 			:before-close="handleClose"
 		>
-			<node></node>
+			<node
+				v-if="dialogVisible2"
+				:roleId="roleId"
+			></node>
 			<span
 				slot="footer"
 				class="dialog-footer"
@@ -115,12 +118,12 @@
 							@click="RoleDetail(row.id,row.roleName)"
 						>角色权限管理
 						</el-button>
-						<el-button
-							@click="treeRoles"
+						<!-- <el-button
+							@click="treeRoles(row)"
 							type="primary"
 						>
 							tree
-						</el-button>
+						</el-button> -->
 					</template>
 				</el-table-column>
 
@@ -133,6 +136,7 @@
 
 <script>
 import { getRoleList, addRole, deleteRole } from "../../api/roles";
+
 import node from "../ship/node.vue";
 export default {
 	components: {
@@ -140,6 +144,7 @@ export default {
 	},
 	data() {
 		return {
+			roleId: 0,
 			roleList: null,
 			tableKey: 0,
 			dialogVisible: null,
@@ -171,7 +176,9 @@ export default {
 		RoleDetail(id, name) {
 			this.$router.push({ path: `/roles/detail/${id}/${name}` });
 		},
-		treeRoles() {
+		treeRoles(row) {
+			//console.log(row);
+			this.roleId = row.id;
 			this.dialogVisible2 = true;
 		},
 	},

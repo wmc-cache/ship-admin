@@ -27,6 +27,7 @@
 			class="card-panel-col"
 		>
 			<div
+				v-permission="['无人船','admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/ship/list')"
 			>
@@ -59,7 +60,7 @@
 			class="card-panel-col"
 		>
 			<div
-				v-permission="['admin']"
+				v-permission="['摄像头','admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/camera/list')"
 			>
@@ -90,7 +91,7 @@
 			class="card-panel-col"
 		>
 			<div
-				v-permission="['admin']"
+				v-permission="['传感器','admin']"
 				class="card-panel"
 				@click="handleSetLineChartData('/equipment/ship/list')"
 			>

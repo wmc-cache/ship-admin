@@ -27,13 +27,38 @@ service.interceptors.response.use(
       res.data.roles = ['admin']
     }
     if (res.data.permissionMenuList) {
-      console.log("res.data.permissionMenuList", res.data.permissionMenuList)
-      res.data.roles.push('equipment')
+
+      store.commit("permission/SET_permissionMenuList", res.data.permissionMenuList)
+      //console.log("res.data.permissionMenuList", res.data.permissionMenuList, store)
+
+      res.data.roles.push('test')
     }
     if (res.data.permissionMenuList) {
       res.data.permissionMenuList.forEach(ele => {
         if (ele.select == true) {
+
           res.data.roles.push(ele.name)
+
+        }
+        if (ele.children) {
+          ele.children.forEach(ele => {
+            if (ele.select == true) {
+
+              res.data.roles.push(ele.name)
+
+            }
+            if (ele.children) {
+              ele.children.forEach(ele => {
+                if (ele.select == true) {
+
+                  res.data.roles.push(ele.name)
+
+                }
+
+              })
+            }
+
+          })
         }
       })
     }

@@ -5,6 +5,7 @@
 			<el-table
 				:key="tableKey"
 				:data="powerList"
+				row-key="id"
 				border
 				fit
 				highlight-current-row
@@ -56,6 +57,7 @@
 			<el-table
 				:key="tableKey2"
 				:data="powerList2"
+				row-key="id"
 				border
 				fit
 				highlight-current-row
@@ -120,6 +122,7 @@ import { getMenuList } from "../../api/power";
 export default {
 	data() {
 		return {
+			id: 0,
 			powerList: null,
 			powerList2: null,
 			tableKey: 0,
@@ -127,19 +130,7 @@ export default {
 		};
 	},
 	async mounted() {
-		const MenuList = await getMenuList();
-		this.powerList = MenuList.data.children;
-		const RolePower = await getRolePower(this.$route.params.id);
-		this.powerList2 = RolePower.data.children;
-		this.powerList2.forEach((ele) => {
-			if (ele.select == true) {
-				ele.select = "已拥有";
-			} else {
-				ele.select = "未拥有";
-			}
-		});
-
-		console.log(this.$route.params.id);
+		this.init();
 	},
 	methods: {
 		async addRole(id, ids) {
@@ -148,6 +139,37 @@ export default {
 		},
 		async deleteRole(id) {
 			console.log(id);
+		},
+		async init() {
+			const MenuList = await getMenuList();
+			this.powerList = MenuList.data.children;
+			const RolePower = await getRolePower(this.$route.params.id);
+			this.powerList2 = RolePower.data.children;
+			this.powerList2.forEach((ele) => {
+				if (ele.select == true) {
+					ele.select = "已拥有";
+				} else {
+					ele.select = "未拥有";
+				}
+				if (ele.children) {
+					ele.children.forEach((ele) => {
+						if (ele.select == true) {
+							ele.select = "已拥有";
+						} else {
+							ele.select = "未拥有";
+						}
+						if (ele.children) {
+							ele.children.forEach((ele) => {
+								if (ele.select == true) {
+									ele.select = "已拥有";
+								} else {
+									ele.select = "未拥有";
+								}
+							});
+						}
+					});
+				}
+			});
 		},
 	},
 };

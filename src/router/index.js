@@ -59,7 +59,7 @@ export const asyncRoutes = [
     meta: {
       title: '设备管理',
       icon: 'documentation',
-      roles: ['admin', 'equipment']
+      roles: ['admin', '设备管理']
     },
     children: [
 
@@ -67,21 +67,21 @@ export const asyncRoutes = [
         path: 'ship/list',
         component: () => import('@/views/ship/list'),
         name: 'ShipList',
-        meta: { title: '无人船列表', icon: 'list', noCache: true }
+        meta: { roles: ['无人船'], title: '无人船列表', icon: 'list', noCache: true }
 
       },
       {
         path: 'camera/list',
         component: () => import('@/views/camera/list'),
         name: 'CameraList',
-        meta: { roles: ['admin'], title: '摄像头列表', icon: 'list', noCache: true },
+        meta: { roles: ['摄像头'], title: '摄像头列表', icon: 'list', noCache: true },
 
       },
       {
         path: 'sensor/list',
         component: () => import('@/views/sensor/list'),
         name: 'SensorList',
-        meta: { roles: ['admin'], title: '传感器列表', icon: 'list', noCache: true },
+        meta: { roles: ['传感器'], title: '传感器列表', icon: 'list', noCache: true },
 
       },
       {
@@ -119,7 +119,7 @@ export const asyncRoutes = [
         meta: { title: '权限管理列表', icon: 'list', noCache: true }
       },
       {
-        path: 'detail/:id/:name',
+        path: 'detail/:id/:name/:pid',
         component: () => import('@/views/power/detail'),
         name: 'powerDetail',
         meta: { title: '权限详情', icon: 'guide', noCache: true },
