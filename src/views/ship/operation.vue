@@ -680,6 +680,7 @@ export default {
 			selectBackMode: false,
 			distance_info: null, // 障碍物消息话题
 			isFirst: true,
+			timer: null,
 			fmt: fmt, // 时间格式化
 			sureMap: false, // 湖泊是否确定
 			x: null, // 当前船的实时位置
@@ -891,6 +892,13 @@ export default {
 			}
 			// 障碍物消息话题
 			if (`${message.topic}` == `distance_info_${this.deviceId}`) {
+				clearTimeout(this.timer);
+				this.timer = setTimeout(() => {
+					this.preBarrier.forEach((ele) => {
+						this.map.remove(ele);
+					});
+				}, 3000);
+
 				if (!this.x && !this.y) {
 					return;
 				}
@@ -1123,16 +1131,19 @@ export default {
 				return;
 			}
 			if (value == "search") {
-				this.client.send(
-					`auto_lng_lat_${this.deviceId}`,
-					JSON.stringify({
-						deviceId: this.deviceId,
-						config: {
-							row_gap: 50,
-						},
-					}),
-					2
-				);
+				if (!this.options.search) {
+					//console.log("ok");
+					this.client.send(
+						`auto_lng_lat_${this.deviceId}`,
+						JSON.stringify({
+							deviceId: this.deviceId,
+							config: {
+								row_gap: 50,
+							},
+						}),
+						2
+					);
+				}
 			}
 			if (value == "single") {
 				this.options.search = false;
@@ -1235,7 +1246,6 @@ export default {
 			this.addCircle(this.x, this.y);
 			if (this.isFirst) {
 				this.isFirst = false;
-				this.map.setFitView();
 				this.map.setFitView();
 			}
 		},

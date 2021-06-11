@@ -63,6 +63,7 @@ export default {
 							JSON.parse(ele.gjwd)[1],
 							ele
 						);
+						this.map.setFitView();
 					}
 				});
 			});
@@ -122,12 +123,17 @@ export default {
 		iconClick(e, x, y, ele) {
 			console.log(ele);
 			//console.log(e.lnglat.lng, e.lnglat.lat);
-			const title = `检测站${x},${y}`;
+			const title = `检测点:${x},${y}`;
 			const content = [];
-			content.push(
-				"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里"
-			);
-			content.push("电话：010-64733333");
+			content.push(`PH:${ele.ph}`);
+			content.push(`水温:${ele.wt}`);
+			content.push(`电导率:${ele.ec}`);
+			content.push(`浊度:${ele.td}`);
+			content.push(`溶解氧:${ele.doDo}`);
+			// content.push(
+			// 	"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里"
+			// );
+			// content.push("电话：010-64733333");
 			// content.push(`<a>详细信息${e.lnglat.lng}</a>`);
 			const infoWindow = new AMap.InfoWindow({
 				anchor: "bottom-left",
