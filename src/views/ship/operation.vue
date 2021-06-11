@@ -892,6 +892,7 @@ export default {
 			}
 			// 障碍物消息话题
 			if (`${message.topic}` == `distance_info_${this.deviceId}`) {
+				//清空最后一次数据
 				clearTimeout(this.timer);
 				this.timer = setTimeout(() => {
 					this.preBarrier.forEach((ele) => {

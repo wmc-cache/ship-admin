@@ -2,6 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
+import { dfs } from "../utils/help"
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 30 * 1000
@@ -26,42 +27,21 @@ service.interceptors.response.use(
     if (res.data.name == 'admin') {
       res.data.roles = ['admin']
     }
+
     if (res.data.permissionMenuList) {
-
       store.commit("permission/SET_permissionMenuList", res.data.permissionMenuList)
-      //console.log("res.data.permissionMenuList", res.data.permissionMenuList, store)
-
       res.data.roles.push('test')
     }
+
+
     if (res.data.permissionMenuList) {
-      res.data.permissionMenuList.forEach(ele => {
-        if (ele.select == true) {
-
-          res.data.roles.push(ele.name)
-
-        }
-        if (ele.children) {
-          ele.children.forEach(ele => {
-            if (ele.select == true) {
-
-              res.data.roles.push(ele.name)
-
-            }
-            if (ele.children) {
-              ele.children.forEach(ele => {
-                if (ele.select == true) {
-
-                  res.data.roles.push(ele.name)
-
-                }
-
-              })
-            }
-
-          })
-        }
-      })
+      let arr = dfs(res.data.permissionMenuList)
+      res.data.roles = [...res.data.roles, ...arr]
+      window.dfsArr = []
+      //console.log("res.data.permissionMenuList", res.data.permissionMenuList, arr)
     }
+
+
     const errMsg = res.message || res.msg || '请求失败'
     if (res.code !== 20000) {
       Message({

@@ -37,6 +37,7 @@ const state = {
   routes: [],
   addRoutes: [],
   permissionMenuList: null,
+  arr: []
 }
 
 const mutations = {
@@ -46,6 +47,9 @@ const mutations = {
   },
   SET_permissionMenuList: (state, value) => {
     state.permissionMenuList = value
+  },
+  SET_ARR: (state, value) => {
+    state.arr.push(value)
   }
 }
 
