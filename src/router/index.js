@@ -118,13 +118,7 @@ export const asyncRoutes = [
         name: 'powerList',
         meta: { title: '权限管理列表', icon: 'list', noCache: true }
       },
-      {
-        path: 'detail/:id/:name/:pid',
-        component: () => import('@/views/power/detail'),
-        name: 'powerDetail',
-        meta: { title: '权限详情', icon: 'guide', noCache: true },
-        hidden: true
-      }
+
 
     ]
   },

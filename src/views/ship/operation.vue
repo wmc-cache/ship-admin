@@ -1377,31 +1377,6 @@ export default {
 							fix_point: fix_point,
 						},
 					};
-					// this.client.send(
-					// 	`user_lng_lat_${this.deviceId}`,
-					// 	JSON.stringify({
-					// 		deviceId: this.deviceId,
-					// 		lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
-					// 		zoom: e.target.getZoom(),
-					// 		meter_pix: e.target.getResolution(),
-					// 		config: {
-					// 			back_home: back_home,
-					// 			fix_point: fix_point,
-					// 		},
-					// 	}),
-					// 	2
-					// );
-
-					// console.log("开始执行命令", {
-					// 	deviceId: this.deviceId,
-					// 	lng_lat: [[e.lnglat.lng, e.lnglat.lat]],
-					// 	zoom: e.target.getZoom(),
-					// 	meter_pix: e.target.getResolution(),
-					// 	config: {
-					// 		back_home: back_home,
-					// 		fix_point: fix_point,
-					// 	},
-					// });
 				})
 				.catch((_) => {
 					console.log("取消");
@@ -1461,20 +1436,6 @@ export default {
 									},
 								};
 
-								// this.client.send(
-								// 	`user_lng_lat_${this.deviceId}`,
-								// 	JSON.stringify({
-								// 		deviceId: this.deviceId,
-								// 		lng_lat: this.doubleList,
-								// 		zoom: e.target.getZoom(),
-								// 		meter_pix: e.target.getResolution(),
-								// 		config: {
-								// 			back_home: back_home,
-								// 			fix_point: fix_point,
-								// 		},
-								// 	}),
-								// 	2
-								// );
 								console.log("开始", {
 									deviceId: this.deviceId,
 									lng_lat: this.doubleList,
@@ -1595,7 +1556,6 @@ export default {
 		addBarrier(x, y, d, l) {
 			const lngLat = getLonAndLat(x, y, d, l);
 			// console.log(lngLat);
-
 			var icon = new AMap.Icon({
 				size: new AMap.Size(20, 30), // 图标尺寸
 				imageOffset: new AMap.Pixel(0, 0),

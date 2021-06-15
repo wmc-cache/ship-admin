@@ -38,7 +38,7 @@ service.interceptors.response.use(
       let arr = dfs(res.data.permissionMenuList)
       res.data.roles = [...res.data.roles, ...arr]
       window.dfsArr = []
-      //console.log("res.data.permissionMenuList", res.data.permissionMenuList, arr)
+
     }
 
 

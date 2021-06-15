@@ -128,13 +128,7 @@
 						@click="deleteMenu(row.id)"
 					>删除菜单
 					</el-button>
-					<!-- <el-button
-						type="text"
-						icon="el-icon-view"
-						style="cursor: pointer;"
-						@click="enterMenu(row)"
-					>菜单详情
-					</el-button> -->
+
 					<el-button
 						type="text"
 						icon="el-icon-view"
@@ -155,9 +149,6 @@
 			@pagination="refresh"
 		/> -->
 	</div>
-	<!-- <div>
-
-	</div> -->
 
 </template>
 
