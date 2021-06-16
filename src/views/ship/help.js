@@ -1,20 +1,24 @@
 //深度优先遍历
-let arr = []
+
+window.dfsArr = []
 
 export function dfs(json) {
-  if (!json) return arr
-  if (json.id && json.select == true) {
-    arr.push(json.id)
+
+  if (!json) {
+    return
   }
 
-  if (typeof json === "string") return arr
+  if (json.name && json.select == true && json.children.length === 0) {
+    window.dfsArr.push(json.id)
+  }
+
+  if (typeof json === "string") {
+    return
+  }
+
   Object.keys(json).forEach((k) => {
     dfs(json[k]);
   });
-  localStorage.setItem("dfs", arr)
 
+  return window.dfsArr
 }
-
-
-
-

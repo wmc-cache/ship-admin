@@ -11,13 +11,13 @@
 		>
 		</el-tree>
 
-		<div class="buttons">
+		<!-- <div class="buttons">
 			<el-button @click="getCheckedNodes">通过 node 获取</el-button>
 			<el-button @click="getCheckedKeys">通过 key 获取</el-button>
 			<el-button @click="setCheckedNodes">通过 node 设置</el-button>
 			<el-button @click="setCheckedKeys">通过 key 设置</el-button>
 			<el-button @click="resetChecked">清空</el-button>
-		</div>
+		</div> -->
 	</div>
 
 </template>
@@ -36,12 +36,10 @@ export default {
 	async mounted() {
 		this.init();
 		const data = await getRolePower(this.roleId);
-		//console.log("children", data.data.children);
+		//console.log(dfs(data));
 
-		data.data.children.forEach((ele) => {
-			dfs(ele);
-		});
-		this.setCheckedKeys();
+		this.setCheckedKeys(dfs(data));
+		window.dfsArr = [];
 	},
 	methods: {
 		getCheckedNodes() {
@@ -62,13 +60,14 @@ export default {
 				},
 			]);
 		},
-		setCheckedKeys() {
-			console.log(localStorage.getItem("dfs").split(","));
-			this.$refs.tree.setCheckedKeys(localStorage.getItem("dfs").split(","));
+		setCheckedKeys(arr) {
+			//console.log(localStorage.getItem("dfs").split(","));
+			this.$refs.tree.setCheckedKeys(arr);
 		},
 		resetChecked() {
 			this.$refs.tree.setCheckedKeys([]);
 		},
+		//不想递归了
 		init() {
 			this.data = this.$store.state.permission.permissionMenuList;
 			this.data.forEach((ele) => {

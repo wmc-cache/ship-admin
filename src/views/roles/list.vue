@@ -118,12 +118,12 @@
 							@click="RoleDetail(row.id,row.roleName)"
 						>角色权限管理
 						</el-button>
-						<!-- <el-button
+						<el-button
 							@click="treeRoles(row)"
 							type="primary"
 						>
 							tree
-						</el-button> -->
+						</el-button>
 					</template>
 				</el-table-column>
 
