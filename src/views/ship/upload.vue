@@ -1,10 +1,5 @@
 <template>
 	<div>
-		<!-- <img
-http://wuhanligong.xxlun.com/union
-http://localhost:9527
-			alt="加载失败"
-		> -->
 		<token-img
 			width="100px"
 			height="100px"
