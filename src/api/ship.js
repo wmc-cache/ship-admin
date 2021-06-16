@@ -26,7 +26,7 @@ export function getMapList(mapId) {
 // 无人船
 export function editDevice(data) {
   return request({
-    url: `/admin/xxl/device/updata`,
+    url: `/admin/xxl/device/upData`,
     method: 'post',
     data
 
@@ -45,7 +45,7 @@ export function getMapListShow(deviceId, page, pageSize) {
 // 修改湖名
 export function postMapName(mapId, name) {
   return request({
-    url: '/admin/xxl/map/updata',
+    url: '/admin/xxl/map/upData',
     method: 'post',
     params: { mapId, name }
 
