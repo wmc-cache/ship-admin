@@ -136,8 +136,7 @@
 
 <script>
 import { getRoleList, addRole, deleteRole } from "../../api/roles";
-
-import node from "../ship/node.vue";
+import node from "./node.vue";
 export default {
 	components: {
 		node,

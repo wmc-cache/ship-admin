@@ -225,13 +225,7 @@ export const asyncRoutes = [
     meta: { title: 'test', icon: 'list', noCache: true },
     hidden: true
   },
-  {
-    path: '/node',
-    component: () => import('@/views/ship/node'),
-    name: 'node',
-    meta: { title: 'test', icon: 'list', noCache: true },
-    hidden: true
-  },
+
 
   { path: '*', redirect: '/404', hidden: true }
 ]
