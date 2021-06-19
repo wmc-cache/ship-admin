@@ -2,7 +2,7 @@ import axios from 'axios'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 import { Message } from 'element-ui'
-import { dfs } from "../utils/help"
+import { dfs } from '../utils/help'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 30 * 1000
@@ -29,17 +29,15 @@ service.interceptors.response.use(
     }
 
     if (res.data.permissionMenuList) {
-      store.commit("permission/SET_permissionMenuList", res.data.permissionMenuList)
-      res.data.roles.push('test')//这个不要删掉
+      store.commit('permission/SET_permissionMenuList', res.data.permissionMenuList)
+      res.data.roles.push('test')// 这个不要删掉
     }
 
-
     if (res.data.permissionMenuList) {
-      let arr = dfs(res.data.permissionMenuList)
+      const arr = dfs(res.data.permissionMenuList)
       res.data.roles = [...res.data.roles, ...arr]
       window.dfsArr = []
     }
-
 
     const errMsg = res.message || res.msg || '请求失败'
     if (res.code !== 20000) {
