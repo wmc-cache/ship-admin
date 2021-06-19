@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import { number } from "echarts/lib/export";
+//这个权限树组件写好了，但后端目前没办法删掉权限
 import { getRolePower } from "../../api/roles";
 import { dfs } from "./help";
 export default {
@@ -67,7 +67,7 @@ export default {
 		resetChecked() {
 			this.$refs.tree.setCheckedKeys([]);
 		},
-		//不想递归了
+		//不想递归了,可以参考我其它位置写的
 		init() {
 			this.data = this.$store.state.permission.permissionMenuList;
 			this.data.forEach((ele) => {

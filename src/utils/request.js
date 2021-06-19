@@ -30,7 +30,7 @@ service.interceptors.response.use(
 
     if (res.data.permissionMenuList) {
       store.commit("permission/SET_permissionMenuList", res.data.permissionMenuList)
-      res.data.roles.push('test')
+      res.data.roles.push('test')//这个不要删掉
     }
 
 
@@ -38,7 +38,6 @@ service.interceptors.response.use(
       let arr = dfs(res.data.permissionMenuList)
       res.data.roles = [...res.data.roles, ...arr]
       window.dfsArr = []
-
     }
 
 

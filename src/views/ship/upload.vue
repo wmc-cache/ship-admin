@@ -21,10 +21,12 @@
 </template>
 
 <script>
+//自己写的上传组件
 import axios from "axios";
 import { getToken } from "@/utils/auth";
 import { editDevice } from "../../api/ship";
 import tokenImg from "@/components/token-img.vue";
+//tokenImg是给请求图片需要加token的奇怪需求！！！
 export default {
 	components: { tokenImg },
 	data() {

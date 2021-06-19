@@ -149,13 +149,7 @@ export default {
 					});
 					this.waterData = res.data.data.water;
 				}
-
-				// for (i = 0; i < this.waterData.length; i++) {
-				// 	console.log(this.waterData[i]);
-				// }
 			});
-			// console.log(fmt(value[0]).split(" ")[0]);
-			// console.log(fmt(value[1]).split(" ")[0]);
 		},
 	},
 	mounted() {},
