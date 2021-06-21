@@ -119,9 +119,9 @@ export default {
 			});
 			this.map.add(planMarker);
 		},
-		// 摄像头点击事件
+		// icon点击事件
 		iconClick(e, x, y, ele) {
-			console.log(ele);
+			//console.log(ele);
 			//console.log(e.lnglat.lng, e.lnglat.lat);
 			const title = `检测点:${x},${y}`;
 			const content = [];
@@ -130,11 +130,6 @@ export default {
 			content.push(`电导率:${ele.ec}`);
 			content.push(`浊度:${ele.td}`);
 			content.push(`溶解氧:${ele.doDo}`);
-			// content.push(
-			// 	"<img src='http://tpc.googlesyndication.com/simgad/5843493769827749134'>地址：北京市朝阳区阜通东大街6号院3号楼东北8.3公里"
-			// );
-			// content.push("电话：010-64733333");
-			// content.push(`<a>详细信息${e.lnglat.lng}</a>`);
 			const infoWindow = new AMap.InfoWindow({
 				anchor: "bottom-left",
 				isCustom: true, // 使用自定义窗体
@@ -177,16 +172,7 @@ export default {
 			middle.style.backgroundColor = "#245098";
 			middle.innerHTML = content;
 			info.appendChild(middle);
-			// 定义底部内容
 
-			// const bottom = document.createElement("div");
-			// bottom.innerHTML = "详细信息";
-			// bottom.style.position = "absolute";
-			// bottom.style.right = "0";
-			// bottom.style.top = "40px";
-			// bottom.style.cursor = "pointer";
-			// bottom.onclick = this.detailMessage;
-			// info.appendChild(bottom);
 			return info;
 		},
 		closeInfoWindow() {

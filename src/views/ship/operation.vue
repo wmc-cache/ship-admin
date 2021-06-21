@@ -785,9 +785,9 @@ export default {
 		},
 	},
 	mounted() {
-		setInterval(() => {
-			this.percentage++;
-		}, 1000);
+		// setInterval(() => {
+		// 	this.percentage++;
+		// }, 1000);
 		// this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
 		// this.initTest();
