@@ -24,6 +24,13 @@
 		>
 			启动
 		</el-button>
+		<!-- <el-progress
+			class="fixed4"
+			type="circle"
+			:percentage="percentage"
+			:format="format"
+		>
+		</el-progress> -->
 
 		<!-- 设置对话框 -->
 		<el-dialog
@@ -339,9 +346,17 @@
 							<dv-border-box-10>
 								<div style="display:flex;align-items:center;width: 56vw;height: 17vh;">
 									<div class="handle">
-										手动
+										<div @click="shadowState = !shadowState;keyShadow++">
+											<div v-if="!this.shadowState">方向</div>
+											<div v-else>方位</div>
+										</div>
+
 									</div>
-									<div class="box">
+									<div
+										:key="keyShadow"
+										class="box"
+										:class="{shadow:shadowState}"
+									>
 										<div
 											ref="direction"
 											v-waves
@@ -486,7 +501,6 @@
 								<div v-if="message">船执行手动控制提示消息:{{ message.control_info }}</div>
 								<div v-if="message">低电量状态:{{ message.low_dump_energy_warnning }}</div>
 								<div v-if="message">当前偏差角度:{{ message.theta_error }}</div>
-
 								<div v-if="message">遥控器是否启用:{{ message.b_start_remote }}</div>
 								<div v-if="message"> 罗盘提示消息:{{ message.compass_notice_info }}</div>
 								<div v-if="status_data.lng_lat_error">{{ status_data.lng_lat_error }}m
@@ -675,6 +689,9 @@ export default {
 				double: null,
 				search: null,
 			},
+			percentage: 10,
+			keyShadow: 1,
+			shadowState: false,
 			state: "map",
 			dialogVideo: false,
 			selectBackMode: false,
@@ -768,6 +785,9 @@ export default {
 		},
 	},
 	mounted() {
+		setInterval(() => {
+			this.percentage++;
+		}, 1000);
 		// this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
 		// this.initTest();
@@ -812,6 +832,8 @@ export default {
 			this.client.subscribe(`base_setting_${this.deviceId}`);
 			// 订阅高级信息
 			this.client.subscribe(`height_setting_${this.deviceId}`);
+			// 订阅采样数据消息
+			this.client.subscribe(`sample_data_${this.deviceId}`);
 			// 订阅刷新后请求数据消息
 			this.client.subscribe(`refresh_${this.deviceId}`);
 			// 订阅障碍物消息话题
@@ -965,6 +987,26 @@ export default {
 					}
 				}
 			}
+			//订阅检测数据消息
+			if (`${message.topic}` == `detect_data_${this.deviceId}`) {
+				let waterData = JSON.parse(message.payloadString).water;
+				Message({
+					type: "success",
+					message: `水质数据:ph:${waterData.ph};水温:${waterData.wt}; 溶解氧:${waterData.doDo};电导率:${waterData.ec};浊度:${waterData.td}`,
+					duration: 0,
+					showClose: true,
+				});
+			}
+			//采样数据消息
+			if (`${message.topic}` == `sample_data_${this.deviceId}`) {
+				let current_num = JSON.parse(message.payloadString).current_num;
+				Message({
+					type: "success",
+					message: `当前采样瓶号:${current_num}`,
+					duration: 0,
+					showClose: true,
+				});
+			}
 		},
 		// MQTT断开连接
 		onConnectionLost(responseObject) {
@@ -1088,6 +1130,9 @@ export default {
 				.catch(() => {
 					console.log("no");
 				});
+		},
+		format(percentage) {
+			return percentage == 1;
 		},
 		reset() {
 			this.client.send(
@@ -1625,32 +1670,54 @@ export default {
 		},
 		// 船的方向控制
 		controlDirection(value) {
+			let mode;
+			if (this.shadowState) {
+				mode = 2;
+			} else {
+				mode = 1;
+			}
 			if (value == "top") {
 				this.client.send(
 					`control_data_${this.deviceId}`,
-					JSON.stringify({ deviceId: this.deviceId, move_direction: 0 }),
+					JSON.stringify({
+						deviceId: this.deviceId,
+						move_direction: 0,
+						mode: mode,
+					}),
 					2
 				);
-				console.log({ deviceId: this.deviceId, move_direction: 0 });
+				console.log({ deviceId: this.deviceId, move_direction: 0, mode: mode });
 			}
 			if (value == "left") {
 				this.client.send(
 					`control_data_${this.deviceId}`,
-					JSON.stringify({ deviceId: this.deviceId, move_direction: 90 }),
+					JSON.stringify({
+						deviceId: this.deviceId,
+						move_direction: 90,
+						mode: mode,
+					}),
 					2
 				);
 			}
 			if (value == "bottom") {
 				this.client.send(
 					`control_data_${this.deviceId}`,
-					JSON.stringify({ deviceId: this.deviceId, move_direction: 180 }),
+					JSON.stringify({
+						deviceId: this.deviceId,
+						move_direction: 180,
+						mode: mode,
+					}),
 					2
 				);
 			}
 			if (value == "right") {
 				this.client.send(
 					`control_data_${this.deviceId}`,
-					JSON.stringify({ deviceId: this.deviceId, move_direction: 270 }),
+					JSON.stringify({
+						deviceId: this.deviceId,
+						move_direction: 270,
+						mode: mode,
+					}),
 					2
 				);
 			}
@@ -1660,6 +1727,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.shadow {
+	box-shadow: 0px 0.6vh 1.8vh 0px rgba(240, 0, 0, 0.6),
+		0px -0.6vh 1.8vh 0px rgba(240, 0, 0, 0.6) !important;
+}
 #container {
 	width: 64vw;
 	height: 56vh;
@@ -1689,8 +1760,8 @@ export default {
 }
 .fixed4 {
 	position: fixed;
-	top: 25vh;
-	left: 38vw;
+	top: 45vh;
+	left: 58vw;
 	z-index: 1000;
 }
 

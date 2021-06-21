@@ -77,7 +77,7 @@ export default {
 				center: [114.431408, 30.523486],
 				pitch: 45,
 				// showLabel: false,
-				// viewMode: "3D",
+				viewMode: "3D",
 				mapStyle: "amap://styles/001a637581603985681831e1471630a5",
 			});
 			this.map = map;
