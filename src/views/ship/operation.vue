@@ -33,7 +33,7 @@
 		<div
 			class="fixed5"
 			v-if="message"
-			style="color:#0096ff;transform: rotate(-90deg);"
+			style="color:#0096ff;"
 		>
 			{{message.distance}}m
 		</div>
@@ -1794,9 +1794,8 @@ export default {
 .fixed5 {
 	position: fixed;
 	top: 52vh;
-	left: 56vw;
+	left: 58vw;
 	z-index: 1000;
-	transform: rotate(90deg);
 }
 
 .backActive {
