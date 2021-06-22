@@ -24,13 +24,19 @@
 		>
 			启动
 		</el-button>
-		<!-- <el-progress
+
+		<el-progress
+			v-if="message"
 			class="fixed4"
-			type="circle"
-			:percentage="percentage"
-			:format="format"
+			:percentage="message.progress"
+		></el-progress>
+		<div
+			class="fixed5"
+			v-if="message"
+			style="color:#0096ff;transform: rotate(-90deg);"
 		>
-		</el-progress> -->
+			{{message.distance}}m
+		</div>
 
 		<!-- 设置对话框 -->
 		<el-dialog
@@ -688,6 +694,9 @@ export default {
 				double: null,
 				search: null,
 			},
+			config: {
+				value: 20,
+			},
 			percentage: 10,
 			keyShadow: 1,
 			shadowState: false,
@@ -784,9 +793,10 @@ export default {
 		},
 	},
 	mounted() {
-		// setInterval(() => {
-		// 	this.percentage++;
-		// }, 1000);
+		//this.config.lineDash = this.line();
+		setInterval(() => {
+			this.percentage++;
+		}, 1000);
 		// this.connection.clientId = this.$store.state.user.name;
 		this.deviceId = this.$route.params.deviceId;
 		// this.initTest();
@@ -1013,6 +1023,21 @@ export default {
 			if (responseObject.errorCode !== 0) {
 				console.log("onConnectionLost:" + responseObject.errorMessage);
 			}
+		},
+		line() {
+			const fullWidth = 300;
+			const borderGap = 3;
+			const borderWidth = 3;
+			const usefulWidth = fullWidth - (borderGap + borderWidth) * 2;
+
+			const pieceLength = [0.25, 0.5, 0.25];
+			const pieceGap = 3;
+
+			const lineDash = pieceLength
+				.map((l) => [usefulWidth * l, pieceGap])
+				.reduce((all, current) => [...all, ...current], []);
+
+			return lineDash;
 		},
 
 		initMap() {
@@ -1759,9 +1784,19 @@ export default {
 }
 .fixed4 {
 	position: fixed;
-	top: 45vh;
-	left: 58vw;
+	top: 52vh;
+	left: 56vw;
 	z-index: 1000;
+	transform: rotate(-90deg);
+	width: 30vh;
+}
+
+.fixed5 {
+	position: fixed;
+	top: 52vh;
+	left: 56vw;
+	z-index: 1000;
+	transform: rotate(90deg);
 }
 
 .backActive {
@@ -2287,6 +2322,7 @@ export default {
 						margin-top: 0.5vh;
 						// border: 0.1vh solid #8fdffe;
 						// border-radius: 1vh;
+
 						width: 4vw;
 						font-size: 1vw;
 						font-family: DIN;
