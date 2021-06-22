@@ -655,7 +655,6 @@
 <script>
 import { Message } from "element-ui";
 import { getLonAndLat } from "./map";
-import tokenImg from "@/components/token-img";
 import MQTT from "paho-mqtt";
 import waves from "@/directive/waves";
 import { getMapList } from "../../api/ship";
@@ -663,7 +662,7 @@ import { fmt } from "../../utils/date";
 import TokenImg from "@/components/token-img.vue";
 export default {
 	components: { TokenImg },
-	directives: { waves, tokenImg },
+	directives: { waves },
 	filters: {
 		valueFilter(value) {
 			if (value) {
