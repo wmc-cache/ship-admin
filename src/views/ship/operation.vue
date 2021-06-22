@@ -1794,7 +1794,7 @@ export default {
 .fixed5 {
 	position: fixed;
 	top: 52vh;
-	left: 58vw;
+	left: 62vw;
 	z-index: 1000;
 }
 
