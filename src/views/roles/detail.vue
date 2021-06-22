@@ -140,6 +140,7 @@ export default {
 		async deleteRole(id) {
 			console.log(id);
 		},
+		// 不想写递归了,可以参考我其它位置写的
 		async init() {
 			const MenuList = await getMenuList();
 			this.powerList = MenuList.data.children;
