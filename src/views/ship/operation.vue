@@ -824,7 +824,7 @@ export default {
 		},
 		// MQTT连接成功
 		onConnect() {
-			console.log("onConnect");
+			console.log("MQTT连接成功");
 			// 订阅状态数据
 			this.client.subscribe(`status_data_${this.deviceId}`);
 			// 订阅探测数据
@@ -1024,22 +1024,7 @@ export default {
 				console.log("onConnectionLost:" + responseObject.errorMessage);
 			}
 		},
-		line() {
-			const fullWidth = 300;
-			const borderGap = 3;
-			const borderWidth = 3;
-			const usefulWidth = fullWidth - (borderGap + borderWidth) * 2;
-
-			const pieceLength = [0.25, 0.5, 0.25];
-			const pieceGap = 3;
-
-			const lineDash = pieceLength
-				.map((l) => [usefulWidth * l, pieceGap])
-				.reduce((all, current) => [...all, ...current], []);
-
-			return lineDash;
-		},
-
+		//地图初始化
 		initMap() {
 			if (!this.x && !this.y) {
 				this.x = 114.431408;
@@ -1071,6 +1056,7 @@ export default {
 				}
 			);
 		},
+		//停止
 		stop() {
 			this.client.send(
 				`control_data_${this.deviceId}`,
@@ -1116,11 +1102,11 @@ export default {
 				return;
 			}
 		},
-		// selectBack
+		//selectBack
 		selectBack() {
 			this.selectBackMode = !this.selectBackMode;
 		},
-		// 重置湖泊
+		//重置湖泊
 		rename() {
 			this.client.send(
 				`reset_pool_${this.deviceId}`,
@@ -1154,9 +1140,6 @@ export default {
 				.catch(() => {
 					console.log("no");
 				});
-		},
-		format(percentage) {
-			return percentage == 1;
 		},
 		reset() {
 			this.client.send(
@@ -1195,6 +1178,7 @@ export default {
 				path: `/equipment/ship/list`,
 			});
 		},
+		//航行设置
 		setOptions(value) {
 			if (!this.sureMap) {
 				Message.error("请先点击湖中心一点确定湖泊轮廓");
@@ -1573,8 +1557,7 @@ export default {
 				alert("该浏览器不支持自动调用,请手动调用画中画模式");
 			}
 		},
-
-		// 对话框
+		//对话框
 		handleClose(done) {
 			this.$confirm("确认关闭？")
 				.then((_) => {
@@ -1582,7 +1565,7 @@ export default {
 				})
 				.catch((_) => {});
 		},
-		// 根据经纬坐标点画轨迹
+		//根据经纬坐标点画轨迹
 		draw(value) {
 			const list = value;
 			list.forEach((ele) => {
@@ -1602,6 +1585,7 @@ export default {
 			this.map.add(overlayGroup);
 			// this.map.setFitView();
 		},
+		//根据经纬坐标点画轨迹
 		draw2(value) {
 			const list = value;
 			list.forEach((ele) => {
