@@ -9,7 +9,7 @@ import getPageTitle from '@/utils/get-page-title'
 NProgress.configure({ showSpinner: true }) // 进度条配置
 const whiteList = ['/login', '/auth-redirect'] // no redirect whitelist
 
-router.beforeEach(async(to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   // 进度条
   NProgress.start()
   // 设置页面title
@@ -42,7 +42,6 @@ router.beforeEach(async(to, from, next) => {
     }
   } else {
     // 没有token
-
     if (whiteList.indexOf(to.path) !== -1) {
       // in the free login whitelist, go directly
       next()

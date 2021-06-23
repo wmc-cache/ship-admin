@@ -11,9 +11,9 @@
 import { getSiteList } from "../../api/sensor";
 export default {
 	mounted() {
-		getSiteList(0, 10).then((res) => {
-			console.log("getSiteList", res);
-		});
+		// getSiteList(0, 10).then((res) => {
+		// 	console.log("getSiteList", res);
+		// });
 	},
 	methods: {
 		goToDetail() {

@@ -155,6 +155,7 @@
 <script>
 import { getMenuList, AddMenu, removeMenu } from "../../api/power";
 export default {
+	name: "power",
 	data() {
 		return {
 			id: 0,

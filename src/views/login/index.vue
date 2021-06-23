@@ -168,7 +168,7 @@ export default {
 					this.$store
 						.dispatch("user/login", this.loginForm)
 						.then(() => {
-							console.log(getToken());
+							//console.log(getToken());
 
 							this.$router.push({
 								path: this.redirect || "/",

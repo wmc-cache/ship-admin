@@ -126,7 +126,7 @@ export const asyncRoutes = [
     path: '/roles',
     component: Layout,
     redirect: '/roles/list',
-    name: 'power',
+    name: 'roles',
     meta: {
       title: '角色管理',
       icon: 'documentation',
@@ -207,7 +207,7 @@ export const asyncRoutes = [
   {
     path: '/showWaterData/:deviceId/:MapId',
     component: () => import('@/views/ship/showWaterData'),
-    name: 'showWaterData',
+    name: 'WaterData',
     meta: { title: '历史监测数据', icon: 'list', noCache: true },
     hidden: true
   },

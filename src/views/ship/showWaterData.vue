@@ -136,7 +136,7 @@ import PieChart from "@/views/ship/pieChart";
 import { getDetectData } from "../../api/ship.js";
 import { fmt } from "../../utils/date";
 export default {
-	name: "ShowWaterData",
+	name: "WaterData",
 	components: {
 		PieChart,
 		LineChart,
