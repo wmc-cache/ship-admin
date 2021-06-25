@@ -119,6 +119,7 @@
 <script>
 import { getRolePower, roleAddPower, roleDeletePower } from "../../api/roles";
 import { getMenuList } from "../../api/power";
+import { addTip } from "./help";
 export default {
 	data() {
 		return {
@@ -140,36 +141,14 @@ export default {
 		async deleteRole(id) {
 			console.log(id);
 		},
-		// 不想写递归了,可以参考我其它位置写的
 		async init() {
 			const MenuList = await getMenuList();
 			this.powerList = MenuList.data.children;
 			const RolePower = await getRolePower(this.$route.params.id);
 			this.powerList2 = RolePower.data.children;
+			console.log(this.powerList2);
 			this.powerList2.forEach((ele) => {
-				if (ele.select == true) {
-					ele.select = "已拥有";
-				} else {
-					ele.select = "未拥有";
-				}
-				if (ele.children) {
-					ele.children.forEach((ele) => {
-						if (ele.select == true) {
-							ele.select = "已拥有";
-						} else {
-							ele.select = "未拥有";
-						}
-						if (ele.children) {
-							ele.children.forEach((ele) => {
-								if (ele.select == true) {
-									ele.select = "已拥有";
-								} else {
-									ele.select = "未拥有";
-								}
-							});
-						}
-					});
-				}
+				addTip(ele);
 			});
 		},
 	},
