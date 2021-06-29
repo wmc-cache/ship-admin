@@ -487,7 +487,7 @@
 									controls
 									playsInline
 								>
-									<source src="https://open.ys7.com/v3/openlive/C99929838_1_2.m3u8?expire=1653183047&id=317957803691556864&t=8989464f3b619e3eac8c0cb01e33e6456189fc781ccdcdf016fa36f586b4d7e3&ev=100">
+									<source ref="source" />
 								</video>
 							</div>
 
@@ -735,6 +735,7 @@ export default {
 				arrive_range: "5", // 到达范围
 				keep_point: "6", // 保存规划点
 				pool_name: "", // 湖泊名称
+				video_url: "",
 			},
 			height_setting: {
 				stop_pwm: 1, // 电机停转
@@ -805,9 +806,6 @@ export default {
 		if (!this.map) {
 			this.initMap();
 		}
-		this.$nextTick(() => {
-			const player = new EZUIPlayer("myPlayer");
-		});
 	},
 	methods: {
 		// MQTT连接初始化
@@ -968,6 +966,11 @@ export default {
 			if (`${message.topic}` == `base_setting_${this.deviceId}`) {
 				if (JSON.parse(message.payloadString).info_type == 3) {
 					this.base_setting = JSON.parse(message.payloadString);
+					//动态加载视频
+					this.$refs.source.src = this.base_setting.video_url;
+					this.$nextTick(() => {
+						const player = new EZUIPlayer("myPlayer");
+					});
 					console.log("初级信息", this.base_setting);
 				}
 			}
